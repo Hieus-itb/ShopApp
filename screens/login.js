@@ -64,7 +64,8 @@ export default function Login({ navigation }) {
                         if (foundUser) {
                             Alert.alert("Dang nhap thanh cong");
                             /////////////////////////////////////
-                            navigation.navigate("Home");
+                            navigation.replace('MainApp');
+
                         } else {
                             Alert.alert("Sai thong tin dang nhap");
                         }

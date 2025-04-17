@@ -1,0 +1,76 @@
+{
+    "categories": [
+      { "id": "burger", "name": "Burger", "icon": "🍔" },
+      { "id": "taco", "name": "Taco", "icon": "🌮" },
+      { "id": "drink", "name": "Drink", "icon": "🥤" },
+      { "id": "pizza", "name": "Pizza", "icon": "🍕" },
+      { "id": "dessert", "name": "Dessert", "icon": "🍰" },
+      { "id": "sushi", "name": "Sushi", "icon": "🍣" },
+      { "id": "coffee", "name": "Coffee", "icon": "☕" }
+    ],
+    "products": [
+      { "id": "b1", "category": "burger", "name": "Classic Burger", "price": 12000, "rating": 4.8, "distance": "150m", "image": "burger1.jpg" },
+      { "id": "b2", "category": "burger", "name": "Cheese Burger", "price": 14000, "rating": 4.9, "distance": "180m", "image": "burger2.jpg" },
+      { "id": "b3", "category": "burger", "name": "Beef Burger", "price": 16000, "rating": 4.7, "distance": "200m", "image": "burger1.jpg" },
+      { "id": "b4", "category": "burger", "name": "Chicken Burger", "price": 13000, "rating": 4.6, "distance": "210m", "image": "burger2.jpg" },
+      { "id": "b5", "category": "burger", "name": "Spicy Burger", "price": 15000, "rating": 4.5, "distance": "170m", "image": "burger1.jpg" },
+      { "id": "b6", "category": "burger", "name": "Vegan Burger", "price": 14500, "rating": 4.4, "distance": "220m", "image": "burger2.jpg" },
+      { "id": "b7", "category": "burger", "name": "Deluxe Burger", "price": 17000, "rating": 4.9, "distance": "140m", "image": "burger1.jpg" },
+      { "id": "b8", "category": "burger", "name": "Double Burger", "price": 18000, "rating": 5.0, "distance": "160m", "image": "burger2.jpg" },
+  
+      { "id": "t1", "category": "taco", "name": "Beef Taco", "price": 10000, "rating": 4.5, "distance": "150m", "image": "burger1.jpg" },
+      { "id": "t2", "category": "taco", "name": "Chicken Taco", "price": 11000, "rating": 4.6, "distance": "140m", "image": "burger2.jpg" },
+      { "id": "t3", "category": "taco", "name": "Veggie Taco", "price": 9500, "rating": 4.4, "distance": "180m", "image": "burger1.jpg" },
+      { "id": "t4", "category": "taco", "name": "Spicy Taco", "price": 11500, "rating": 4.7, "distance": "190m", "image": "burger2.jpg" },
+      { "id": "t5", "category": "taco", "name": "Cheese Taco", "price": 12000, "rating": 4.8, "distance": "160m", "image": "burger1.jpg" },
+      { "id": "t6", "category": "taco", "name": "Crunchy Taco", "price": 12500, "rating": 4.9, "distance": "170m", "image": "burger2.jpg" },
+      { "id": "t7", "category": "taco", "name": "Mini Taco", "price": 9000, "rating": 4.3, "distance": "200m", "image": "burger1.jpg" },
+      { "id": "t8", "category": "taco", "name": "Double Taco", "price": 13000, "rating": 4.7, "distance": "210m", "image": "burger2.jpg" },
+  
+      { "id": "d1", "category": "drink", "name": "Coca Cola", "price": 7000, "rating": 4.8, "distance": "100m", "image": "burger2.jpg" },
+      { "id": "d2", "category": "drink", "name": "Orange Juice", "price": 8000, "rating": 4.7, "distance": "110m", "image": "burger1.jpg" },
+      { "id": "d3", "category": "drink", "name": "Lemonade", "price": 7500, "rating": 4.6, "distance": "130m", "image": "burger2.jpg" },
+      { "id": "d4", "category": "drink", "name": "Milkshake", "price": 9000, "rating": 4.9, "distance": "120m", "image": "burger1.jpg" },
+      { "id": "d5", "category": "drink", "name": "Smoothie", "price": 9500, "rating": 4.5, "distance": "140m", "image": "burger2.jpg" },
+      { "id": "d6", "category": "drink", "name": "Iced Tea", "price": 8000, "rating": 4.4, "distance": "160m", "image": "burger1.jpg" },
+      { "id": "d7", "category": "drink", "name": "Water", "price": 5000, "rating": 4.9, "distance": "90m", "image": "burger2.jpg" },
+      { "id": "d8", "category": "drink", "name": "Energy Drink", "price": 10000, "rating": 4.6, "distance": "130m", "image": "burger1.jpg" },
+  
+      { "id": "p1", "category": "pizza", "name": "Cheese Pizza", "price": 14000, "rating": 4.8, "distance": "160m", "image": "burger1.jpg" },
+      { "id": "p2", "category": "pizza", "name": "Pepperoni Pizza", "price": 16000, "rating": 4.9, "distance": "180m", "image": "burger2.jpg" },
+      { "id": "p3", "category": "pizza", "name": "Margherita Pizza", "price": 13000, "rating": 4.7, "distance": "190m", "image": "burger1.jpg" },
+      { "id": "p4", "category": "pizza", "name": "Meat Pizza", "price": 17000, "rating": 4.6, "distance": "200m", "image": "burger2.jpg" },
+      { "id": "p5", "category": "pizza", "name": "Veggie Pizza", "price": 15000, "rating": 4.5, "distance": "210m", "image": "burger1.jpg" },
+      { "id": "p6", "category": "pizza", "name": "BBQ Pizza", "price": 17500, "rating": 4.9, "distance": "220m", "image": "burger2.jpg" },
+      { "id": "p7", "category": "pizza", "name": "Deluxe Pizza", "price": 18000, "rating": 5.0, "distance": "230m", "image": "burger1.jpg" },
+      { "id": "p8", "category": "pizza", "name": "Hawaiian Pizza", "price": 16500, "rating": 4.8, "distance": "240m", "image": "burger2.jpg" },
+  
+      { "id": "ds1", "category": "dessert", "name": "Chocolate Cake", "price": 10000, "rating": 4.8, "distance": "180m", "image": "burger1.jpg" },
+      { "id": "ds2", "category": "dessert", "name": "Strawberry Cake", "price": 11000, "rating": 4.7, "distance": "190m", "image": "burger2.jpg" },
+      { "id": "ds3", "category": "dessert", "name": "Ice Cream", "price": 8000, "rating": 4.6, "distance": "200m", "image": "burger1.jpg" },
+      { "id": "ds4", "category": "dessert", "name": "Pudding", "price": 8500, "rating": 4.5, "distance": "170m", "image": "burger2.jpg" },
+      { "id": "ds5", "category": "dessert", "name": "Brownie", "price": 9000, "rating": 4.9, "distance": "210m", "image": "burger1.jpg" },
+      { "id": "ds6", "category": "dessert", "name": "Cupcake", "price": 7500, "rating": 4.7, "distance": "220m", "image": "burger2.jpg" },
+      { "id": "ds7", "category": "dessert", "name": "Donut", "price": 7000, "rating": 4.8, "distance": "230m", "image": "burger1.jpg" },
+      { "id": "ds8", "category": "dessert", "name": "Tiramisu", "price": 9500, "rating": 4.6, "distance": "240m", "image": "burger2.jpg" },
+  
+      { "id": "s1", "category": "sushi", "name": "Salmon Sushi", "price": 20000, "rating": 4.9, "distance": "150m", "image": "burger1.jpg" },
+      { "id": "s2", "category": "sushi", "name": "Tuna Sushi", "price": 21000, "rating": 4.8, "distance": "160m", "image": "burger2.jpg" },
+      { "id": "s3", "category": "sushi", "name": "Eel Sushi", "price": 22000, "rating": 4.7, "distance": "170m", "image": "burger1.jpg" },
+      { "id": "s4", "category": "sushi", "name": "Veggie Sushi", "price": 19000, "rating": 4.6, "distance": "180m", "image": "burger2.jpg" },
+      { "id": "s5", "category": "sushi", "name": "Shrimp Sushi", "price": 20500, "rating": 4.8, "distance": "190m", "image": "burger1.jpg" },
+      { "id": "s6", "category": "sushi", "name": "Egg Sushi", "price": 19500, "rating": 4.5, "distance": "200m", "image": "burger2.jpg" },
+      { "id": "s7", "category": "sushi", "name": "Crab Sushi", "price": 21000, "rating": 4.9, "distance": "210m", "image": "burger1.jpg" },
+      { "id": "s8", "category": "sushi", "name": "Mixed Sushi", "price": 23000, "rating": 5.0, "distance": "220m", "image": "burger2.jpg" },
+  
+      { "id": "c1", "category": "coffee", "name": "Espresso", "price": 8000, "rating": 4.8, "distance": "120m", "image": "burger1.jpg" },
+      { "id": "c2", "category": "coffee", "name": "Latte", "price": 9000, "rating": 4.7, "distance": "130m", "image": "burger2.jpg" },
+      { "id": "c3", "category": "coffee", "name": "Cappuccino", "price": 9500, "rating": 4.9, "distance": "140m", "image": "burger1.jpg" },
+      { "id": "c4", "category": "coffee", "name": "Mocha", "price": 10000, "rating": 4.6, "distance": "150m", "image": "burger2.jpg" },
+      { "id": "c5", "category": "coffee", "name": "Black Coffee", "price": 8500, "rating": 4.5, "distance": "160m", "image": "burger1.jpg" },
+      { "id": "c6", "category": "coffee", "name": "Iced Coffee", "price": 9500, "rating": 4.4, "distance": "170m", "image": "burger2.jpg" },
+      { "id": "c7", "category": "coffee", "name": "Flat White", "price": 10000, "rating": 4.9, "distance": "180m", "image": "burger1.jpg" },
+      { "id": "c8", "category": "coffee", "name": "Caramel Macchiato", "price": 10500, "rating": 5.0, "distance": "190m", "image": "burger2.jpg" }
+    ]
+  }
+  
