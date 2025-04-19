@@ -3,9 +3,10 @@ import { View, Text, FlatList, TouchableOpacity, Image, StyleSheet, ImageBackgro
 import { Ionicons, Entypo } from '@expo/vector-icons';
 import { getCategories, getProductsByCategory } from '../data/productService';
 import { imageMap } from '../data/imageMap';
-import { useNavigation } from '@react-navigation/native';
+import CategoryList from '../components/CategoryList';
+import ProductList from '../components/ProductList';
 
-export default function Home() {
+export default function Home({ navigation }) {
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('burger');
     const [products, setProducts] = useState([]);
@@ -21,7 +22,7 @@ export default function Home() {
         const fetchedCategories = getCategories();
         setCategories(fetchedCategories);
         setProducts(getProductsByCategory(selectedCategory));
-    }, []);
+    }, [selectedCategory]);
 
     const handleSelectCategory = (categoryId) => {
         setSelectedCategory(categoryId);
@@ -32,36 +33,7 @@ export default function Home() {
     const handleSelectLocation = (loc) => {
         setLocation(loc);
         setShowLocationList(false);
-    };
-
-    const renderCategoryItem = ({ item }) => (
-        <TouchableOpacity
-            style={[styles.categoryButton, selectedCategory === item.id && styles.categoryButtonSelected]}
-            onPress={() => handleSelectCategory(item.id)}
-        >
-            <View style={styles.categoryContent}>
-                <Text style={styles.categoryIcon}>{item.icon}</Text>
-                <Text style={styles.categoryName}>{item.name}</Text>
-            </View>
-        </TouchableOpacity>
-    );
-
-    const renderProductItem = ({ item }) => (
-        <TouchableOpacity onPress={() => navigation.navigate('About', { product: item })} style={styles.productCard}>
-            <Image source={imageMap[item.image] || imageMap["default"]} style={styles.productImage} />
-            <TouchableOpacity style={styles.heartIcon}>
-                <Ionicons name="heart-outline" size={18} color="#FF7F00" />
-            </TouchableOpacity>
-            <Text style={styles.productName}>{item.name}</Text>
-            <View style={styles.rowInfo}>
-                <Text style={styles.productInfo}>⭐ {item.rating}</Text>
-                <Text style={styles.productInfo}>📍 {item.distance}</Text>
-            </View>
-            <Text style={styles.productPrice}>${item.price.toLocaleString()}</Text>
-        </TouchableOpacity>
-    );
-
-
+    }
     return (
         <View style={styles.container}>
             <ImageBackground source={require('../img/burger1.jpg')} style={styles.headerBackground}>
@@ -77,8 +49,10 @@ export default function Home() {
                     </View>
                     <View style={styles.headerIcons}>
                         {/*Chức năng tìm kiếm và thông báo (Chưa làmlàm) */}
-                        <Ionicons name="search" size={22} color="#fff" style={styles.icon} />
-                        <Ionicons name="notifications-outline" size={22} color="#fff" />
+                        <TouchableOpacity onPress={() => navigation.navigate('Search')} style={styles.iconWrapper}>
+                            <Ionicons name="search" size={22} color="#fff" style={styles.icon} />
+                        </TouchableOpacity>
+                            <Ionicons name="notifications-outline" size={22} color="#fff" />
                     </View>
                 </View>
                 <Text style={styles.mainTitle}>Provide the best food for you</Text>
@@ -108,41 +82,27 @@ export default function Home() {
                     <TouchableOpacity style={styles.closeButton} onPress={() => setShowCategoryList(false)}>
                         <Ionicons name="close" size={24} color="#333" />
                     </TouchableOpacity>
-                    <FlatList
-                        data={categories}
-                        keyExtractor={(item) => item.id}
-                        renderItem={renderCategoryItem}
-                        numColumns={4}
-                        contentContainerStyle={styles.categoryGrid}
+                    <CategoryList
+                        selectedCategory={selectedCategory}
+                        onSelectCategory={handleSelectCategory}
                     />
                 </View>
             </Modal>
 
             <View style={styles.contentArea}>
-                <View style={styles.categoryHeader}>
-                    <Text style={styles.title}>Find by Category</Text>
-                    <TouchableOpacity onPress={() => setShowCategoryList(true)}>
-                        <Text style={styles.seeAll}>See All</Text>
-                    </TouchableOpacity>
+                <View>
+                    <View style={styles.categoryHeader}>
+                        <Text style={styles.title}>Find by Category</Text>
+                        <TouchableOpacity onPress={() => setShowCategoryList(true)}>
+                            <Text style={styles.seeAll}>See All</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <CategoryList
+                        selectedCategory={selectedCategory}
+                        onSelectCategory={handleSelectCategory}
+                    />
                 </View>
-
-                <FlatList
-                    data={categories}
-                    keyExtractor={(item) => item.id}
-                    renderItem={renderCategoryItem}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    style={styles.categoryList}
-                />
-
-                <FlatList onPress={() => navigation.navigate('About', { product: item })}
-                    data={products}
-                    keyExtractor={(item) => item.id}
-                    renderItem={renderProductItem}
-                    numColumns={2}
-                    contentContainerStyle={styles.productList}
-                    showsVerticalScrollIndicator={false}
-                />
+                <ProductList products={products} />
             </View>
         </View>
     );
@@ -164,6 +124,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingTop: 20,
         flex: 1,
+        
     },
     categoryHeader: {
         flexDirection: 'row',
@@ -173,54 +134,7 @@ const styles = StyleSheet.create({
     },
     title: { fontSize: 18, fontWeight: 'bold' },
     seeAll: { color: '#FF7F00', fontSize: 14 },
-    categoryList: { marginVertical: 10, paddingBottom: 20 },
-    categoryButton: {
-        backgroundColor: '#f2f2f2',
-        borderRadius: 15,
-        width: 60,
-        height: 60,
-        marginRight: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-        margin: 5,
-    },
-    categoryButtonSelected: { backgroundColor: '#FF7F00' },
-    categoryIcon: { fontSize: 24 },
-    categoryContent: { justifyContent: 'center', alignItems: 'center' },
-    categoryName: { fontSize: 12, fontWeight: 'bold', marginTop: 5 },
-    productList: { paddingTop: 10, paddingBottom: 20 },
-    categoryGrid: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'space-between',
-        padding: 10,
-        paddingTop: 40,
-    },
-    productCard: {
-        backgroundColor: '#fff',
-        borderRadius: 15,
-        padding: 10,
-        margin: 5,
-        width: '46%',
-        shadowColor: '#000',
-        shadowOpacity: 0.05,
-        shadowRadius: 5,
-        elevation: 3,
-        position: 'relative',
-    },
-    productImage: { width: '100%', height: 100, borderRadius: 10 },
-    heartIcon: {
-        position: 'absolute',
-        right: 12,
-        top: 12,
-        backgroundColor: '#fff',
-        borderRadius: 15,
-        padding: 4,
-    },
-    productName: { fontWeight: 'bold', marginTop: 8, fontSize: 14 },
-    rowInfo: { flexDirection: 'row', justifyContent: 'space-between' },
-    productInfo: { fontSize: 12, color: '#888' },
-    productPrice: { marginTop: 5, fontWeight: 'bold', color: '#FF7F00' },
+
     modalContainer: {
         backgroundColor: '#fff',
         padding: 20,
