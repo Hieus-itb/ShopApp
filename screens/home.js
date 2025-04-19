@@ -17,7 +17,6 @@ export default function Home({ navigation }) {
         "New York, USA", "Los Angeles, USA", "Chicago, USA", "San Francisco, USA",
         "Miami, USA", "Boston, USA", "Washington, USA", "Dallas, USA", "Austin, USA", "Seattle, USA"
     ]);
-    const navigation = useNavigation();
     useEffect(() => {
         const fetchedCategories = getCategories();
         setCategories(fetchedCategories);
