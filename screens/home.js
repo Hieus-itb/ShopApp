@@ -3,7 +3,7 @@ import { View, Text, FlatList, TouchableOpacity, Image, StyleSheet, ImageBackgro
 import { Ionicons, Entypo } from '@expo/vector-icons';
 import { getCategories, getProductsByCategory } from '../data/productService';
 import { imageMap } from '../data/imageMap';
-
+import { useNavigation } from '@react-navigation/native';
 
 export default function Home() {
     const [categories, setCategories] = useState([]);
@@ -16,7 +16,7 @@ export default function Home() {
         "New York, USA", "Los Angeles, USA", "Chicago, USA", "San Francisco, USA",
         "Miami, USA", "Boston, USA", "Washington, USA", "Dallas, USA", "Austin, USA", "Seattle, USA"
     ]);
-
+    const navigation = useNavigation();
     useEffect(() => {
         const fetchedCategories = getCategories();
         setCategories(fetchedCategories);
@@ -47,11 +47,8 @@ export default function Home() {
     );
 
     const renderProductItem = ({ item }) => (
-        <View style={styles.productCard}>
-            <Image
-                source={imageMap[item.image] || imageMap["default"]}
-                style={styles.productImage}
-            />
+        <TouchableOpacity onPress={() => navigation.navigate('About', { product: item })} style={styles.productCard}>
+            <Image source={imageMap[item.image] || imageMap["default"]} style={styles.productImage} />
             <TouchableOpacity style={styles.heartIcon}>
                 <Ionicons name="heart-outline" size={18} color="#FF7F00" />
             </TouchableOpacity>
@@ -61,7 +58,7 @@ export default function Home() {
                 <Text style={styles.productInfo}>📍 {item.distance}</Text>
             </View>
             <Text style={styles.productPrice}>${item.price.toLocaleString()}</Text>
-        </View>
+        </TouchableOpacity>
     );
 
 
@@ -138,7 +135,7 @@ export default function Home() {
                     style={styles.categoryList}
                 />
 
-                <FlatList
+                <FlatList onPress={() => navigation.navigate('About', { product: item })}
                     data={products}
                     keyExtractor={(item) => item.id}
                     renderItem={renderProductItem}

@@ -6,7 +6,6 @@ import Home from '../screens/home';
 import Cart from '../screens/cart';
 // import Favorite from '../screens/favorite';
 import Profile from '../screens/profile';
-
 const Tab = createBottomTabNavigator();
 
 export default function MainTabNavigator() {
