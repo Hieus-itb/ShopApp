@@ -42,7 +42,12 @@ const CategoryList = ({ selectedCategory, onSelectCategory }) => {
     );
 
     return (
-        <FlatList style={{ backgroundColor: '#fff' }}
+        <FlatList style={{ backgroundColor: '#fff',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
+        elevation: 5, }}
             data={categories}
             keyExtractor={(item) => item.id}
             renderItem={renderItem}
