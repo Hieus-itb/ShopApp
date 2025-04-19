@@ -47,7 +47,6 @@ export default function Home({ navigation }) {
                         </TouchableOpacity>
                     </View>
                     <View style={styles.headerIcons}>
-                        {/*Chức năng tìm kiếm và thông báo (Chưa làmlàm) */}
                         <TouchableOpacity onPress={() => navigation.navigate('Search')} style={styles.iconWrapper}>
                             <Ionicons name="search" size={22} color="#fff" style={styles.icon} />
                         </TouchableOpacity>
@@ -101,7 +100,8 @@ export default function Home({ navigation }) {
                         onSelectCategory={handleSelectCategory}
                     />
                 </View>
-                <ProductList products={products} />
+                <ProductList products={products} navigation={navigation} />
+
             </View>
         </View>
     );

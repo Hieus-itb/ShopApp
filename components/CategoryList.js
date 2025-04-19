@@ -13,12 +13,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         margin: 5,
-       
+
     },
     categoryButtonSelected: { backgroundColor: '#FE8C00'},
     categoryIcon: { fontSize: 24 },
     categoryContent: { justifyContent: 'center', alignItems: 'center' },
-    categoryName: { fontSize: 12, fontWeight: 'bold', marginTop: 5 },
+    categoryName: { fontSize: 12, fontWeight: 'bold', marginTop: 5, color: '#888' },
 });
 
 const CategoryList = ({ selectedCategory, onSelectCategory }) => {
@@ -31,7 +31,12 @@ const CategoryList = ({ selectedCategory, onSelectCategory }) => {
         >
             <View style={styles.categoryContent}>
                 <Text style={styles.categoryIcon}>{item.icon}</Text>
-                <Text style={styles.categoryName}>{item.name}</Text>
+                <Text style={[
+                    styles.categoryName,
+                    selectedCategory === item.id && { color: '#fff' }
+                ]}>
+                    {item.name}
+                </Text>
             </View>
         </TouchableOpacity>
     );

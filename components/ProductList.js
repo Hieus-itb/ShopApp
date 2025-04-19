@@ -31,9 +31,12 @@ const styles = StyleSheet.create({
     productPrice: { marginTop: 5, fontWeight: 'bold', color: '#FF7F00' },
 });
 
-const ProductList = ({ products }) => {
+const ProductList = ({ products, navigation }) => {
     const renderItem = ({ item }) => (
-        <View style={styles.productCard}>
+        <TouchableOpacity
+            style={styles.productCard}
+            onPress={() => navigation.navigate('About', { product: item })}
+        >
             <Image
                 source={imageMap[item.image] || imageMap["default"]}
                 style={styles.productImage}
@@ -47,7 +50,7 @@ const ProductList = ({ products }) => {
                 <Text style={styles.productInfo}>📍 {item.distance}</Text>
             </View>
             <Text style={styles.productPrice}>${item.price.toLocaleString()}</Text>
-        </View>
+        </TouchableOpacity>
     );
 
     return (
@@ -58,7 +61,7 @@ const ProductList = ({ products }) => {
             numColumns={2}
             contentContainerStyle={{ paddingTop: 10, paddingBottom: 20 }}
             showsVerticalScrollIndicator={false}
-            
+
         />
     );
 };
