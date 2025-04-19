@@ -26,12 +26,11 @@ export default function HomeStack() {
           ),
         })}
       />
-      <Stack.Screen
+      <Stack.Screen 
         name="About"
         component={About}
         options={{
-          headerTitle: 'Chi tiet san pham',
-          headerTitleAlign: 'center',
+          headerShown: false,
         }}
       />
     </Stack.Navigator>
