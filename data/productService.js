@@ -10,4 +10,5 @@ export const getProductsByCategory = (categoryId) => {
 
 export const getProductById = (productId) => {
     return data.products.find((p) => p.id === productId);
-}
+};
+
