@@ -42,7 +42,6 @@ const CategoryList = ({ selectedCategory, onSelectCategory }) => {
     );
 
     return (
-        <FlatList
             data={categories}
             keyExtractor={(item) => item.id}
             renderItem={renderItem}

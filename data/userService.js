@@ -2,6 +2,7 @@ import * as FileSystem from "expo-file-system";
 
 const fileUri = FileSystem.documentDirectory + "users.json";
 
+// Lưu hoặc cập nhật thông tin người dùng
 export async function saveUser(user) {
   try {
     const fileInfo = await FileSystem.getInfoAsync(fileUri);
@@ -12,12 +13,34 @@ export async function saveUser(user) {
       users = JSON.parse(content);
     }
 
-    const emailExists = users.some(u => u.email === user.email);
-    if (emailExists) {
-      throw new Error("Email da ton tai");
+    // Kiểm tra nếu email đã tồn tại thì cập nhật người dùng, nếu không thì thêm mới
+    const userIndex = users.findIndex(u => u.email === user.email);
+    if (userIndex === -1) {
+      // Nếu không tìm thấy, thêm người dùng mới
+      const newUser = {
+        id: users.length + 1,
+        username: user.username,  // Không thay đổi username
+        date: user.date || "",
+        gender: user.gender || "",
+        phone: user.phone || "",
+        email: user.email,  // Không thay đổi email
+        password: user.password,
+        avatar: user.avatar || ""
+      };
+
+      users.push(newUser);
+    } else {
+      // Nếu tìm thấy, cập nhật người dùng (trừ username và email)
+      users[userIndex] = {
+        ...users[userIndex],
+        date: user.date || users[userIndex].date, // Cập nhật nếu có
+        gender: user.gender || users[userIndex].gender, // Cập nhật nếu có
+        phone: user.phone || users[userIndex].phone, // Cập nhật nếu có
+        avatar: user.avatar || users[userIndex].avatar, // Cập nhật nếu có
+      };
     }
 
-    users.push(user);
+    // Lưu lại danh sách người dùng đã được cập nhật hoặc thêm mới
     await FileSystem.writeAsStringAsync(fileUri, JSON.stringify(users));
     return true;
   } catch (error) {
@@ -25,6 +48,7 @@ export async function saveUser(user) {
   }
 }
 
+// Lấy danh sách tất cả người dùng
 export async function getUsers() {
   try {
     const fileInfo = await FileSystem.getInfoAsync(fileUri);
@@ -36,3 +60,5 @@ export async function getUsers() {
     return [];
   }
 }
+
+

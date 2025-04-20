@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Text, TextInput, View, StyleSheet, TouchableOpacity, Image, ImageBackground, } from "react-native";
 import { getUsers } from "../data/userService";
 import { Alert } from "react-native";
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function Login({ navigation }) {
     const [showPassword, setShowPassword] = useState(false);
     const backgroundImg = require("../img/burger1.jpg");
@@ -63,6 +63,7 @@ export default function Login({ navigation }) {
 
                         if (foundUser) {
                             Alert.alert("Dang nhap thanh cong");
+                            await AsyncStorage.setItem('user', JSON.stringify(foundUser)); // Lưu thông tin người dùng
                             /////////////////////////////////////
                             navigation.replace('MainApp');
 
