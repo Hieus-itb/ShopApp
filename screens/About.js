@@ -19,7 +19,7 @@ export default function About({ route, navigation }) {
     };
 
     return (
-        <View style={styles.wrapper}> {/* WRAPPER BOCA */}
+        <View style={styles.wrapper}>
             <ScrollView style={styles.container}>
                 {/* Header anh */}
                 <ImageBackground

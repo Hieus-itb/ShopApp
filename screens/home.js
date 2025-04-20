@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Image, StyleSheet, ImageBackground, Modal } from 'react-native';
 import { Ionicons, Entypo } from '@expo/vector-icons';
 import { getCategories, getProductsByCategory } from '../data/productService';
-import { imageMap } from '../data/imageMap';
+import { useNavigation } from '@react-navigation/native';
 import CategoryList from '../components/CategoryList';
 import ProductList from '../components/ProductList';
 
@@ -35,7 +35,7 @@ export default function Home({ navigation }) {
     }
     return (
         <View style={styles.container}>
-            <ImageBackground source={require('../img/burger1.jpg')} style={styles.headerBackground}>
+            <ImageBackground source={require('../img/image34.png')} style={styles.headerBackground}>
                 <View style={styles.headerTop}>
                     <View>
                         <Text style={styles.locationText}>Your Location</Text>
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: '#fff' },
     headerBackground: { height: 280, paddingTop: 50, paddingHorizontal: 20 },
     headerTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-    locationText: { fontSize: 12, color: '#333' },
+    locationText: { fontSize: 12, color: '#fff' },
     locationRow: { flexDirection: 'row', alignItems: 'center' },
     cityText: { color: '#fff', fontWeight: 'bold', fontSize: 14 },
     headerIcons: { flexDirection: 'row', gap: 10 },
