@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { View, Text, Image, TextInput, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import { Ionicons, Entypo } from '@expo/vector-icons';
-import { imageMap } from '../data/imageMap';
 import * as FileSystem from 'expo-file-system';
-import { StatusBar } from 'react-native';
+import CartItem from '../components/CartItem';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Cart = ({ navigation }) => {
@@ -77,14 +76,14 @@ const Cart = ({ navigation }) => {
 
     const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
     const totalPrice = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    const discount = 10900;
+    const discount = 0;
     const finalPrice = totalPrice - discount;
 
     return (
         <View style={styles.container}>
             {/* Header */}
             <View style={styles.header}>
-                <TouchableOpacity  onPress={() => navigation.goBack()} ><Ionicons name="arrow-back" size={24} /></TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.goBack()} ><Ionicons name="arrow-back" size={24} /></TouchableOpacity>
                 <Text style={styles.headerTitle}>My Cart</Text>
                 <TouchableOpacity><Entypo name="dots-three-vertical" size={18} /></TouchableOpacity>
             </View>
@@ -116,28 +115,11 @@ const Cart = ({ navigation }) => {
                 data={cartItems}
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => (
-                    <View style={styles.cartItem}>
-                        <TouchableOpacity>
-                            <Ionicons name="checkmark-circle" size={20} color="#FF7F00" />
-                        </TouchableOpacity>
-                        <Image source={imageMap[item.imageKey]} style={styles.itemImage} />
-                        <View style={styles.itemDetails}>
-                            <Text style={styles.itemName}>{item.name}</Text>
-                            <Text style={styles.itemPrice}>${item.price.toLocaleString()}</Text>
-                            <View style={styles.quantityRow}>
-                                <TouchableOpacity onPress={() => handleQuantityChange(item.id, -1)}>
-                                    <Entypo name="minus" size={18} />
-                                </TouchableOpacity>
-                                <Text style={styles.quantityText}>{item.quantity}</Text>
-                                <TouchableOpacity onPress={() => handleQuantityChange(item.id, 1)}>
-                                    <Entypo name="plus" size={18} />
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                        <TouchableOpacity onPress={() => handleRemoveItem(item.id)}>
-                            <Ionicons name="trash-outline" size={20} color="#FF7F00" />
-                        </TouchableOpacity>
-                    </View>
+                    <CartItem
+                        item={item}
+                        onQuantityChange={handleQuantityChange}
+                        onRemove={handleRemoveItem}
+                    />
                 )}
                 style={{ marginTop: 10 }}
             />

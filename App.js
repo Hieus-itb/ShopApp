@@ -13,10 +13,17 @@ function MyStack() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
   
 
+<<<<<<< Updated upstream
       <Stack.Screen name="Onboarding" component={Onboarding} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Register" component={Register} />
       <Stack.Screen name="MainApp" component={MainTabNavigator} />
+=======
+      <Stack.Screen name="MainApp" component={MainTabNavigator} />
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Register" component={Register} />
+      <Stack.Screen name="Onboarding" component={Onboarding} />
+>>>>>>> Stashed changes
     </Stack.Navigator>
   );
 }
