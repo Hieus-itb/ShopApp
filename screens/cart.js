@@ -1,37 +1,78 @@
 import React, { useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { View, Text, Image, TextInput, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import { Ionicons, Entypo } from '@expo/vector-icons';
+import { imageMap } from '../data/imageMap';
+import * as FileSystem from 'expo-file-system';
+import { StatusBar } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Cart = () => {
-    const [cartItems, setCartItems] = useState([
-        {
-            id: '1',
-            name: 'Burger With Meat',
-            price: 12230,
-            quantity: 1,
-            image: require('../img/burger1.jpg'),
-        },
-        {
-            id: '2',
-            name: 'Ordinary Burgers',
-            price: 12230,
-            quantity: 1,
-            image: require('../img/burger2.jpg'),
-        },
-    ]);
+const Cart = ({ navigation }) => {
+    const cartFileUri = FileSystem.documentDirectory + "cart.json";
+    const [cartItems, setCartItems] = useState([]);
+    const updateCartFile = async (items) => {
+        try {
+            const userData = await AsyncStorage.getItem('user');
+            if (!userData) return;
+            const user = JSON.parse(userData);
+            const email = user.email;
+
+            const fileInfo = await FileSystem.getInfoAsync(cartFileUri);
+            let carts = {};
+            if (fileInfo.exists) {
+                const content = await FileSystem.readAsStringAsync(cartFileUri);
+                carts = JSON.parse(content);
+            }
+            carts[email] = items;
+            await FileSystem.writeAsStringAsync(cartFileUri, JSON.stringify(carts));
+        } catch (e) {
+            console.error("Loi khi cap nhat file gio hang:", e);
+        }
+    };
+    useFocusEffect(
+        React.useCallback(() => {
+            const loadCart = async () => {
+                try {
+                    const userData = await AsyncStorage.getItem('user');
+                    if (!userData) return;
+
+                    const user = JSON.parse(userData);
+                    const email = user.email;
+
+                    const fileInfo = await FileSystem.getInfoAsync(cartFileUri);
+                    if (fileInfo.exists) {
+                        const content = await FileSystem.readAsStringAsync(cartFileUri);
+                        const carts = JSON.parse(content);
+                        const userCart = carts[email] || [];
+                        setCartItems(userCart);
+                    }
+                } catch (error) {
+                    console.error("Loi khi tai gio hang:", error);
+                }
+            };
+
+            loadCart();
+        }, [])
+    );
 
     const handleQuantityChange = (id, delta) => {
-        setCartItems(prev =>
-            prev.map(item =>
+        setCartItems(prev => {
+            const updated = prev.map(item =>
                 item.id === id
                     ? { ...item, quantity: Math.max(1, item.quantity + delta) }
                     : item
-            )
-        );
+            );
+            updateCartFile(updated);
+            return updated;
+        });
     };
 
     const handleRemoveItem = (id) => {
-        setCartItems(prev => prev.filter(item => item.id !== id));
+        setCartItems(prev => {
+            const updated = prev.filter(item => item.id !== id);
+            updateCartFile(updated);
+            return updated;
+        });
     };
 
 
@@ -44,7 +85,7 @@ const Cart = () => {
         <View style={styles.container}>
             {/* Header */}
             <View style={styles.header}>
-                <TouchableOpacity><Ionicons name="arrow-back" size={24} /></TouchableOpacity>
+                <TouchableOpacity  onPress={() => navigation.goBack()} ><Ionicons name="arrow-back" size={24} /></TouchableOpacity>
                 <Text style={styles.headerTitle}>My Cart</Text>
                 <TouchableOpacity><Entypo name="dots-three-vertical" size={18} /></TouchableOpacity>
             </View>
@@ -80,7 +121,7 @@ const Cart = () => {
                         <TouchableOpacity>
                             <Ionicons name="checkmark-circle" size={20} color="#FF7F00" />
                         </TouchableOpacity>
-                        <Image source={item.image} style={styles.itemImage} />
+                        <Image source={imageMap[item.imageKey]} style={styles.itemImage} />
                         <View style={styles.itemDetails}>
                             <Text style={styles.itemName}>{item.name}</Text>
                             <Text style={styles.itemPrice}>${item.price.toLocaleString()}</Text>
@@ -137,6 +178,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
+        marginTop: 20,
         backgroundColor: '#fff',
     },
     header: {
@@ -266,4 +308,4 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 16,
     },
-});
+}); 

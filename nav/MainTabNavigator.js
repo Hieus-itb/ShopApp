@@ -5,7 +5,7 @@ import HomeStack from './HomeStack';
 
 import Cart from '../screens/cart';
 // import Favorite from '../screens/favorite';
-import Profile from '../screens/profile';
+import Profile from '../screens/PersonalData';
 const Tab = createBottomTabNavigator();
 
 export default function MainTabNavigator() {

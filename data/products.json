@@ -1,4 +1,4 @@
-{
+{ 
     "categories": [
       { "id": "burger", "name": "Burger", "icon": "🍔" },
       { "id": "taco", "name": "Taco", "icon": "🌮" },
