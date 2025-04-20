@@ -1,23 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, StyleSheet,ScrollView } from 'react-native';
+import React, { useState, useEffect  } from 'react';
+import { View, Text, FlatList, StyleSheet,ScrollView, Image } from 'react-native';
 import { getCategories, getProductsBySearch, getProducts } from '../data/productService';
 import CategoryList from '../components/CategoryList';
 import ProductCard from '../components/ProductCard';
-import { getRecentProducts } from '../data/productService';
+import { getRecentProducts, getProductsByCategory } from '../data/productService';
 import SearchBar  from '../components/SearchBar';
 import ProductList from '../components/ProductList';
 
 
 export default function Search({ navigation }) {
-    const recentSearches = ['Burgers', 'Fast food', 'Dessert', 'French', 'Pastry'];
+  
     const [categories ,setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('burger');
     const [showCategoryList,setShowCategoryList]= useState(false);
-    const [filteredProducts, setFilteredProducts] = useState([]);
+    const [filteredProducts, setFilteredProducts] = useState(null);
     const recentProducts = getRecentProducts();
     useEffect(() => {
         const fetchedCategories = getCategories();
         setCategories(fetchedCategories);
+        setFilteredProducts(null);
     }, []);
 
     const data = getProducts();
@@ -26,54 +27,90 @@ export default function Search({ navigation }) {
     const suggestionWords = Array.from(new Set([...productNames, ...categoryNames]));
 
     const handleSelect = (word) => {
-      const products = getProductsBySearch(word);
-      setFilteredProducts(products);
+      if (!word || typeof word !== 'string') return; 
+      word = word.trim().toLowerCase();
+      setFilteredProducts(null);
+      const isCategory = categoryNames.some(categoryName => categoryName.toLowerCase() === word);
+      let products = [];
+
+      if (isCategory) {
+        products = getProductsByCategory(word);
+      } else {
+        products = getProductsBySearch(word);
+      }
+      if (products.length === 0) {
+        setFilteredProducts([]);
+      } else {
+        setFilteredProducts(products);
+      }
     };
 
    
     const handleSelectCategory = (categoryId) => {
         setSelectedCategory(categoryId);
-        
         setShowCategoryList(false);
     };
     
-    return (
-        <ScrollView style={styles.container}>
-            {/* Search Box */}
-            <View >
-              <SearchBar suggestions={suggestionWords} onSelect={handleSelect} />
-            </View>
+  const ListHeader = () => (
+    <View>
+      {/* Search Box */}
+      <View>
+        <SearchBar suggestions={suggestionWords} onSelect={handleSelect} />
+      </View>
 
-            <CategoryList
-                selectedCategory={selectedCategory}
-                onSelectCategory={handleSelectCategory}
-                style={{marginTop: 16, marginBottom: 16}}
-            />
-        {filteredProducts.length > 0 && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Search Results</Text>
-            <ProductList products={filteredProducts} navigation={navigation} />
-          </View>
-        )}
-      
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Newest Product </Text>
-        <FlatList
-          data={recentProducts}
-          keyExtractor={(product) => product.id}
-          renderItem={({ item: product }) => (
+      <CategoryList
+        selectedCategory={selectedCategory}
+        onSelectCategory={handleSelectCategory}
+        style={{ marginTop: 16, marginBottom: 16 }}
+      />
+    </View>
+  );
+
+  const ListFooter = () => (
+    <View style={styles.section}>
+      <Text style={styles.sectionTitle}>Newest Product </Text>
+      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+        <View style={{ flexDirection: 'row' , gap: 10}}>
+          {recentProducts.map((product) => (
             <ProductCard
               key={product.id}
               product={product}
               navigation={navigation}
             />
-          )}
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
+          ))}
+        </View>
+      </ScrollView>
+    </View>
+  );
+  const CenteredImageView = () => {
+    return (
+      <View style={styles.centeredContainer}>
+        <Image
+          source={require("../img/not-found-img.png")}
+          style={styles.mainImage}
         />
+        <Text style={styles.mainTitle}>We couldn't find any result!</Text>
+        <Text style={styles.mainSubtitle}>Please check your search for any typos or spelling errors, or try a different search term.</Text>
       </View>
-      
-    </ScrollView>
+    );
+  };
+  return (
+    <FlatList
+      style={styles.container}
+      data={filteredProducts || []}
+      key={filteredProducts ? 'products' : 'empty'}
+      keyExtractor={(product) => product.id}
+      renderItem={({ item: product }) => (
+        <ProductCard
+          key={product.id}
+          product={product}
+          navigation={navigation}
+        />
+      )}
+      ListHeaderComponent={ListHeader}
+      ListFooterComponent={ListFooter}
+      ListEmptyComponent={CenteredImageView}
+    />
   );
 }
 const styles = StyleSheet.create({
@@ -111,7 +148,9 @@ const styles = StyleSheet.create({
       backgroundColor: '#FFB800',
     },
     section: {
-      marginTop: 16,
+      marginTop: 10,
+      marginBottom: 100,
+      
     },
     
     sectionTitle: {
@@ -119,7 +158,29 @@ const styles = StyleSheet.create({
       fontSize: 16,
     },
    
+    centeredContainer: {
+      alignItems: 'center',
+      marginTop: 40,
+      marginBottom: 40,
+    },
     
+    mainImage: {
+      width: 200,
+      height: 200,
+      borderRadius: 12,
+      marginBottom: 12,
+    },
+    
+    mainTitle: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      marginBottom: 4,
+    },
+    
+    mainSubtitle: {
+      fontSize: 14,
+      color: 'gray',
+    },
     
    
   });

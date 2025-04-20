@@ -18,11 +18,12 @@ export const getProductsByCategory = (categoryId) => {
     return data.products.filter((p) => p.category === categoryId);
 };
 
+
 export const getProductById = (productId) => {
     return data.products.find((p) => p.id === productId);
 };
 
-export const getRecentProducts = (count = 2) => {
+export const getRecentProducts = (count = 3) => {
     return [...data.products]
         .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
         .slice(0, count);
