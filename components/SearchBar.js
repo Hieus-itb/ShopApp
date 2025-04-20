@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons'; // nếu dùng Expo, bạn có thể đổi icon nếu muốn
 
 export default function SearchBar({ suggestions, onSelect }) {
   const [query, setQuery] = useState('');
@@ -15,15 +16,35 @@ export default function SearchBar({ suggestions, onSelect }) {
   const filtered = suggestions
     .filter((s) => s.toLowerCase().includes(query.toLowerCase()))
     .slice(0, 7);
+    const match = suggestions.find(
+      (s) =>
+        typeof s === 'string' &&
+        s.toLowerCase().startsWith(query.trim().toLowerCase())
+    );
+  const handleSearch = () => {
+    if (query.trim()) {
+      if (match) {
+        setQuery(match);
+        onSelect(match);
+      } else {
+        onSelect(query.trim());
+      }
+    }
+  };
 
   return (
     <View style={styles.container}>
-      <TextInput
-        placeholder="Nhập tên món ăn..."
-        value={query}
-        onChangeText={setQuery}
-        style={styles.input}
-      />
+      <View style={styles.inputContainer}>
+        <TextInput
+          placeholder="Nhập tên món ăn..."
+          value={query}
+          onChangeText={setQuery}
+          style={styles.input}
+        />
+        <TouchableOpacity onPress={handleSearch}>
+          <Ionicons name="search" size={24} color="black" />
+        </TouchableOpacity>
+      </View>
 
       {query.length > 0 && (
         <FlatList
@@ -56,11 +77,18 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
-  input: {
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 10,
-    padding: 10,
+    paddingHorizontal: 10,
+    backgroundColor: '#fff',
+  },
+  input: {
+    flex: 1,
+    paddingVertical: 10,
     fontSize: 16,
   },
   item: {
@@ -68,6 +96,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
+    backgroundColor: '#fff',
   },
   suggestionText: {
     fontSize: 16,

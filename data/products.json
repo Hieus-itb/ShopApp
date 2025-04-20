@@ -23,6 +23,18 @@
         
       },
       {
+        "id": "b5",
+        "category": "burger",
+        "name": "Classic Burger",
+        "price": 12000,
+        "rating": 4.8,
+        "distance": "150m",
+        "image": "burger1.jpg",
+        "description": "Burger bo truyen thong voi phomai, xa lach, ca chua va nuoc sot dac biet." ,
+        "updatedAt": "2025-04-19T12:30:00Z"
+        
+      },
+      {
         "id": "b2",
         "category": "burger",
         "name": "Cheese Burger",
