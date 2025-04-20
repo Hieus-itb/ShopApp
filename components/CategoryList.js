@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
         margin: 5,
 
     },
-    categoryButtonSelected: { backgroundColor: '#FE8C00'},
+    categoryButtonSelected: { backgroundColor: '#FE8C00' },
     categoryIcon: { fontSize: 24 },
     categoryContent: { justifyContent: 'center', alignItems: 'center' },
     categoryName: { fontSize: 12, fontWeight: 'bold', marginTop: 5, color: '#888' },
@@ -42,6 +42,7 @@ const CategoryList = ({ selectedCategory, onSelectCategory }) => {
     );
 
     return (
+        <FlatList
             data={categories}
             keyExtractor={(item) => item.id}
             renderItem={renderItem}
