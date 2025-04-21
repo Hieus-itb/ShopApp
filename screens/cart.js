@@ -4,9 +4,9 @@ import { View, Text, Image, TextInput, TouchableOpacity, FlatList, StyleSheet } 
 import { Checkbox } from 'react-native-paper';
 import { Ionicons, Entypo } from '@expo/vector-icons';
 import * as FileSystem from 'expo-file-system';
-import CartItem from '../components/CartItem';
+import CenteredItemView from '../components/CenteredItemView';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { imageMap } from '../data/imageMap';
 const Cart = ({ navigation }) => {
     const cartFileUri = FileSystem.documentDirectory + "cart.json";
     const [cartItems, setCartItems] = useState([]);
@@ -144,7 +144,7 @@ const Cart = ({ navigation }) => {
 
             {/* Cart List */}
             <FlatList
-                data={cartItems}
+                data={cartItems || []}
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => (
                     <View style={styles.cartItem}>
@@ -154,7 +154,7 @@ const Cart = ({ navigation }) => {
                             color="#FF7F00"
                         />
 
-                        <Image source={{ uri: item.image }} style={styles.itemImage} />
+                        <Image source={imageMap[item.imageKey]} style={styles.itemImage} />
 
                         <View style={styles.itemDetails}>
                             <Text style={styles.itemName}>{item.name}</Text>
@@ -179,7 +179,13 @@ const Cart = ({ navigation }) => {
                         </TouchableOpacity>
                     </View>
                 )}
-
+                ListEmptyComponent={() => (
+                    <CenteredItemView
+                      ImageSrc={require("../img/not-found-img.png")}
+                      mainTitle="Ouch! Hungry"
+                      mainSubtitle="Seems like  you have not ordered any food yet."
+                    />
+                  )}
                 style={{ marginTop: 10 }}
             />
 

@@ -6,7 +6,7 @@ import ProductCard from '../components/ProductCard';
 import { getRecentProducts, getProductsByCategory } from '../data/productService';
 import SearchBar  from '../components/SearchBar';
 import ProductList from '../components/ProductList';
-
+import CenteredItemView from '../components/CenteredItemView';
 
 export default function Search({ navigation }) {
   
@@ -109,7 +109,13 @@ export default function Search({ navigation }) {
       )}
       ListHeaderComponent={ListHeader}
       ListFooterComponent={ListFooter}
-      ListEmptyComponent={CenteredImageView}
+      ListEmptyComponent={() => (
+        <CenteredItemView
+          ImageSrc={require("../img/not-found-img.png")}
+          mainTitle="We couldn't find any result!"
+          mainSubtitle="Please check your search for any typos or spelling errors, or try a different search term."
+        />
+      )}
     />
   );
 }
@@ -158,30 +164,6 @@ const styles = StyleSheet.create({
       fontSize: 16,
     },
    
-    centeredContainer: {
-      alignItems: 'center',
-      marginTop: 40,
-      marginBottom: 40,
-    },
-    
-    mainImage: {
-      width: 200,
-      height: 200,
-      borderRadius: 12,
-      marginBottom: 12,
-    },
-    
-    mainTitle: {
-      fontSize: 18,
-      fontWeight: 'bold',
-      marginBottom: 4,
-    },
-    
-    mainSubtitle: {
-      fontSize: 14,
-      color: 'gray',
-    },
-    
+
    
   });
-  

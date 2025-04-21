@@ -36,9 +36,8 @@ export default function MainTabNavigator() {
             })}
         >
             <Tab.Screen name="Home" component={HomeStack} />
-            <Tab.Screen name="Cart" component={Cart} />
-            <Tab.Screen name="ProfileSettings" component={ProfileSettingsStack} />
             <Tab.Screen name="Cart" component={CartStack} options={{ headerShown: false }} />
+            <Tab.Screen name="ProfileSettings" component={ProfileSettingsStack} />
 
         </Tab.Navigator>
     );
