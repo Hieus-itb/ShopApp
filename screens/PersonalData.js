@@ -5,7 +5,7 @@ import { Picker } from "@react-native-picker/picker";
 import * as ImagePicker from 'expo-image-picker';
 import { saveUser } from "../data/userService";  // Import hàm saveUser
 
-export default function PersonalDataScreen() {
+export default function PersonalDataScreen({navigation }) {
     const [user, setUser] = useState({
         avatar: "",
         username: "",
@@ -45,7 +45,9 @@ export default function PersonalDataScreen() {
     const handleSave = async () => {
         try {
             await saveUser(user);  // Lưu thông tin người dùng vào file JSON
+            await AsyncStorage.setItem('user', JSON.stringify(user)); // Cập nhật AsyncStorage
             alert("Thông tin đã được lưu");
+            navigation.goBack();
         } catch (error) {
             console.error("Lỗi khi lưu dữ liệu:", error);
             alert("Đã có lỗi xảy ra khi lưu thông tin");
@@ -54,7 +56,6 @@ export default function PersonalDataScreen() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Personal Date</Text>
 
             <TouchableOpacity style={styles.avatarContainer} onPress={pickAvatar}>
                 <Image
@@ -106,6 +107,7 @@ export default function PersonalDataScreen() {
                 onChangeText={(text) => handleChange("email", text)}
                 placeholder="Email"
                 keyboardType="email-address"
+                editable={false}
             />
 
             <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
