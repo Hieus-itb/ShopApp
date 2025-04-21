@@ -5,6 +5,7 @@ import Home from '../screens/home';
 import SearchScreen from '../screens/SearchScreen';
 import { Ionicons } from '@expo/vector-icons';
 import About from '../screens/About';
+import Payment from '../screens/Payment';
 const Stack = createStackNavigator();
 
 export default function HomeStack() {
@@ -26,13 +27,22 @@ export default function HomeStack() {
           ),
         })}
       />
-      <Stack.Screen 
+      <Stack.Screen
         name="About"
         component={About}
         options={{
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="Payment"
+        component={Payment}
+        options={{
+          headerTitle: 'Payment',
+          headerTitleAlign: 'center',
+        }}
+      />
+
     </Stack.Navigator>
   );
 }

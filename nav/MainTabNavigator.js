@@ -2,9 +2,8 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import HomeStack from './HomeStack';
+import CartStack from './CartStack';
 
-import Cart from '../screens/cart';
-// import Favorite from '../screens/favorite';
 import Profile from '../screens/PersonalData';
 const Tab = createBottomTabNavigator();
 
@@ -34,8 +33,7 @@ export default function MainTabNavigator() {
             })}
         >
             <Tab.Screen name="Home" component={HomeStack} />
-            <Tab.Screen name="Cart" component={Cart} />
-            {/* <Tab.Screen name="Favorite" component={Favorite} /> */}
+            <Tab.Screen name="Cart" component={CartStack} options={{ headerShown: false }} />
             <Tab.Screen name="Profile" component={Profile} />
         </Tab.Navigator>
     );
