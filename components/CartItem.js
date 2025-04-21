@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons, Entypo } from '@expo/vector-icons';
 import { imageMap } from '../data/imageMap';
 
 const CartItem = ({ item, onQuantityChange, onRemove }) => {
+    const [selected, setSelected] = useState(false);
+
+    const toggleSelect = () => {
+        setSelected(!selected);
+    };
+
     return (
         <View style={styles.cartItem}>
-            <TouchableOpacity>
-                <Ionicons name="checkmark-circle" size={20} color="#FF7F00" />
-            </TouchableOpacity>
             <Image source={imageMap[item.imageKey]} style={styles.itemImage} />
             <View style={styles.itemDetails}>
                 <Text style={styles.itemName}>{item.name}</Text>
