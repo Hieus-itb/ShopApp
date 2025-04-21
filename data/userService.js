@@ -37,6 +37,7 @@ export async function saveUser(user) {
         gender: user.gender || users[userIndex].gender, // Cập nhật nếu có
         phone: user.phone || users[userIndex].phone, // Cập nhật nếu có
         avatar: user.avatar || users[userIndex].avatar, // Cập nhật nếu có
+        username: user.username || users[userIndex].username, // Cập nhật username nếu có
       };
     }
 

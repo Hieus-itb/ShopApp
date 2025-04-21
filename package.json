@@ -11,6 +11,7 @@
   "dependencies": {
     "@expo/metro-runtime": "~4.0.1",
     "@react-native-async-storage/async-storage": "^2.1.2",
+    "@react-native-community/geolocation": "^3.4.0",
     "@react-native-picker/picker": "2.9.0",
     "@react-navigation/bottom-tabs": "^7.3.10",
     "@react-navigation/material-top-tabs": "^7.2.10",
@@ -24,13 +25,17 @@
     "react-native": "0.76.9",
     "react-native-gesture-handler": "~2.20.2",
     "react-native-image-picker": "^8.2.0",
+    "react-native-modal": "^14.0.0-rc.1",
     "react-native-pager-view": "^6.7.0",
     "react-native-reanimated": "~3.16.1",
     "react-native-safe-area-context": "^5.4.0",
     "react-native-screens": "^4.10.0",
+    "react-native-switch-toggle": "^2.2.1",
     "react-native-tab-view": "^4.0.10",
     "react-native-vector-icons": "^10.2.0",
-    "react-native-web": "~0.19.13"
+    "react-native-web": "~0.19.13",
+    "expo-location": "~18.0.10",
+    "expo-notifications": "~0.29.14"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
