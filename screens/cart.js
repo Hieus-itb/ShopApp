@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { View, Text, Image, TextInput, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
+import { Checkbox } from 'react-native-paper';
 import { Ionicons, Entypo } from '@expo/vector-icons';
-import { imageMap } from '../data/imageMap';
 import * as FileSystem from 'expo-file-system';
-import { StatusBar } from 'react-native';
+import CartItem from '../components/CartItem';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Cart = ({ navigation }) => {
     const cartFileUri = FileSystem.documentDirectory + "cart.json";
     const [cartItems, setCartItems] = useState([]);
+    const [selectedItems, setSelectedItems] = useState(new Set());
+
     const updateCartFile = async (items) => {
         try {
             const userData = await AsyncStorage.getItem('user');
@@ -29,6 +31,7 @@ const Cart = ({ navigation }) => {
             console.error("Loi khi cap nhat file gio hang:", e);
         }
     };
+
     useFocusEffect(
         React.useCallback(() => {
             const loadCart = async () => {
@@ -75,17 +78,44 @@ const Cart = ({ navigation }) => {
         });
     };
 
+    const handleToggleSelectItem = (id) => {
+        setSelectedItems(prev => {
+            const newSelected = new Set(prev);
+            if (newSelected.has(id)) {
+                newSelected.delete(id);
+            } else {
+                newSelected.add(id);
+            }
+            return newSelected;
+        });
+    };
 
-    const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-    const totalPrice = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    const discount = 10900;
+    const handleOrder = () => {
+        const selectedCartItems = cartItems.filter(item => selectedItems.has(item.id));
+        const totalItems = selectedCartItems.reduce((sum, item) => sum + item.quantity, 0);
+        const totalPrice = selectedCartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        const discount = 0;
+        const finalPrice = totalPrice - discount;
+
+        navigation.navigate('Payment', {
+            cartItems: selectedCartItems,
+            totalItems,
+            totalPrice,
+            discount,
+            finalPrice,
+        });
+    };
+
+    const totalItems = cartItems.reduce((sum, item) => sum + (selectedItems.has(item.id) ? item.quantity : 0), 0);
+    const totalPrice = cartItems.reduce((sum, item) => sum + (selectedItems.has(item.id) ? item.price * item.quantity : 0), 0);
+    const discount = 0;
     const finalPrice = totalPrice - discount;
 
     return (
         <View style={styles.container}>
             {/* Header */}
             <View style={styles.header}>
-                <TouchableOpacity  onPress={() => navigation.goBack()} ><Ionicons name="arrow-back" size={24} /></TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.goBack()} ><Ionicons name="arrow-back" size={24} /></TouchableOpacity>
                 <Text style={styles.headerTitle}>My Cart</Text>
                 <TouchableOpacity><Entypo name="dots-three-vertical" size={18} /></TouchableOpacity>
             </View>
@@ -118,28 +148,38 @@ const Cart = ({ navigation }) => {
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => (
                     <View style={styles.cartItem}>
-                        <TouchableOpacity>
-                            <Ionicons name="checkmark-circle" size={20} color="#FF7F00" />
-                        </TouchableOpacity>
-                        <Image source={imageMap[item.imageKey]} style={styles.itemImage} />
+                        <Checkbox
+                            status={selectedItems.has(item.id) ? 'checked' : 'unchecked'}
+                            onPress={() => handleToggleSelectItem(item.id)}
+                            color="#FF7F00"
+                        />
+
+                        <Image source={{ uri: item.image }} style={styles.itemImage} />
+
                         <View style={styles.itemDetails}>
                             <Text style={styles.itemName}>{item.name}</Text>
                             <Text style={styles.itemPrice}>${item.price.toLocaleString()}</Text>
+
                             <View style={styles.quantityRow}>
                                 <TouchableOpacity onPress={() => handleQuantityChange(item.id, -1)}>
-                                    <Entypo name="minus" size={18} />
+                                    <Ionicons name="remove-circle-outline" size={22} color="#FF7F00" />
                                 </TouchableOpacity>
+
                                 <Text style={styles.quantityText}>{item.quantity}</Text>
+
                                 <TouchableOpacity onPress={() => handleQuantityChange(item.id, 1)}>
-                                    <Entypo name="plus" size={18} />
+                                    <Ionicons name="add-circle-outline" size={22} color="#FF7F00" />
                                 </TouchableOpacity>
                             </View>
                         </View>
+
+                        {/* Nut xoa */}
                         <TouchableOpacity onPress={() => handleRemoveItem(item.id)}>
-                            <Ionicons name="trash-outline" size={20} color="#FF7F00" />
+                            <Ionicons name="trash-outline" size={22} color="red" />
                         </TouchableOpacity>
                     </View>
                 )}
+
                 style={{ marginTop: 10 }}
             />
 
@@ -165,7 +205,10 @@ const Cart = ({ navigation }) => {
             </View>
 
             {/* Order Button */}
-            <TouchableOpacity style={styles.orderButton}>
+            <TouchableOpacity
+                style={styles.orderButton}
+                onPress={handleOrder}
+            >
                 <Text style={styles.orderButtonText}>Order Now</Text>
             </TouchableOpacity>
         </View>
@@ -173,6 +216,7 @@ const Cart = ({ navigation }) => {
 };
 
 export default Cart;
+
 
 const styles = StyleSheet.create({
     container: {
