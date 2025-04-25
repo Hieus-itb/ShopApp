@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Ionicons } from '@expo/vector-icons';
-import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView ,Alert} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MenuList from '../components/MenuListComponent';
 export default function ProfileSettings({ navigation }) {
@@ -69,6 +69,7 @@ export default function ProfileSettings({ navigation }) {
           onPress={() => navigation.navigate('Settings')}
         />
         <MenuList title="Extra Card" icon="card" onPress={() => alert("Coming soon")}/>
+        <MenuList title="Delivery Address" icon="location" onPress={() => navigation.navigate('Address Settings')} />
       </View>
 
       {/* Support Section */}
@@ -81,7 +82,25 @@ export default function ProfileSettings({ navigation }) {
       </View>
 
       {/* Sign Out Button */}
-      <TouchableOpacity style={styles.signOutButton}>
+      <TouchableOpacity style={styles.signOutButton} onPress={async () => {
+        Alert.alert(
+          "Đăng Xuất",
+          "Bạn chắc chắn rằng đăng xuất?",
+          [
+            {
+              text: "Cancel",
+              style: "cancel"
+            },
+            {
+              text: "OK", onPress: async () => {
+                await AsyncStorage.removeItem('user');
+                navigation.replace('Login');
+              }
+            }
+          ],
+          { cancelable: false }
+        );
+      }}>
         <Text style={styles.signOutButtonText}>Sign Out</Text>
       </TouchableOpacity>
     </ScrollView>
@@ -141,6 +160,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     borderRadius: 30,
     alignItems: 'center',
+    marginBottom: 100,
   },
   signOutButtonText: {
     color: '#fff',

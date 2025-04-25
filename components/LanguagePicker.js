@@ -12,10 +12,10 @@ import { Ionicons } from '@expo/vector-icons';
 
 const LANGUAGES = [
   { code: 'vn', name: 'Tiếng Việt', },
-  { code: 'id', name: 'Indonesia',  },
+  { code: 'id', name: 'Bahasa Indonesia',  },
   { code: 'us', name: 'English (US)',  },
-  { code: 'th', name: 'Thailand',  },
-  { code: 'cn', name: 'Chinese',  },
+  { code: 'th', name: 'ภาษาไทย',  },
+  { code: 'cn', name: '中文',  },
 ];
 
 const LanguagePicker = ({ isShow, onClose, onLanguageChange }) => {

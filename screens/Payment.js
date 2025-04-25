@@ -12,6 +12,9 @@ import {
 import { Ionicons, Entypo } from '@expo/vector-icons';
 import { imageMap } from '../data/imageMap';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from '../components/Toast';
+
+
 const Payment = ({ route, navigation }) => {
     const { cartItems, totalItems, totalPrice, discount, finalPrice } = route.params;
     const Drive = 50000;
@@ -26,6 +29,8 @@ const Payment = ({ route, navigation }) => {
         };
         fetchUser();
     }, []);
+
+    
 
     const renderItem = ({ item }) => (
         <View style={styles.itemCard}>
@@ -81,7 +86,7 @@ const Payment = ({ route, navigation }) => {
 
 
             {/* Checkout Button */}
-            <TouchableOpacity style={styles.checkoutButton}>
+            <TouchableOpacity style={styles.checkoutButton} onPress={() => setShowToast(true)}>
                 <Text style={styles.checkoutText}>Checkout Now</Text>
             </TouchableOpacity>
         </>
@@ -98,7 +103,9 @@ const Payment = ({ route, navigation }) => {
                 contentContainerStyle={styles.container}
                 showsVerticalScrollIndicator={false}
             />
+            
         </SafeAreaView>
+        
     );
 };
 
@@ -121,6 +128,7 @@ const styles = StyleSheet.create({
         paddingBottom: 40,
     },
     header: {
+        marginTop: 35,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',

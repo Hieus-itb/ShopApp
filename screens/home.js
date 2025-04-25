@@ -21,7 +21,8 @@ export default function Home({ navigation }) {
         const fetchedCategories = getCategories();
         setCategories(fetchedCategories);
         setProducts(getProductsByCategory(selectedCategory));
-    }, [selectedCategory]);
+       
+    }, [selectedCategory, navigation]);
 
     const handleSelectCategory = (categoryId) => {
         setSelectedCategory(categoryId);
@@ -111,7 +112,7 @@ const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: '#fff' },
     headerBackground: { height: 280, paddingTop: 50, paddingHorizontal: 20 },
     headerTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-    locationText: { fontSize: 12, color: '#fff' },
+    locationText: { fontSize: 12, color: 'black' },
     locationRow: { flexDirection: 'row', alignItems: 'center' },
     cityText: { color: '#fff', fontWeight: 'bold', fontSize: 14 },
     headerIcons: { flexDirection: 'row', gap: 10 },

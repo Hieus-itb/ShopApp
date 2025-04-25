@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import ProfileSettings from '../screens/ProfileSettings';
 import PersonalData from '../screens/PersonalData';
 import Settings from '../screens/Settings';
+import DeliverySetting from '../screens/DeliverySetting';
 const Stack = createStackNavigator();
 
 export default function ProfileSettingsStack() {
@@ -38,6 +39,12 @@ export default function ProfileSettingsStack() {
             headerShown: true,
           }}
         />
+      <Stack.Screen name="Address Settings" component={DeliverySetting} 
+      options={{
+          title: 'Settings',
+          headerShown: true,
+        }}
+      />
 
     </Stack.Navigator>
   );

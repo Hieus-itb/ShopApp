@@ -111,6 +111,8 @@ const Cart = ({ navigation }) => {
     const discount = 0;
     const finalPrice = totalPrice - discount;
 
+    const isOrderButtonDisabled = cartItems.length === 0 || selectedItems.size === 0 || totalItems < 0;
+
     return (
         <View style={styles.container}>
             {/* Header */}
@@ -212,8 +214,12 @@ const Cart = ({ navigation }) => {
 
             {/* Order Button */}
             <TouchableOpacity
-                style={styles.orderButton}
+                style={[
+                    styles.orderButton,
+                    isOrderButtonDisabled && styles.disabledOrderButton,
+                ]}
                 onPress={handleOrder}
+                disabled={isOrderButtonDisabled}
             >
                 <Text style={styles.orderButtonText}>Order Now</Text>
             </TouchableOpacity>
@@ -232,6 +238,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     header: {
+        marginTop: 15,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -358,4 +365,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 16,
     },
-}); 
+    disabledOrderButton: {
+        backgroundColor: '#cccccc',
+    },
+});
