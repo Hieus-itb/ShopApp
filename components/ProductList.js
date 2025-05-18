@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     productPrice: { marginTop: 5, fontWeight: 'bold', color: '#FF7F00' },
 });
 
-const ProductList = ({ products, navigation }) => {
+const ProductList = ({ products, navigation, canLoadMore, onLoadMore }) => {
     const renderItem = ({ item }) => (
         <TouchableOpacity
             style={styles.productCard}
@@ -61,7 +61,22 @@ const ProductList = ({ products, navigation }) => {
             numColumns={2}
             contentContainerStyle={{ paddingTop: 10, paddingBottom: 20 }}
             showsVerticalScrollIndicator={false}
-
+            ListFooterComponent={
+                canLoadMore ? (
+                    <Text
+                        style={{
+                            color: '#FF7F00',
+                            textAlign: 'center',
+                            marginVertical: 16,
+                            fontWeight: 'bold',
+                            fontSize: 16,
+                        }}
+                        onPress={onLoadMore}
+                    >
+                        Xem tiếp
+                    </Text>
+                ) : null
+            }
         />
     );
 };

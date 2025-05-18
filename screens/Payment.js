@@ -8,14 +8,24 @@ import {
     TouchableOpacity,
     Image,
     SafeAreaView,
+    Alert
 } from 'react-native';
 import { Ionicons, Entypo } from '@expo/vector-icons';
 import { imageMap } from '../data/imageMap';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+<<<<<<< Updated upstream
+=======
+import Toast from '../components/Toast';
+import { useNavigation } from '@react-navigation/native';
+import * as FileSystem from 'expo-file-system';
+
+
+>>>>>>> Stashed changes
 const Payment = ({ route, navigation }) => {
     const { cartItems, totalItems, totalPrice, discount, finalPrice } = route.params;
     const Drive = 50000;
     const [userInfo, setUserInfo] = useState({});
+    const [showToast, setShowToast] = useState(false);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -27,6 +37,65 @@ const Payment = ({ route, navigation }) => {
         fetchUser();
     }, []);
 
+<<<<<<< Updated upstream
+=======
+    const saveOrderHistory = async () => {
+        const order = {
+            cartItems,
+            totalItems,
+            totalPrice,
+            discount,
+            finalPrice,
+            date: new Date().toLocaleString(),
+            userInfo, // Thêm dòng này để lưu thông tin người nhận
+        };
+        const data = await AsyncStorage.getItem('orderHistory');
+        let orders = [];
+        if (data) orders = JSON.parse(data);
+        orders.push(order);
+        await AsyncStorage.setItem('orderHistory', JSON.stringify(orders));
+    };
+
+    const handleCheckout = async () => {
+        await saveOrderHistory();
+
+        // Xóa sản phẩm đã thanh toán khỏi file cart.json
+        try {
+            const userData = await AsyncStorage.getItem('user');
+            if (userData) {
+                const user = JSON.parse(userData);
+                const email = user.email;
+                const cartFileUri = FileSystem.documentDirectory + "cart.json";
+                const fileInfo = await FileSystem.getInfoAsync(cartFileUri);
+                if (fileInfo.exists) {
+                    const content = await FileSystem.readAsStringAsync(cartFileUri);
+                    let carts = JSON.parse(content);
+                    let userCart = carts[email] || [];
+                    // Lọc bỏ các sản phẩm đã thanh toán
+                    const paidIds = cartItems.map(item => item.id);
+                    userCart = userCart.filter(item => !paidIds.includes(item.id));
+                    carts[email] = userCart;
+                    await FileSystem.writeAsStringAsync(cartFileUri, JSON.stringify(carts));
+                }
+            }
+        } catch (e) {
+            console.error("Lỗi khi xóa sản phẩm đã thanh toán khỏi giỏ hàng:", e);
+        }
+
+        Alert.alert(
+            "Thành công",
+            "Đặt hàng thành công!",
+            [
+                {
+                    text: "OK",
+                    onPress: () => navigation.replace('CartDetails')
+                }
+            ],
+            { cancelable: false }
+        );
+    };
+
+>>>>>>> Stashed changes
     const renderItem = ({ item }) => (
         <View style={styles.itemCard}>
             <Image source={imageMap[item.imageKey]} style={styles.itemImage} />
@@ -81,7 +150,11 @@ const Payment = ({ route, navigation }) => {
 
 
             {/* Checkout Button */}
+<<<<<<< Updated upstream
             <TouchableOpacity style={styles.checkoutButton}>
+=======
+            <TouchableOpacity style={styles.checkoutButton} onPress={handleCheckout}>
+>>>>>>> Stashed changes
                 <Text style={styles.checkoutText}>Checkout Now</Text>
             </TouchableOpacity>
         </>
@@ -98,6 +171,17 @@ const Payment = ({ route, navigation }) => {
                 contentContainerStyle={styles.container}
                 showsVerticalScrollIndicator={false}
             />
+<<<<<<< Updated upstream
+=======
+            <Toast
+                visible={showToast}
+                message="Đặt hàng thành công!"
+                onHide={() => {
+                    setShowToast(false);
+                    navigation.replace('CartDetails'); // Đúng tên màn hình giỏ hàng
+                }}
+            />
+>>>>>>> Stashed changes
         </SafeAreaView>
     );
 };

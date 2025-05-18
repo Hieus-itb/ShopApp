@@ -5,6 +5,7 @@ import Onboarding from './screens/Onboarding';
 import Login from './screens/login';
 import Register from './screens/register';
 import MainTabNavigator from './nav/MainTabNavigator';
+import OrderHistory from './screens/OrderHistory';
 
 const Stack = createStackNavigator();
 
@@ -15,6 +16,7 @@ function MyStack() {
       <Stack.Screen name="Register" component={Register} />
       <Stack.Screen name="MainApp" component={MainTabNavigator} />
       <Stack.Screen name="Onboarding" component={Onboarding} />
+      <Stack.Screen name="OrderHistory" component={OrderHistory} />
     </Stack.Navigator>
   );
 }
