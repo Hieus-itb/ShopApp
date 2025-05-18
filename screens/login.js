@@ -1,9 +1,5 @@
 import React, { useState } from "react";
-<<<<<<< Updated upstream
-import { Text, TextInput, View, StyleSheet, TouchableOpacity, Image, ImageBackground, } from "react-native";
-=======
 import { Text, TextInput, View, StyleSheet, TouchableOpacity, Image, ImageBackground, Alert } from "react-native";
->>>>>>> Stashed changes
 import { getUsers } from "../data/userService";
 import { Alert } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -66,26 +62,17 @@ export default function Login({ navigation }) {
                         );
 
                         if (foundUser) {
-<<<<<<< Updated upstream
-                            Alert.alert("Dang nhap thanh cong");
-=======
-
->>>>>>> Stashed changes
                             await AsyncStorage.setItem('user', JSON.stringify(foundUser)); // Lưu thông tin người dùng
                             /////////////////////////////////////
                             navigation.replace('MainApp');
 
                         } else {
-<<<<<<< Updated upstream
-                            Alert.alert("Sai thong tin dang nhap");
-=======
                             Alert.alert("Login failed", "Invalid email or password.", [
                                 {
                                     text: "OK",
                                     onPress: () => console.log("Alert closed")
                                 }
                             ]);
->>>>>>> Stashed changes
                         }
                     }}
                 >

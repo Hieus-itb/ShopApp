@@ -4,22 +4,26 @@ import { Ionicons } from '@expo/vector-icons';
 import { imageMap } from '../data/imageMap';
 import { StatusBar } from 'react-native';
 import { addToCart } from "../data/cartService";
-
+import Toast from '../components/Toast';
 export default function About({ route, navigation }) {
     const { product } = route.params;
     const [quantity, setQuantity] = useState(1);
-
+    const [toastMessage, setMessage] = useState("");
+    const [showToast, setShowToast] = useState(false);
     const handleAddToCart = async () => {
         try {
             await addToCart(product, quantity);
-            alert("Da them vao gio hang");
+            setMessage(`✅ Thêm x ${quantity} ${product.name}!`);
+            setShowToast(true);
+            
         } catch (error) {
-            alert("Loi khi them vao gio hang");
+            setShowToast(true);
+            setMessage("⚠️Có lỗi xảy ra trong quá trình thêm vào giỏ hàng!");
         }
     };
 
     return (
-        <View style={styles.wrapper}>
+        <View style={styles.wrapper}> 
             <ScrollView style={styles.container}>
                 {/* Header anh */}
                 <ImageBackground
@@ -73,6 +77,7 @@ export default function About({ route, navigation }) {
                     <Text style={styles.addButtonText}>Add to Cart</Text>
                 </TouchableOpacity>
             </View>
+            <Toast visible={showToast} message={toastMessage} onHide={() => setShowToast(false)} />
         </View >
     );
 }

@@ -3,8 +3,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import HomeStack from './HomeStack';
 import CartStack from './CartStack';
+import Cart from '../screens/cart';
+// import Favorite from '../screens/favorite';
 
-import Profile from '../screens/PersonalData';
+import ProfileSettingsStack from './ProfileSettingStack';
 const Tab = createBottomTabNavigator();
 
 export default function MainTabNavigator() {
@@ -27,6 +29,7 @@ export default function MainTabNavigator() {
                     else if (route.name === 'Cart') iconName = 'cart';
                     // else if (route.name === 'Favorite') iconName = 'heart';
                     else if (route.name === 'Profile') iconName = 'person';
+                    else if (route.name === 'ProfileSettings') iconName = 'settings';
 
                     return <Ionicons name={iconName} size={24} color={color} />;
                 },
@@ -34,7 +37,8 @@ export default function MainTabNavigator() {
         >
             <Tab.Screen name="Home" component={HomeStack} />
             <Tab.Screen name="Cart" component={CartStack} options={{ headerShown: false }} />
-            <Tab.Screen name="Profile" component={Profile} />
+            <Tab.Screen name="ProfileSettings" component={ProfileSettingsStack} />
+
         </Tab.Navigator>
     );
 }

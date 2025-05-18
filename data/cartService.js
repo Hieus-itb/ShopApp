@@ -32,7 +32,7 @@ export async function addToCart(product, quantity = 1) {
         } else {
             carts[email].push({
                 ...product,
-                image: product.image, // Lưu tên ảnh, không phải object require
+                imageKey: product.image, // Lưu tên ảnh, không phải object require
                 quantity
             });
         }

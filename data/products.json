@@ -228,40 +228,40 @@
         "price": 7000,
         "rating": 4.8,
         "distance": "100m",
-        "image": "burger2.jpg",
+        "image": "coca.jpg",
         "description": "Nuoc giai khat co gas kinh dien, tuoi mat va san khoai.",
         "updatedAt": "2025-04-1612:30:00Z"
       },
       {
         "id": "d2",
         "category": "drink",
-        "name": "Coca Cola",
+        "name": "Pepsi",
         "price": 7000,
         "rating": 4.8,
         "distance": "100m",
-        "image": "burger2.jpg",
+        "image": "pepsi.jpg",
         "description": "Nuoc giai khat co gas kinh dien, tuoi mat va san khoai.",
         "updatedAt": "2025-04-1612:30:00Z"
       },
       {
         "id": "d3",
         "category": "drink",
-        "name": "Coca Cola",
+        "name": "Fanta Orange",
         "price": 7000,
         "rating": 4.8,
         "distance": "100m",
-        "image": "burger2.jpg",
+        "image": "fanta.jpg",
         "description": "Nuoc giai khat co gas kinh dien, tuoi mat va san khoai.",
         "updatedAt": "2025-04-1612:30:00Z"
       },
       {
         "id": "d4",
         "category": "drink",
-        "name": "Coca Cola",
+        "name": "Red Sting",
         "price": 7000,
         "rating": 4.8,
         "distance": "100m",
-        "image": "burger2.jpg",
+        "image": "sting.jpg",
         "description": "Nuoc giai khat co gas kinh dien, tuoi mat va san khoai.",
         "updatedAt": "2025-04-1612:30:00Z"
       },
@@ -310,7 +310,7 @@
         "updatedAt": "2025-04-1612:30:00Z"
       },
       {
-        "id": "d1",
+        "id": "de1",
         "category": "dessert",
         "name": "Chocolate Cake",
         "price": 10000,
@@ -321,7 +321,7 @@
         "updatedAt": "2025-04-1612:30:00Z"
       },
       {
-        "id": "d2",
+        "id": "de2",
         "category": "dessert",
         "name": "Chocolate Cake",
         "price": 10000,
@@ -332,7 +332,7 @@
         "updatedAt": "2025-04-1612:30:00Z"
       },
       {
-        "id": "d3",
+        "id": "de3",
         "category": "dessert",
         "name": "Chocolate Cake",
         "price": 10000,
@@ -343,7 +343,7 @@
         "updatedAt": "2025-04-1612:30:00Z"
       },
       {
-        "id": "d4",
+        "id": "de4",
         "category": "dessert",
         "name": "Chocolate Cake",
         "price": 10000,

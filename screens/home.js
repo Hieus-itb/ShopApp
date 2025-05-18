@@ -24,12 +24,8 @@ export default function Home({ navigation }) {
         const fetchedCategories = getCategories();
         setCategories(fetchedCategories);
         setProducts(getProductsByCategory(selectedCategory));
-<<<<<<< Updated upstream
-    }, [selectedCategory]);
-=======
         setVisibleCount(PAGE_SIZE); // Reset khi đổi category
     }, [selectedCategory, navigation]);
->>>>>>> Stashed changes
 
     const handleSelectCategory = (categoryId) => {
         setSelectedCategory(categoryId);

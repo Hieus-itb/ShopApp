@@ -13,14 +13,11 @@ import {
 import { Ionicons, Entypo } from '@expo/vector-icons';
 import { imageMap } from '../data/imageMap';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-<<<<<<< Updated upstream
-=======
 import Toast from '../components/Toast';
 import { useNavigation } from '@react-navigation/native';
 import * as FileSystem from 'expo-file-system';
 
 
->>>>>>> Stashed changes
 const Payment = ({ route, navigation }) => {
     const { cartItems, totalItems, totalPrice, discount, finalPrice } = route.params;
     const Drive = 50000;
@@ -37,8 +34,6 @@ const Payment = ({ route, navigation }) => {
         fetchUser();
     }, []);
 
-<<<<<<< Updated upstream
-=======
     const saveOrderHistory = async () => {
         const order = {
             cartItems,
@@ -95,7 +90,6 @@ const Payment = ({ route, navigation }) => {
         );
     };
 
->>>>>>> Stashed changes
     const renderItem = ({ item }) => (
         <View style={styles.itemCard}>
             <Image source={imageMap[item.imageKey]} style={styles.itemImage} />
@@ -150,11 +144,7 @@ const Payment = ({ route, navigation }) => {
 
 
             {/* Checkout Button */}
-<<<<<<< Updated upstream
-            <TouchableOpacity style={styles.checkoutButton}>
-=======
             <TouchableOpacity style={styles.checkoutButton} onPress={handleCheckout}>
->>>>>>> Stashed changes
                 <Text style={styles.checkoutText}>Checkout Now</Text>
             </TouchableOpacity>
         </>
@@ -171,8 +161,6 @@ const Payment = ({ route, navigation }) => {
                 contentContainerStyle={styles.container}
                 showsVerticalScrollIndicator={false}
             />
-<<<<<<< Updated upstream
-=======
             <Toast
                 visible={showToast}
                 message="Đặt hàng thành công!"
@@ -181,7 +169,6 @@ const Payment = ({ route, navigation }) => {
                     navigation.replace('CartDetails'); // Đúng tên màn hình giỏ hàng
                 }}
             />
->>>>>>> Stashed changes
         </SafeAreaView>
     );
 };
