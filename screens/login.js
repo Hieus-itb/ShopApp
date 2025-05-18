@@ -1,17 +1,13 @@
 import React, { useState } from "react";
-import { Text, TextInput, View, StyleSheet, TouchableOpacity, Image, ImageBackground, Alert} from "react-native";
+import { Text, TextInput, View, StyleSheet, TouchableOpacity, Image, ImageBackground, Alert } from "react-native";
 import { getUsers } from "../data/userService";
-
+import { Alert } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-
 export default function Login({ navigation }) {
     const [showPassword, setShowPassword] = useState(false);
     const backgroundImg = require("../img/burger1.jpg");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
-    const [showToast, setShowToast] = useState(false);
 
     return (
         <ImageBackground source={backgroundImg} style={styles.container}>
@@ -66,13 +62,16 @@ export default function Login({ navigation }) {
                         );
 
                         if (foundUser) {
-                            
                             await AsyncStorage.setItem('user', JSON.stringify(foundUser)); // Lưu thông tin người dùng
-                            Alert.alert("Đăng nhập thành công")
+                            /////////////////////////////////////
                             navigation.replace('MainApp');
 
                         } else {
                             Alert.alert("Login failed", "Invalid email or password.", [
+                                {
+                                    text: "OK",
+                                    onPress: () => console.log("Alert closed")
+                                }
                             ]);
                         }
                     }}
