@@ -3,27 +3,42 @@ import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet } from "reac
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Picker } from "@react-native-picker/picker";
 import * as ImagePicker from 'expo-image-picker';
-import { saveUser } from "../data/userService";  // Import hàm saveUser
+import { updateUser, getUserById } from "../API/api"; // Import updateUser and getUserById
 
 export default function PersonalDataScreen({navigation }) {
     const [user, setUser] = useState({
+        id: null,
         avatar: "",
         username: "",
         date: "",
         gender: "",
         phone: "",
-        email: ""
+        email: "",
+        // password:"" // Password should not be in frontend state for updates
     });
 
     useEffect(() => {
-        async function loadUser() {
+        async function fetchUser() {
             const userData = await AsyncStorage.getItem('user');
             if (userData) {
-                setUser(JSON.parse(userData));
+                const userFromStorage = JSON.parse(userData);
+                if (userFromStorage.id) {
+                    try {
+                        const userFromApi = await getUserById(userFromStorage.id);
+                        setUser(userFromApi);
+                    } catch (error) {
+                        console.error("Lỗi khi lấy thông tin người dùng từ API:", error);
+                        // Optionally, fall back to AsyncStorage data if API call fails
+                         setUser(userFromStorage);
+                    }
+                } else {
+                     // If no user ID in storage, just set state from storage
+                     setUser(userFromStorage);
+                }
             }
         }
-        loadUser();
-    }, []);
+        fetchUser();
+    }, []); // Empty dependency array means this runs once on mount
 
     const pickAvatar = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -44,8 +59,12 @@ export default function PersonalDataScreen({navigation }) {
 
     const handleSave = async () => {
         try {
-            await saveUser(user);  // Lưu thông tin người dùng vào file JSON
-            await AsyncStorage.setItem('user', JSON.stringify(user)); // Cập nhật AsyncStorage
+            // Use updateUser from API
+            await updateUser(user);
+            // Update AsyncStorage with the potentially updated user data (excluding password)
+            const userToStore = { ...user };
+            delete userToStore.password; // Ensure password is not stored in AsyncStorage
+            await AsyncStorage.setItem('user', JSON.stringify(userToStore));
             alert("Thông tin đã được lưu");
             navigation.goBack();
         } catch (error) {
