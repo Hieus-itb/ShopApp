@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Image, StyleSheet, ImageBackground, Modal } from 'react-native';
 import { Ionicons, Entypo } from '@expo/vector-icons';
-import { getCategories, getProductsByCategory } from '../data/productService';
+
+import { useNavigation } from '@react-navigation/native';
 import CategoryList from '../components/CategoryList';
 import ProductList from '../components/ProductList';
+import { getCategories, getProductsByCategory } from '../API/api';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default function Home({ navigation }) {
     const [categories, setCategories] = useState([]);
@@ -18,11 +22,25 @@ export default function Home({ navigation }) {
     const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
     useEffect(() => {
-        const fetchedCategories = getCategories();
-        setCategories(fetchedCategories);
-        setProducts(getProductsByCategory(selectedCategory));
-        setVisibleCount(PAGE_SIZE); // Reset khi đổi category
+        const fetchData = async () => {
+            const fetchedCategories = await getCategories();
+            const fetchedProducts = await getProductsByCategory(selectedCategory);
+
+            setCategories(fetchedCategories);
+            setProducts(fetchedProducts);
+            setVisibleCount(PAGE_SIZE);
+        };
+
+         fetchData();
     }, [selectedCategory, navigation]);
+
+
+    const handleSelectCategory = async (categoryId) => {
+    setSelectedCategory(categoryId);
+    const fetchedProducts = await getProductsByCategory(categoryId);
+    setProducts(fetchedProducts);
+    setShowCategoryList(false);
+};
 
     // Lấy địa chỉ từ AsyncStorage
     useEffect(() => {
@@ -38,11 +56,6 @@ export default function Home({ navigation }) {
         fetchAddresses();
     }, []);
 
-    const handleSelectCategory = (categoryId) => {
-        setSelectedCategory(categoryId);
-        setProducts(getProductsByCategory(categoryId));
-        setShowCategoryList(false);
-    };
 
     const handleSelectAddress = (addr) => {
         setSelectedAddress(addr);

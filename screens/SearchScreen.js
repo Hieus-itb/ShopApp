@@ -1,9 +1,9 @@
 import React, { useState, useEffect  } from 'react';
 import { View, Text, FlatList, StyleSheet,ScrollView, Image } from 'react-native';
-import { getCategories, getProductsBySearch, getProducts } from '../data/productService';
+import { getCategories, getProductsBySearch, getProducts } from '../API/api';
 import CategoryList from '../components/CategoryList';
 import ProductCard from '../components/ProductCard';
-import { getRecentProducts, getProductsByCategory } from '../data/productService';
+import { getRecentProducts, getProductsByCategory } from '../API/api';
 import SearchBar  from '../components/SearchBar';
 import ProductList from '../components/ProductList';
 import CenteredItemView from '../components/CenteredItemView';
@@ -14,19 +14,32 @@ export default function Search({ navigation }) {
     const [selectedCategory, setSelectedCategory] = useState('burger');
     const [showCategoryList,setShowCategoryList]= useState(false);
     const [filteredProducts, setFilteredProducts] = useState(null);
-    const recentProducts = getRecentProducts();
+    const [recentProducts, setRecentProducts] = useState([]);
     useEffect(() => {
-        const fetchedCategories = getCategories();
-        setCategories(fetchedCategories);
-        setFilteredProducts(null);
+        const fetchData = async () => {
+            const fetchedCategories = await getCategories();
+            setCategories(fetchedCategories);
+            setFilteredProducts(null);
+            const fetchedRecentProducts = await getRecentProducts();
+            setRecentProducts(fetchedRecentProducts);
+        };
+        fetchData();
     }, []);
 
-    const data = getProducts();
-    const productNames = data.map((p) => p.name);
+    const [allProducts, setAllProducts] = useState([]);
+    useEffect(() => {
+        const fetchProducts = async () => {
+            const data = await getProducts();
+            setAllProducts(data);
+        };
+        fetchProducts();
+    }, []);
+
+    const productNames = allProducts.map((p) => p.name);
     const categoryNames = categories.map((c) => c.name);
     const suggestionWords = Array.from(new Set([...productNames, ...categoryNames]));
 
-    const handleSelect = (word) => {
+    const handleSelect = async (word) => {
       if (!word || typeof word !== 'string') return; 
       word = word.trim().toLowerCase();
       setFilteredProducts(null);
@@ -34,9 +47,9 @@ export default function Search({ navigation }) {
       let products = [];
 
       if (isCategory) {
-        products = getProductsByCategory(word);
+        products = await getProductsByCategory(word);
       } else {
-        products = getProductsBySearch(word);
+        products = await getProductsBySearch(word);
       }
       if (products.length === 0) {
         setFilteredProducts([]);
