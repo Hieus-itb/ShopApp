@@ -36,7 +36,6 @@ const OrderHistory = ({ navigation }) => {
     );
 
     const renderItem = ({ item }) => {
-    // Xử lý danh sách sản phẩm thành chuỗi mô tả
     const itemList = Array.isArray(item.orderItems)
         ? item.orderItems.map(i => `${i.productName} x${i.quantity}`).join(', ')
         : '';
@@ -45,11 +44,14 @@ const OrderHistory = ({ navigation }) => {
         <View style={styles.orderCard}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Text style={styles.date}>{new Date(item.orderDate).toLocaleString()}</Text>
-                <Text style={styles.status}>Status: {item.status}</Text>
+                <Text style={styles.status}>Trạng thái: {item.status}</Text>
             </View>
-            <Text style={styles.total}>Total: ₫{item.totalPrice.toLocaleString()}</Text>
-            <Text>Tax: ₫{item.tax.toLocaleString()}</Text>
-            <Text>Items: {itemList}</Text>
+            <Text style={styles.total}>Tổng cộng: ₫{item.totalPrice.toLocaleString()}</Text>
+            <Text>Thuế: ₫{item.tax.toLocaleString()}</Text>
+            <Text>Sản phẩm: {itemList}</Text>
+            <Text style={item.isPaid ? styles.paid : styles.unpaid}>
+                {item.isPaid ? 'Đã thanh toán' : 'Chưa thanh toán'}
+            </Text>
         </View>
     );
 };
@@ -124,6 +126,17 @@ const styles = StyleSheet.create({
     status: {
     color: '#F14141',
     fontWeight: '600',
+    },
+    paid: {
+    marginTop: 4,
+    color: 'green',
+    fontWeight: 'bold',
+},
+unpaid: {
+    marginTop: 4,
+    color: 'red',
+    fontWeight: 'bold',
+
 },
 
 });
