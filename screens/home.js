@@ -17,11 +17,14 @@ export default function Home({ navigation }) {
         "New York, USA", "Los Angeles, USA", "Chicago, USA", "San Francisco, USA",
         "Miami, USA", "Boston, USA", "Washington, USA", "Dallas, USA", "Austin, USA", "Seattle, USA"
     ]);
+    const PAGE_SIZE = 6;
+    const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+
     useEffect(() => {
         const fetchedCategories = getCategories();
         setCategories(fetchedCategories);
         setProducts(getProductsByCategory(selectedCategory));
-       
+        setVisibleCount(PAGE_SIZE); // Reset khi đổi category
     }, [selectedCategory, navigation]);
 
     const handleSelectCategory = (categoryId) => {
@@ -34,6 +37,13 @@ export default function Home({ navigation }) {
         setLocation(loc);
         setShowLocationList(false);
     }
+
+    const handleLoadMore = () => {
+        if (visibleCount < products.length) {
+            setVisibleCount(prev => prev + PAGE_SIZE);
+        }
+    };
+
     return (
         <View style={styles.container}>
             <ImageBackground source={require('../img/image34.png')} style={styles.headerBackground}>
@@ -101,8 +111,12 @@ export default function Home({ navigation }) {
                         onSelectCategory={handleSelectCategory}
                     />
                 </View>
-                <ProductList products={products} navigation={navigation} />
-
+                <ProductList
+                    products={products.slice(0, visibleCount)}
+                    navigation={navigation}
+                    onLoadMore={handleLoadMore}
+                    canLoadMore={visibleCount < products.length}
+                />
             </View>
         </View>
     );
@@ -112,7 +126,7 @@ const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: '#fff' },
     headerBackground: { height: 280, paddingTop: 50, paddingHorizontal: 20 },
     headerTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-    locationText: { fontSize: 12, color: 'black' },
+    locationText: { fontSize: 12, color: '#fff' },
     locationRow: { flexDirection: 'row', alignItems: 'center' },
     cityText: { color: '#fff', fontWeight: 'bold', fontSize: 14 },
     headerIcons: { flexDirection: 'row', gap: 10 },
@@ -152,4 +166,17 @@ const styles = StyleSheet.create({
     },
     closeButton: { position: 'absolute', top: 10, right: 10 },
     locationList: { marginTop: 40 },
+    loadMoreBtn: {
+        marginVertical: 16,
+        alignSelf: 'center',
+        backgroundColor: '#FF7F00',
+        paddingHorizontal: 24,
+        paddingVertical: 10,
+        borderRadius: 20,
+    },
+    loadMoreText: {
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: 16,
+    },
 });

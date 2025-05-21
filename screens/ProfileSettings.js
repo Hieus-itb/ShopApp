@@ -4,27 +4,34 @@ import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView ,Alert} fro
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MenuList from '../components/MenuListComponent';
 export default function ProfileSettings({ navigation }) {
+  const [user, setUser] = useState({
+    avatar: "",
+    username: "",
+    date: "",
+    gender: "",
+    phone: "",
+    email: ""
+  });
+  const [orderCount, setOrderCount] = useState(0);
 
-   const [user, setUser] = useState({
-          avatar: "",
-          username: "",
-          date: "",
-          gender: "",
-          phone: "",
-          email: ""
-      });
-  
-      useEffect(() => {
-        navigation.addListener('focus', () => {
-          async function loadUser() {
-            const userData = await AsyncStorage.getItem('user');
-            if (userData) {
-              setUser(JSON.parse(userData));
-            }
-          }
-          loadUser();
-        });
-      }, [navigation]);
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      async function loadUser() {
+        const userData = await AsyncStorage.getItem('user');
+        if (userData) {
+          setUser(JSON.parse(userData));
+        }
+        // Lấy số lượng đơn hàng
+        const orderData = await AsyncStorage.getItem('orderHistory');
+        if (orderData) {
+          setOrderCount(JSON.parse(orderData).length);
+        } else {
+          setOrderCount(0);
+        }
+      }
+      loadUser();
+    });
+  }, [navigation]);
   return (
     <ScrollView style={styles.container}>
       {/* Photo */}
@@ -40,18 +47,26 @@ export default function ProfileSettings({ navigation }) {
 
       {/* Activity */}
       <View style={styles.activityContainer}>
-        <Text style={styles.sectionTitle}>My Orders</Text>
-        <View style={styles.orderList}>
-          <View style={styles.orderItem}>
-            <Image source={require('../img/burger_image.png')} style={styles.orderImage} />
-            <View style={styles.orderInfo}>
-              <Text style={styles.orderName}>Burger With Meat</Text>
-              <Text style={styles.orderPrice}>$ 12,230</Text>
-              <Text style={styles.orderItems}>14 items</Text>
-            </View>
-            <Text style={styles.orderStatus}>In Delivery</Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Text style={styles.sectionTitle}>My Orders</Text>
+          <View style={{
+            backgroundColor: '#FE8C00',
+            borderRadius: 12,
+            paddingHorizontal: 10,
+            paddingVertical: 2,
+            marginLeft: 8,
+            minWidth: 32,
+            alignItems: 'center'
+          }}>
+            <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 14 }}>{orderCount}</Text>
           </View>
         </View>
+        <TouchableOpacity
+          style={styles.orderHistoryBtn}
+          onPress={() => navigation.navigate('OrderHistory')}
+        >
+          <Text style={styles.orderHistoryText}>View Order History</Text>
+        </TouchableOpacity>
       </View>
 
       {/* Menu Section */}
@@ -216,6 +231,18 @@ const styles = StyleSheet.create({
   },
   menuItemText: {
     fontSize: 16,
+  },
+  orderHistoryBtn: {
+    marginTop: 10,
+    backgroundColor: '#FE8C00',
+    paddingVertical: 10,
+    borderRadius: 30,
+    alignItems: 'center',
+  },
+  orderHistoryText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 14,
   },
   
 });

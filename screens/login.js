@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { Text, TextInput, View, StyleSheet, TouchableOpacity, Image, ImageBackground, Alert} from "react-native";
+
+import { Text, TextInput, View, StyleSheet, TouchableOpacity, Image, ImageBackground, Alert } from "react-native";
 import { loginUser } from "../API/api";
+
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -60,6 +62,7 @@ export default function Login({ navigation }) {
                 <TouchableOpacity
                     style={styles.button}
                     onPress={async () => {
+
                         try {
                         const user = await loginUser(email, password);
                         await AsyncStorage.setItem('user', JSON.stringify(user));
@@ -68,6 +71,7 @@ export default function Login({ navigation }) {
                     } catch (error) {
                         Alert.alert("Login failed", "Invalid email or password.");
                     }
+
                     }}
                 >
                     <Text style={styles.buttonText}>Sign In</Text>
