@@ -41,25 +41,32 @@ const Payment = ({ route, navigation }) => {
     const [selectedMethod, setSelectedMethod] = useState('credit');
     const [selectedAddress, setSelectedAddress] = useState(null);
     const [addresses, setAddresses] = useState([]);
+    const [showDropdown, setShowDropdown] = useState(false);
     const Drive = 0; // Phí vận chuyển
     const Tax = Math.round(totalPrice * 0.1); // Thuế 10%
 
     useEffect(() => {
         const fetchUser = async () => {
             const data = await AsyncStorage.getItem('user');
-            if (data) setUserInfo(JSON.parse(data));
-        };
-        const fetchAddresses = async () => {
-            // Giả sử bạn lưu địa chỉ trong AsyncStorage với key 'addresses'
-            const data = await AsyncStorage.getItem('addresses');
+            let arr = [];
             if (data) {
-                const arr = JSON.parse(data);
+                const user = JSON.parse(data);
+                arr = Array.isArray(user.address) ? user.address : [];
                 setAddresses(arr);
-                setSelectedAddress(arr[0] || null);
+                setUserInfo({
+                    username: user.username,
+                    phone: user.phone
+                });
+            }
+            // Lấy địa chỉ đã chọn
+            const selected = await AsyncStorage.getItem('selectedAddress');
+            if (selected) {
+                setSelectedAddress(JSON.parse(selected));
+            } else if (arr.length > 0) {
+                setSelectedAddress(arr[0]);
             }
         };
         fetchUser();
-        fetchAddresses();
     }, []);
 
     const saveOrderHistory = async () => {
@@ -122,10 +129,30 @@ const Payment = ({ route, navigation }) => {
         );
     };
 
+    const handleSelectAddress = async (addr) => {
+        setSelectedAddress(addr);
+        setShowDropdown(false);
+        await AsyncStorage.setItem('selectedAddress', JSON.stringify(addr));
+    };
+
     const renderItem = ({ item }) => (
         <View style={styles.productRow}>
-            <Text style={styles.productName}>{item.name}</Text>
-            <Text style={styles.productPrice}>${item.price.toLocaleString()}</Text>
+            {/* Ảnh sản phẩm */}
+            <Image
+                source={imageMap[item.image] || require('../img/image34.png')}
+                style={{ width: 48, height: 48, borderRadius: 8, marginRight: 12 }}
+            />
+            {/* Thông tin sản phẩm */}
+            <View style={{ flex: 1 }}>
+                <Text style={styles.productName}>{item.name}</Text>
+                <Text style={{ color: '#888', fontSize: 13 }}>
+                    Đơn giá: ${item.price.toLocaleString()} | SL: {item.quantity || 1}
+                </Text>
+            </View>
+            {/* Tổng giá */}
+            <Text style={styles.productPrice}>
+                ${(item.price * (item.quantity || 1)).toLocaleString()}
+            </Text>
         </View>
     );
 
@@ -143,30 +170,77 @@ const Payment = ({ route, navigation }) => {
             {/* Địa chỉ giao hàng */}
             <View style={styles.addressSection}>
                 <Text style={styles.addressTitle}>Địa chỉ giao hàng</Text>
+                <Text style={{ color: '#222', marginBottom: 4 }}>
+                    {userInfo.username}
+                    <Text style={{ color: '#888' }}> ({userInfo.phone})</Text>
+                </Text>
                 {addresses.length === 0 ? (
                     <Text style={{ color: '#888', marginBottom: 10 }}>Chưa có địa chỉ. Vui lòng thêm địa chỉ trong hồ sơ.</Text>
                 ) : (
-                    addresses.map((addr, idx) => (
+                    <>
                         <TouchableOpacity
-                            key={idx}
-                            style={[
-                                styles.addressItem,
-                                selectedAddress === addr && styles.addressItemSelected
-                            ]}
-                            onPress={() => setSelectedAddress(addr)}
+                            style={styles.selectedAddressBox}
+                            onPress={() => setShowDropdown(!showDropdown)}
                         >
-                            <Ionicons
-                                name={selectedAddress === addr ? "radio-button-on" : "radio-button-off"}
-                                size={18}
-                                color="#FE8C00"
-                                style={{ marginRight: 8 }}
-                            />
-                            <View>
-                                <Text style={styles.addressText}>{addr.username} - {addr.phone}</Text>
-                                <Text style={styles.addressText}>{addr.house}, {addr.address}, {addr.city}</Text>
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <Ionicons name="location-outline" size={18} color="#FE8C00" style={{ marginRight: 6 }} />
+                                <Text style={styles.selectedAddressText}>
+                                    {selectedAddress
+                                        ? `${selectedAddress.house}, ${selectedAddress.address}, ${selectedAddress.city}`
+                                        : "Chọn địa chỉ"}
+                                </Text>
                             </View>
                         </TouchableOpacity>
-                    ))
+                        {showDropdown && (
+                            <View style={{
+                                borderWidth: 1,
+                                borderColor: '#FE8C00',
+                                borderRadius: 10,
+                                backgroundColor: '#fff',
+                                marginBottom: 8,
+                                maxHeight: 200
+                            }}>
+                                {addresses.map((addr, idx) => (
+                                    <TouchableOpacity
+                                        key={idx}
+                                        style={{
+                                            flexDirection: 'row',
+                                            alignItems: 'center',
+                                            padding: 12,
+                                            borderBottomWidth: idx !== addresses.length - 1 ? 1 : 0,
+                                            borderBottomColor: '#eee',
+                                            backgroundColor: selectedAddress === addr ? '#FFF7F0' : '#fff'
+                                        }}
+                                        onPress={() => handleSelectAddress(addr)}
+                                    >
+                                        {/* Nút tròn radio */}
+                                        <View style={{
+                                            width: 20,
+                                            height: 20,
+                                            borderRadius: 10,
+                                            borderWidth: 2,
+                                            borderColor: '#FE8C00',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            marginRight: 10,
+                                        }}>
+                                            {selectedAddress === addr && (
+                                                <View style={{
+                                                    width: 10,
+                                                    height: 10,
+                                                    borderRadius: 5,
+                                                    backgroundColor: '#FE8C00',
+                                                }} />
+                                            )}
+                                        </View>
+                                        <Text style={{ color: '#222', fontWeight: selectedAddress === addr ? 'bold' : 'normal' }}>
+                                            {addr.house}, {addr.address}, {addr.city}
+                                        </Text>
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+                        )}
+                    </>
                 )}
             </View>
 
@@ -426,6 +500,19 @@ const styles = StyleSheet.create({
     container: {
         paddingBottom: 30,
         backgroundColor: '#fff',
+    },
+    selectedAddressBox: {
+        backgroundColor: '#FFF7F0',
+        borderColor: '#FE8C00',
+        borderWidth: 1,
+        borderRadius: 10,
+        padding: 12,
+        marginTop: 8,
+        marginBottom: 8,
+    },
+    selectedAddressText: {
+        color: '#222',
+        fontSize: 14,
     },
 });
 

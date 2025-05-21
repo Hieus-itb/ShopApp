@@ -2,21 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Image, StyleSheet, ImageBackground, Modal } from 'react-native';
 import { Ionicons, Entypo } from '@expo/vector-icons';
 import { getCategories, getProductsByCategory } from '../data/productService';
-import { useNavigation } from '@react-navigation/native';
 import CategoryList from '../components/CategoryList';
 import ProductList from '../components/ProductList';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Home({ navigation }) {
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('burger');
     const [products, setProducts] = useState([]);
-    const [location, setLocation] = useState("New York, USA");
-    const [showLocationList, setShowLocationList] = useState(false);
+    const [addresses, setAddresses] = useState([]);
+    const [selectedAddress, setSelectedAddress] = useState(null);
+    const [showAddressList, setShowAddressList] = useState(false);
     const [showCategoryList, setShowCategoryList] = useState(false);
-    const [locations] = useState([
-        "New York, USA", "Los Angeles, USA", "Chicago, USA", "San Francisco, USA",
-        "Miami, USA", "Boston, USA", "Washington, USA", "Dallas, USA", "Austin, USA", "Seattle, USA"
-    ]);
     const PAGE_SIZE = 6;
     const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
@@ -27,16 +24,30 @@ export default function Home({ navigation }) {
         setVisibleCount(PAGE_SIZE); // Reset khi đổi category
     }, [selectedCategory, navigation]);
 
+    // Lấy địa chỉ từ AsyncStorage
+    useEffect(() => {
+        const fetchAddresses = async () => {
+            const data = await AsyncStorage.getItem('user');
+            if (data) {
+                const user = JSON.parse(data);
+                const arr = Array.isArray(user.address) ? user.address : [];
+                setAddresses(arr);
+                setSelectedAddress(arr[0] || null);
+            }
+        };
+        fetchAddresses();
+    }, []);
+
     const handleSelectCategory = (categoryId) => {
         setSelectedCategory(categoryId);
         setProducts(getProductsByCategory(categoryId));
         setShowCategoryList(false);
     };
 
-    const handleSelectLocation = (loc) => {
-        setLocation(loc);
-        setShowLocationList(false);
-    }
+    const handleSelectAddress = (addr) => {
+        setSelectedAddress(addr);
+        setShowAddressList(false);
+    };
 
     const handleLoadMore = () => {
         if (visibleCount < products.length) {
@@ -49,11 +60,15 @@ export default function Home({ navigation }) {
             <ImageBackground source={require('../img/image34.png')} style={styles.headerBackground}>
                 <View style={styles.headerTop}>
                     <View>
-                        <Text style={styles.locationText}>Your Location</Text>
-                        <TouchableOpacity onPress={() => setShowLocationList(true)}>
+                        <Text style={styles.locationText}>Địa chỉ giao hàng</Text>
+                        <TouchableOpacity onPress={() => setShowAddressList(true)}>
                             <View style={styles.locationRow}>
-                                <Entypo name="location-pin" size={18} color="#fff" />
-                                <Text style={styles.cityText}>{location}</Text>
+                                <Ionicons name="location-outline" size={18} color="#fff" />
+                                <Text style={styles.cityText}>
+                                    {selectedAddress
+                                        ? `${selectedAddress.house}, ${selectedAddress.address}, ${selectedAddress.city}`
+                                        : "Chọn địa chỉ"}
+                                </Text>
                             </View>
                         </TouchableOpacity>
                     </View>
@@ -61,27 +76,66 @@ export default function Home({ navigation }) {
                         <TouchableOpacity onPress={() => navigation.navigate('Search')} style={styles.iconWrapper}>
                             <Ionicons name="search" size={22} color="#fff" style={styles.icon} />
                         </TouchableOpacity>
-                            <Ionicons name="notifications-outline" size={22} color="#fff" />
+                        <Ionicons name="notifications-outline" size={22} color="#fff" />
                     </View>
                 </View>
                 <Text style={styles.mainTitle}>Provide the best food for you</Text>
             </ImageBackground>
 
-            <Modal transparent visible={showLocationList} animationType="slide">
+            {/* Modal chọn địa chỉ */}
+            <Modal transparent visible={showAddressList} animationType="slide">
                 <View style={styles.modalContainer}>
-                    <TouchableOpacity style={styles.closeButton} onPress={() => setShowLocationList(false)}>
+                    <TouchableOpacity style={styles.closeButton} onPress={() => setShowAddressList(false)}>
                         <Ionicons name="close" size={24} color="#333" />
                     </TouchableOpacity>
-                    <FlatList
-                        data={locations}
-                        keyExtractor={(item, index) => index.toString()}
-                        renderItem={({ item }) => (
-                            <TouchableOpacity style={styles.locationItem} onPress={() => handleSelectLocation(item)}>
-                                <Text style={styles.locationText}>{item}</Text>
-                            </TouchableOpacity>
-                        )}
-                        style={styles.locationList}
-                    />
+                    <Text style={{ fontWeight: 'bold', fontSize: 16, marginBottom: 10 }}>Chọn địa chỉ giao hàng</Text>
+                
+                    {addresses.length === 0 ? (
+                        <Text style={{ color: '#888', marginTop: 40 }}>Chưa có địa chỉ. Vui lòng thêm địa chỉ trong hồ sơ.</Text>
+                    ) : (
+                        <FlatList
+                            data={addresses}
+                            keyExtractor={(_, idx) => idx.toString()}
+                            renderItem={({ item }) => (
+                                <TouchableOpacity
+                                    style={{
+                                        flexDirection: 'row',
+                                        alignItems: 'center',
+                                        paddingVertical: 12,
+                                        borderBottomWidth: 1,
+                                        borderBottomColor: '#eee',
+                                        backgroundColor: selectedAddress === item ? '#FFF7F0' : '#fff'
+                                    }}
+                                    onPress={() => handleSelectAddress(item)}
+                                >
+                                    {/* Nút tròn radio */}
+                                    <View style={{
+                                        width: 20,
+                                        height: 20,
+                                        borderRadius: 10,
+                                        borderWidth: 2,
+                                        borderColor: '#FE8C00',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        marginRight: 10,
+                                    }}>
+                                        {selectedAddress === item && (
+                                            <View style={{
+                                                width: 10,
+                                                height: 10,
+                                                borderRadius: 5,
+                                                backgroundColor: '#FE8C00',
+                                            }} />
+                                        )}
+                                    </View>
+                                    <Text style={{ color: '#222', fontWeight: selectedAddress === item ? 'bold' : 'normal' }}>
+                                        {item.house}, {item.address}, {item.city}
+                                    </Text>
+                                </TouchableOpacity>
+                            )}
+                            style={styles.locationList}
+                        />
+                    )}
                 </View>
             </Modal>
 
@@ -138,7 +192,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingTop: 20,
         flex: 1,
-        
+
     },
     categoryHeader: {
         flexDirection: 'row',
