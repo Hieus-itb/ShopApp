@@ -1,5 +1,3 @@
-
-
 import { useState, useEffect } from "react";
 import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -30,7 +28,7 @@ export default function DeliverySetting({ navigation }) {
         async function fetchUser() {
             const userData = await AsyncStorage.getItem('user');
             if (userData) {
-
+             
                 const userFromStorage = JSON.parse(userData);
                  if (userFromStorage.id) {
                     try {
