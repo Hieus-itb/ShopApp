@@ -13,6 +13,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { imageMap } from '../data/imageMap';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as FileSystem from 'expo-file-system';
+import { checkoutOrder } from '../API/api'; // Import the checkoutOrder API function
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const paymentMethods = [
@@ -71,64 +72,92 @@ const Payment = ({ route, navigation }) => {
         fetchUser();
     }, []);
 
-    const saveOrderHistory = async () => {
-        const order = {
-            cartItems,
-            totalItems,
-            totalPrice,
-            discount,
-            finalPrice: totalPrice + Drive + Tax,
-            date: new Date().toLocaleString(),
-            userInfo: { ...userInfo, ...(selectedAddress || {}) },
-            paymentMethod: selectedMethod,
-        };
-        const data = await AsyncStorage.getItem('orderHistory');
-        let orders = [];
-        if (data) orders = JSON.parse(data);
-        orders.push(order);
-        await AsyncStorage.setItem('orderHistory', JSON.stringify(orders));
-    };
+    // Remove saveOrderHistory as we will use the API
+    // const saveOrderHistory = async () => {
+    //     const order = {
+    //         cartItems,
+    //         totalItems,
+    //         totalPrice,
+    //         discount,
+    //         finalPrice: totalPrice + Drive + Tax,
+    //         date: new Date().toLocaleString(),
+    //         userInfo: { ...userInfo, ...(selectedAddress || {}) },
+    //         paymentMethod: selectedMethod,
+    //     };
+    //     const data = await AsyncStorage.getItem('orderHistory');
+    //     let orders = [];
+    //     if (data) orders = JSON.parse(data);
+    //     orders.push(order);
+    //     await AsyncStorage.setItem('orderHistory', JSON.stringify(orders));
+    // };
 
     const handleCheckout = async () => {
         if (!selectedAddress) {
             Alert.alert("Lỗi", "Vui lòng chọn địa chỉ giao hàng!");
             return;
         }
-        await saveOrderHistory();
 
-        // Xóa sản phẩm đã thanh toán khỏi file cart.json
+        // Construct the checkout request payload
+        const checkoutRequest = {
+            userId: userInfo.id, // Assuming userInfo contains the user ID
+            totalPrice: totalPrice,
+            tax: Tax,
+            orderItems: cartItems.map(item => ({
+                productId: item.id, // Assuming item has an id
+                quantity: item.quantity, // Assuming item has a quantity
+                price: item.price, // Assuming item has a price
+            })),
+        };
+
         try {
-            const userData = await AsyncStorage.getItem('user');
-            if (userData) {
-                const user = JSON.parse(userData);
-                const email = user.email;
-                const cartFileUri = FileSystem.documentDirectory + "cart.json";
-                const fileInfo = await FileSystem.getInfoAsync(cartFileUri);
-                if (fileInfo.exists) {
-                    const content = await FileSystem.readAsStringAsync(cartFileUri);
-                    let carts = JSON.parse(content);
-                    let userCart = carts[email] || [];
-                    const paidIds = cartItems.map(item => item.id);
-                    userCart = userCart.filter(item => !paidIds.includes(item.id));
-                    carts[email] = userCart;
-                    await FileSystem.writeAsStringAsync(cartFileUri, JSON.stringify(carts));
-                }
-            }
-        } catch (e) {
-            console.error("Lỗi khi xóa sản phẩm đã thanh toán khỏi giỏ hàng:", e);
-        }
+            // Call the checkout API
+            const result = await checkoutOrder(checkoutRequest);
 
-        Alert.alert(
-            "Thành công",
-            "Đặt hàng thành công!",
-            [
-                {
-                    text: "OK",
-                    onPress: () => navigation.replace('CartDetails')
-                }
-            ],
-            { cancelable: false }
-        );
+            // Handle successful checkout
+            Alert.alert(
+                "Thành công",
+                "Đặt hàng thành công!",
+                [
+                    {
+                        text: "OK",
+                        onPress: () => {
+                            // Optionally clear the local cart after successful checkout
+                            // This depends on your application's state management
+                            // For now, we navigate back to CartDetails
+                            navigation.replace('CartDetails');
+                        }
+                    }
+                ],
+                { cancelable: false }
+            );
+
+            // Remove local cart clearing logic as it should be handled by the backend or a separate process
+            // try {
+            //     const userData = await AsyncStorage.getItem('user');
+            //     if (userData) {
+            //         const user = JSON.parse(userData);
+            //         const email = user.email;
+            //         const cartFileUri = FileSystem.documentDirectory + "cart.json";
+            //         const fileInfo = await FileSystem.getInfoAsync(cartFileUri);
+            //         if (fileInfo.exists) {
+            //             const content = await FileSystem.readAsStringAsync(cartFileUri);
+            //             let carts = JSON.parse(content);
+            //             let userCart = carts[email] || [];
+            //             const paidIds = cartItems.map(item => item.id);
+            //             userCart = userCart.filter(item => !paidIds.includes(item.id));
+            //             carts[email] = userCart;
+            //             await FileSystem.writeAsStringAsync(cartFileUri, JSON.stringify(carts));
+            //         }
+            //     }
+            // } catch (e) {
+            //     console.error("Lỗi khi xóa sản phẩm đã thanh toán khỏi giỏ hàng:", e);
+            // }
+
+        } catch (error) {
+            // Handle API errors
+            console.error("Lỗi khi đặt hàng:", error);
+            Alert.alert("Lỗi", "Đã xảy ra lỗi khi đặt hàng. Vui lòng thử lại.");
+        }
     };
 
     const handleSelectAddress = async (addr) => {
