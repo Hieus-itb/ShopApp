@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Text, TextInput, View, StyleSheet, TouchableOpacity, Image, ImageBackground, CheckBox, Platform, } from "react-native";
-import { saveUser } from "../data/userService";
+import { registerUser } from "../API/api";
 import { Alert } from "react-native";         
 
 export default function Register({ navigation }) {
@@ -73,40 +73,36 @@ export default function Register({ navigation }) {
           style={styles.registerBtn}
           onPress={async () => {
             if (!email || !username || !password) {
-              Alert.alert("Loi", "Vui long nhap day du thong tin!");
+              Alert.alert("Lỗi", "Vui lòng nhập đầy đủ thông tin!");
               return;
             }
 
-            // Kiem tra dinh dang email co hop le khong
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
-              Alert.alert("Loi", "Email khong hop le!");
+              Alert.alert("Lỗi", "Email không hợp lệ!");
               return;
             }
 
             if (password.length < 6) {
-              Alert.alert("Loi", "Mat khau phai co it nhat 6 ky tu!");
+              Alert.alert("Lỗi", "Mật khẩu phải có ít nhất 6 ký tự!");
               return;
             }
 
             if (!isChecked) {
-              Alert.alert("Loi", "Vui long dong y voi dieu khoan su dung!");
+              Alert.alert("Lỗi", "Vui lòng đồng ý với điều khoản sử dụng!");
               return;
             }
 
             try {
-              const newUser = {
-                email: email,
-                username: username,
-                password: password,
-              };
-              await saveUser(newUser);
-              Alert.alert("Dang ky thanh cong!");
+              const newUser = { email, username, password }; // TẠO USER
+              await registerUser(newUser); // GỌI HÀM ĐKÍ USER API
+              Alert.alert("Đăng ký thành công!");
               navigation.navigate("Login");
             } catch (error) {
-              Alert.alert("Loi", error.message);
+              Alert.alert("Lỗi", error.message || "Đăng ký thất bại");
             }
           }}
+
 
         >
           <Text style={styles.registerText}>Register</Text>

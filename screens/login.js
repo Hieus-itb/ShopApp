@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Text, TextInput, View, StyleSheet, TouchableOpacity, Image, ImageBackground, Alert} from "react-native";
-import { getUsers } from "../data/userService";
+import { loginUser } from "../API/api";
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -60,21 +60,14 @@ export default function Login({ navigation }) {
                 <TouchableOpacity
                     style={styles.button}
                     onPress={async () => {
-                        const users = await getUsers();
-                        const foundUser = users.find(
-                            (u) => u.email === email && u.password === password
-                        );
-
-                        if (foundUser) {
-                            
-                            await AsyncStorage.setItem('user', JSON.stringify(foundUser)); // Lưu thông tin người dùng
-                            Alert.alert("Đăng nhập thành công")
-                            navigation.replace('MainApp');
-
-                        } else {
-                            Alert.alert("Login failed", "Invalid email or password.", [
-                            ]);
-                        }
+                        try {
+                        const user = await loginUser(email, password);
+                        await AsyncStorage.setItem('user', JSON.stringify(user));
+                        Alert.alert("Đăng nhập thành công");
+                        navigation.replace('MainApp');
+                    } catch (error) {
+                        Alert.alert("Login failed", "Invalid email or password.");
+                    }
                     }}
                 >
                     <Text style={styles.buttonText}>Sign In</Text>
