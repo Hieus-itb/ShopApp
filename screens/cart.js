@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { View, Text, Image, TextInput, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
+import { View, Text, Image, TextInput, TouchableOpacity, FlatList, StyleSheet, Modal } from 'react-native';
 import { Checkbox } from 'react-native-paper';
 import { Ionicons, Entypo } from '@expo/vector-icons';
 import * as FileSystem from 'expo-file-system';
@@ -11,6 +11,9 @@ const Cart = ({ navigation }) => {
     const cartFileUri = FileSystem.documentDirectory + "cart.json";
     const [cartItems, setCartItems] = useState([]);
     const [selectedItems, setSelectedItems] = useState(new Set());
+    const [addresses, setAddresses] = useState([]);
+    const [selectedAddress, setSelectedAddress] = useState(null);
+    const [showAddressList, setShowAddressList] = useState(false);
 
     const updateCartFile = async (items) => {
         try {
@@ -57,6 +60,20 @@ const Cart = ({ navigation }) => {
             loadCart();
         }, [])
     );
+
+    // Lấy địa chỉ từ AsyncStorage
+    useEffect(() => {
+        const fetchAddresses = async () => {
+            const data = await AsyncStorage.getItem('user');
+            if (data) {
+                const user = JSON.parse(data);
+                const arr = Array.isArray(user.address) ? user.address : [];
+                setAddresses(arr);
+                setSelectedAddress(arr[0] || null);
+            }
+        };
+        fetchAddresses();
+    }, []);
 
     const handleQuantityChange = (id, delta) => {
         setCartItems(prev => {
@@ -116,22 +133,104 @@ const Cart = ({ navigation }) => {
     return (
         <View style={styles.container}>
             {/* Header */}
-            <View style={styles.header}>
-                <TouchableOpacity onPress={() => navigation.goBack()} ><Ionicons name="arrow-back" size={24} /></TouchableOpacity>
+            <View style={{ alignItems: 'center', marginBottom: 10 }}>
                 <Text style={styles.headerTitle}>My Cart</Text>
-                <TouchableOpacity><Entypo name="dots-three-vertical" size={18} /></TouchableOpacity>
             </View>
 
-            {/* Location */}
+            {/* Địa chỉ giao hàng */}
             <View style={styles.locationRow}>
                 <View>
                     <Text style={styles.locationLabel}>Delivery Location</Text>
-                    <Text style={styles.locationText}>Home</Text>
+                    <TouchableOpacity onPress={() => setShowAddressList(true)}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <Ionicons name="location-outline" size={18} color="#FF7F00" style={{ marginRight: 6 }} />
+                            <Text style={styles.locationText}>
+                                {selectedAddress
+                                    ? `${selectedAddress.house}, ${selectedAddress.address}, ${selectedAddress.city}`
+                                    : "Chọn địa chỉ"} 
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={styles.changeLocationBtn}>
+                <TouchableOpacity style={styles.changeLocationBtn} onPress={() => setShowAddressList(true)}>
                     <Text style={styles.changeLocationText}>Change Location</Text>
                 </TouchableOpacity>
             </View>
+
+            {/* Modal chọn địa chỉ */}
+            <Modal transparent visible={showAddressList} animationType="slide">
+                <View style={{
+                    flex: 1,
+                    backgroundColor: 'rgba(0,0,0,0.2)',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}>
+                    <View style={{
+                        backgroundColor: '#fff',
+                        borderRadius: 16,
+                        padding: 20,
+                        width: '85%',
+                        maxHeight: '60%'
+                    }}>
+                        <TouchableOpacity
+                            style={{ alignSelf: 'flex-end', marginBottom: 10 }}
+                            onPress={() => setShowAddressList(false)}
+                        >
+                            <Ionicons name="close" size={24} color="#333" />
+                        </TouchableOpacity>
+                        <Text style={{ fontWeight: 'bold', fontSize: 16, marginBottom: 10 }}>Chọn địa chỉ giao hàng</Text>
+                        {addresses.length === 0 ? (
+                            <Text style={{ color: '#888', marginTop: 20 }}>Chưa có địa chỉ. Vui lòng thêm địa chỉ trong hồ sơ.</Text>
+                        ) : (
+                            <FlatList
+                                data={addresses}
+                                keyExtractor={(_, idx) => idx.toString()}
+                                renderItem={({ item }) => (
+                                    <TouchableOpacity
+                                        style={{
+                                            flexDirection: 'row',
+                                            alignItems: 'center',
+                                            paddingVertical: 12,
+                                            borderBottomWidth: 1,
+                                            borderBottomColor: '#eee',
+                                            backgroundColor: selectedAddress === item ? '#FFF7F0' : '#fff'
+                                        }}
+                                        onPress={() => {
+                                            setSelectedAddress(item);
+                                            setShowAddressList(false);
+                                        }}
+                                    >
+                                        {/* Nút tròn radio */}
+                                        <View style={{
+                                            width: 20,
+                                            height: 20,
+                                            borderRadius: 10,
+                                            borderWidth: 2,
+                                            borderColor: '#FF7F00',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            marginRight: 10,
+                                        }}>
+                                            {selectedAddress === item && (
+                                                <View style={{
+                                                    width: 10,
+                                                    height: 10,
+                                                    borderRadius: 5,
+                                                    backgroundColor: '#FF7F00',
+                                                }} />
+                                            )}
+                                        </View>
+                                        <Text style={{ color: '#222', fontWeight: selectedAddress === item ? 'bold' : 'normal' }}>
+                                            {item.house}, {item.address}, {item.city}
+                                        </Text>
+                                    </TouchableOpacity>
+                                )}
+                                style={{ maxHeight: 250 }}
+                            />
+                        )}
+                    </View>
+                </View>
+            </Modal>
 
             {/* Promo Code */}
             <View style={styles.promoRow}>
@@ -183,11 +282,11 @@ const Cart = ({ navigation }) => {
                 )}
                 ListEmptyComponent={() => (
                     <CenteredItemView
-                      ImageSrc={require("../img/not-found-img.png")}
-                      mainTitle="Ouch! Hungry"
-                      mainSubtitle="Seems like  you have not ordered any food yet."
+                        ImageSrc={require("../img/not-found-img.png")}
+                        mainTitle="Ouch! Hungry"
+                        mainSubtitle="Seems like  you have not ordered any food yet."
                     />
-                  )}
+                )}
                 style={{ marginTop: 10 }}
             />
 
@@ -234,7 +333,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
-        marginTop: 20,
         backgroundColor: '#fff',
     },
     header: {
