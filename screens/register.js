@@ -93,13 +93,17 @@ export default function Register({ navigation }) {
               return;
             }
 
-            try {
-              const newUser = { email, username, password }; // TẠO USER
-              await registerUser(newUser); // GỌI HÀM ĐKÍ USER API
+           try {
+              const newUser = { email, username, password };
+              await registerUser(newUser);
               Alert.alert("Đăng ký thành công!");
               navigation.navigate("Login");
             } catch (error) {
-              Alert.alert("Lỗi", error.message || "Đăng ký thất bại");
+              if (error.response?.status === 409) {
+                Alert.alert("Lỗi", "Email này đã được sử dụng.");
+              } else {
+                Alert.alert("Lỗi", error.message || "Đăng ký thất bại");
+              }
             }
           }}
 
