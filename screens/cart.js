@@ -62,18 +62,20 @@ const Cart = ({ navigation }) => {
     );
 
     // Lấy địa chỉ từ AsyncStorage
-    useEffect(() => {
-        const fetchAddresses = async () => {
-            const data = await AsyncStorage.getItem('user');
-            if (data) {
-                const user = JSON.parse(data);
-                const arr = Array.isArray(user.address) ? user.address : [];
-                setAddresses(arr);
-                setSelectedAddress(arr[0] || null);
-            }
-        };
-        fetchAddresses();
-    }, []);
+    useFocusEffect(
+        React.useCallback(() => {
+            const fetchAddresses = async () => {
+                const data = await AsyncStorage.getItem('user');
+                if (data) {
+                    const user = JSON.parse(data);
+                    const arr = Array.isArray(user.address) ? user.address : [];
+                    setAddresses(arr);
+                    setSelectedAddress(arr[0] || null);
+                }
+            };
+            fetchAddresses();
+        }, [])
+    );
 
     const handleQuantityChange = (id, delta) => {
         setCartItems(prev => {
