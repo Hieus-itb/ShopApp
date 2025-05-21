@@ -1,45 +1,59 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, SafeAreaView, TouchableOpacity, Platform, StatusBar } from 'react-native';
+import React, { useState } from 'react';
+import {
+    View, Text, FlatList, StyleSheet,
+    SafeAreaView, TouchableOpacity,
+    Platform, StatusBar, ActivityIndicator
+} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
+import { getOrdersByUserId } from '../API/api';
+import { useFocusEffect } from '@react-navigation/native';
 
 const OrderHistory = ({ navigation }) => {
     const [orders, setOrders] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const fetchOrders = async () => {
-            const data = await AsyncStorage.getItem('orderHistory');
-            if (data) setOrders(JSON.parse(data));
-        };
-        fetchOrders();
-    }, []);
+    const loadOrders = async () => {
+        setLoading(true);
+        try {
+            const userData = await AsyncStorage.getItem('user');
+            if (!userData) return;
 
-    const renderItem = ({ item, index }) => (
+            const { id } = JSON.parse(userData);
+            const ordersFromApi = await getOrdersByUserId(id);
+            setOrders(ordersFromApi);
+        } catch (error) {
+            console.error('Lỗi tải đơn hàng:', error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useFocusEffect(
+        React.useCallback(() => {
+            loadOrders();
+        }, [])
+    );
+
+    const renderItem = ({ item }) => {
+    // Xử lý danh sách sản phẩm thành chuỗi mô tả
+    const itemList = Array.isArray(item.orderItems)
+        ? item.orderItems.map(i => `${i.productName} x${i.quantity}`).join(', ')
+        : '';
+
+    return (
         <View style={styles.orderCard}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Text style={styles.date}>{item.date}</Text>
-                <TouchableOpacity
-                    onPress={async () => {
-                        // Xóa đơn hàng tại vị trí index
-                        const newOrders = [...orders];
-                        newOrders.splice(index, 1);
-                        setOrders(newOrders);
-                        await AsyncStorage.setItem('orderHistory', JSON.stringify(newOrders));
-                    }}
-                >
-                    <Ionicons name="trash" size={20} color="#F14141" />
-                </TouchableOpacity>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                <Text style={styles.date}>{new Date(item.orderDate).toLocaleString()}</Text>
+                <Text style={styles.status}>Status: {item.status}</Text>
             </View>
-            <Text style={styles.total}>Total: ${item.finalPrice.toLocaleString()}</Text>
-            <Text>Items: {item.cartItems.map(i => i.name).join(', ')}</Text>
-            <Text style={{marginTop: 8, fontWeight: 'bold'}}>Receiver Info:</Text>
-            <Text>Name: {item.userInfo?.username || 'N/A'}</Text>
-            <Text>Phone: {item.userInfo?.phone || 'N/A'}</Text>
-            <Text>Address: {item.userInfo?.address || 'N/A'}</Text>
-            <Text>House No.: {item.userInfo?.house || 'N/A'}</Text>
-            <Text>City: {item.userInfo?.city || 'N/A'}</Text>
+            <Text style={styles.total}>Total: ₫{item.totalPrice.toLocaleString()}</Text>
+            <Text>Tax: ₫{item.tax.toLocaleString()}</Text>
+            <Text>Items: {itemList}</Text>
         </View>
     );
+};
+
 
     return (
         <SafeAreaView style={styles.safeArea}>
@@ -49,29 +63,33 @@ const OrderHistory = ({ navigation }) => {
                     <Ionicons name="arrow-back" size={24} color="#333" />
                 </TouchableOpacity>
                 <Text style={styles.title}>Order History</Text>
-                <TouchableOpacity onPress={async () => {
-                    await AsyncStorage.removeItem('orderHistory');
-                    setOrders([]);
-                }}>
-                    <Ionicons name="trash" size={22} color="#F14141" />
-                </TouchableOpacity>
+                <View style={{ width: 24 }} /> {/* Placeholder để cân đối */}
             </View>
-            <FlatList
-                data={orders.reverse()}
-                keyExtractor={(_, idx) => idx.toString()}
-                renderItem={renderItem}
-                contentContainerStyle={styles.container}
-                ListEmptyComponent={<Text style={{textAlign:'center', marginTop:40}}>No orders yet.</Text>}
-            />
+
+            {loading ? (
+                <ActivityIndicator size="large" color="#F14141" style={{ marginTop: 40 }} />
+            ) : (
+                <FlatList
+                    data={[...orders].reverse()}
+                    keyExtractor={(_, idx) => idx.toString()}
+                    renderItem={renderItem}
+                    contentContainerStyle={styles.container}
+                    ListEmptyComponent={
+                        <Text style={{ textAlign: 'center', marginTop: 40 }}>
+                            No orders yet.
+                        </Text>
+                    }
+                />
+            )}
         </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
-    safeArea: { 
-        flex: 1, 
+    safeArea: {
+        flex: 1,
         backgroundColor: '#fff',
-        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0, // Thêm dòng này
+        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     },
     topNavigation: {
         flexDirection: 'row',
@@ -85,7 +103,9 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
     },
-    container: { padding: 20 },
+    container: {
+        padding: 20,
+    },
     orderCard: {
         backgroundColor: '#f9f9f9',
         borderRadius: 10,
@@ -93,8 +113,19 @@ const styles = StyleSheet.create({
         marginBottom: 16,
         elevation: 2,
     },
-    date: { color: '#777', marginBottom: 6 },
-    total: { fontWeight: 'bold', marginBottom: 4 },
+    date: {
+        color: '#777',
+        marginBottom: 6,
+    },
+    total: {
+        fontWeight: 'bold',
+        marginBottom: 4,
+    },
+    status: {
+    color: '#F14141',
+    fontWeight: '600',
+},
+
 });
 
 export default OrderHistory;

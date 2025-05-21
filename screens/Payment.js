@@ -57,6 +57,7 @@ const Payment = ({ route, navigation }) => {
                 arr = Array.isArray(user.address) ? user.address : [];
                 setAddresses(arr);
                 setUserInfo({
+                    id: user.id,
                     username: user.username,
                     phone: user.phone
                 });
@@ -102,6 +103,10 @@ const Payment = ({ route, navigation }) => {
             userId: userInfo.id, // Assuming userInfo contains the user ID
             totalPrice: totalPrice,
             tax: Tax,
+            PaymentMethod: selectedMethod,
+            isPaid: false,
+            Status: "Đang xử lý",
+            OrderDate: new Date().toLocaleString(),
             orderItems: cartItems.map(item => ({
                 productId: item.id, // Assuming item has an id
                 quantity: item.quantity, // Assuming item has a quantity

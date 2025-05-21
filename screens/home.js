@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Image, StyleSheet, ImageBackground, Modal } from 'react-native';
 import { Ionicons, Entypo } from '@expo/vector-icons';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { useNavigation } from '@react-navigation/native';
 import CategoryList from '../components/CategoryList';
@@ -43,19 +44,20 @@ export default function Home({ navigation }) {
 };
 
     // Lấy địa chỉ từ AsyncStorage
-    useEffect(() => {
-        const fetchAddresses = async () => {
-            const data = await AsyncStorage.getItem('user');
-            if (data) {
-                const user = JSON.parse(data);
-                const arr = Array.isArray(user.address) ? user.address : [];
-                setAddresses(arr);
-                setSelectedAddress(arr[0] || null);
-            }
-        };
-        fetchAddresses();
-    }, []);
-
+    useFocusEffect(
+        React.useCallback(() => {
+            const fetchAddresses = async () => {
+                const data = await AsyncStorage.getItem('user');
+                if (data) {
+                    const user = JSON.parse(data);
+                    const arr = Array.isArray(user.address) ? user.address : [];
+                    setAddresses(arr);
+                    setSelectedAddress(arr[0] || null);
+                }
+            };
+            fetchAddresses();
+        }, [])
+    );
 
     const handleSelectAddress = (addr) => {
         setSelectedAddress(addr);

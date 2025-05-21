@@ -15,7 +15,7 @@ export default function DeliverySetting({ navigation }) {
         gender: "",
         phone: "",
         email: "",
-        address: [], // Đổi thành mảng
+        address: [], 
     });
 
     const [newAddress, setNewAddress] = useState({
