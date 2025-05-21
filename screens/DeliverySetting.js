@@ -45,12 +45,10 @@ export default function DeliverySetting({ navigation }) {
                      // If no user ID in storage, just set state from storage
                      setUser(userFromStorage);
                 }
-
             }
         }
         fetchUser();
     }, []); // Empty dependency array means this runs once on mount
-
 
 
     const handleChange = (field, value) => {
@@ -60,14 +58,12 @@ export default function DeliverySetting({ navigation }) {
 
     const handleSave = async () => {
         try {
-
             // Use updateUser from API
             await updateUser(user);
             // Update AsyncStorage with the potentially updated user data (excluding password)
             const userToStore = { ...user };
             delete userToStore.password; // Ensure password is not stored in AsyncStorage
             await AsyncStorage.setItem('user', JSON.stringify(userToStore));
-
             alert("Thông tin đã được lưu");
             navigation.goBack();
         } catch (error) {
