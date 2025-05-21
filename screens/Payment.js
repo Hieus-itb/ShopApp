@@ -13,6 +13,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { imageMap } from '../data/imageMap';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as FileSystem from 'expo-file-system';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const paymentMethods = [
     {
@@ -36,6 +37,7 @@ const paymentMethods = [
 ];
 
 const Payment = ({ route, navigation }) => {
+    const insets = useSafeAreaInsets();
     const { cartItems, totalItems, totalPrice, discount, finalPrice } = route.params;
     const [userInfo, setUserInfo] = useState({});
     const [selectedMethod, setSelectedMethod] = useState('credit');
@@ -157,7 +159,7 @@ const Payment = ({ route, navigation }) => {
     );
 
     return (
-        <SafeAreaView style={styles.safeArea}>
+        <SafeAreaView style={[styles.safeArea, { paddingTop: insets.top }]}>
             {/* Header */}
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -170,10 +172,10 @@ const Payment = ({ route, navigation }) => {
             {/* Địa chỉ giao hàng */}
             <View style={styles.addressSection}>
                 <Text style={styles.addressTitle}>Địa chỉ giao hàng</Text>
-                <Text style={{ color: '#222', marginBottom: 4 }}>
-                    {userInfo.username}
-                    <Text style={{ color: '#888' }}> ({userInfo.phone})</Text>
-                </Text>
+                <View style={{ flexDirection: 'row', marginBottom: 4 }}>
+                    <Text style={{ color: '#222' }}>{userInfo.username}</Text>
+                    <Text style={{ color: '#888' }}>{userInfo.phone ? ` (${userInfo.phone})` : ''}</Text>
+                </View>
                 {addresses.length === 0 ? (
                     <Text style={{ color: '#888', marginBottom: 10 }}>Chưa có địa chỉ. Vui lòng thêm địa chỉ trong hồ sơ.</Text>
                 ) : (

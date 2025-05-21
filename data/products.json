@@ -18,133 +18,10 @@
         "rating": 4.8,
         "distance": "150m",
         "image": "burger1.jpg",
-        "description": "Burger bo truyen thong voi phomai, xa lach, ca chua va nuoc sot dac biet." ,
+        "description": "Burger bò truyền thống với phô mai, xà lách, cà chua và nước sốt đặc biệt." ,
         "updatedAt": "2025-04-19T12:30:00Z"
         
       },{
-        "id": "b12",
-        "category": "burger",
-        "name": "Classic Burger",
-        "price": 12000,
-        "rating": 4.8,
-        "distance": "150m",
-        "image": "burger1.jpg",
-        "description": "Burger bo truyen thong voi phomai, xa lach, ca chua va nuoc sot dac biet." ,
-        "updatedAt": "2025-04-19T12:30:00Z"
-        
-      },{
-        "id": "b13",
-        "category": "burger",
-        "name": "Classic Burger",
-        "price": 12000,
-        "rating": 4.8,
-        "distance": "150m",
-        "image": "burger1.jpg",
-        "description": "Burger bo truyen thong voi phomai, xa lach, ca chua va nuoc sot dac biet." ,
-        "updatedAt": "2025-04-19T12:30:00Z"
-        
-      },{
-        "id": "b14",
-        "category": "burger",
-        "name": "Classic Burger",
-        "price": 12000,
-        "rating": 4.8,
-        "distance": "150m",
-        "image": "burger1.jpg",
-        "description": "Burger bo truyen thong voi phomai, xa lach, ca chua va nuoc sot dac biet." ,
-        "updatedAt": "2025-04-19T12:30:00Z"
-        
-      },{
-        "id": "b15",
-        "category": "burger",
-        "name": "Classic Burger",
-        "price": 12000,
-        "rating": 4.8,
-        "distance": "150m",
-        "image": "burger1.jpg",
-        "description": "Burger bo truyen thong voi phomai, xa lach, ca chua va nuoc sot dac biet." ,
-        "updatedAt": "2025-04-19T12:30:00Z"
-        
-      },{
-        "id": "b16",
-        "category": "burger",
-        "name": "Classic Burger",
-        "price": 12000,
-        "rating": 4.8,
-        "distance": "150m",
-        "image": "burger1.jpg",
-        "description": "Burger bo truyen thong voi phomai, xa lach, ca chua va nuoc sot dac biet." ,
-        "updatedAt": "2025-04-19T12:30:00Z"
-        
-      },{
-        "id": "b17",
-        "category": "burger",
-        "name": "Classic Burger",
-        "price": 12000,
-        "rating": 4.8,
-        "distance": "150m",
-        "image": "burger1.jpg",
-        "description": "Burger bo truyen thong voi phomai, xa lach, ca chua va nuoc sot dac biet." ,
-        "updatedAt": "2025-04-19T12:30:00Z"
-        
-      },{
-        "id": "b18",
-        "category": "burger",
-        "name": "Classic Burger",
-        "price": 12000,
-        "rating": 4.8,
-        "distance": "150m",
-        "image": "burger1.jpg",
-        "description": "Burger bo truyen thong voi phomai, xa lach, ca chua va nuoc sot dac biet." ,
-        "updatedAt": "2025-04-19T12:30:00Z"
-        
-      },{
-        "id": "b19",
-        "category": "burger",
-        "name": "Classic Burger",
-        "price": 12000,
-        "rating": 4.8,
-        "distance": "150m",
-        "image": "burger1.jpg",
-        "description": "Burger bo truyen thong voi phomai, xa lach, ca chua va nuoc sot dac biet." ,
-        "updatedAt": "2025-04-19T12:30:00Z"
-        
-      },{
-        "id": "b111",
-        "category": "burger",
-        "name": "Classic Burger",
-        "price": 12000,
-        "rating": 4.8,
-        "distance": "150m",
-        "image": "burger1.jpg",
-        "description": "Burger bo truyen thong voi phomai, xa lach, ca chua va nuoc sot dac biet." ,
-        "updatedAt": "2025-04-19T12:30:00Z"
-        
-      },{
-        "id": "b112",
-        "category": "burger",
-        "name": "Classic Burger",
-        "price": 12000,
-        "rating": 4.8,
-        "distance": "150m",
-        "image": "burger1.jpg",
-        "description": "Burger bo truyen thong voi phomai, xa lach, ca chua va nuoc sot dac biet." ,
-        "updatedAt": "2025-04-19T12:30:00Z"
-        
-      },
-      {
-        "id": "b5",
-        "category": "burger",
-        "name": "Classic Burger",
-        "price": 12000,
-        "rating": 4.8,
-        "distance": "150m",
-        "image": "burger1.jpg",
-        "description": "Burger bo truyen thong voi phomai, xa lach, ca chua va nuoc sot dac biet." ,
-        "updatedAt": "2025-04-19T12:30:00Z"
-        
-      },
-      {
         "id": "b2",
         "category": "burger",
         "name": "Cheese Burger",
@@ -152,74 +29,163 @@
         "rating": 4.9,
         "distance": "180m",
         "image": "burger2.jpg",
-        "description": "Burger kem nhieu lop phomai tan chay, hoan hao voi thit nuong nong hoi.",
+        "description": "Burger kèm nhiều lớp phô mai tan chảy, hoàn hảo với thịt nướng nóng hổi." ,
         "updatedAt": "2025-04-14T12:30:00Z"
-      },
-      {
+        
+      },{
         "id": "b3",
         "category": "burger",
-        "name": "Cheese Burger",
-        "price": 14000,
-        "rating": 4.9,
-        "distance": "180m",
-        "image": "burger2.jpg",
-        "description": "Burger kem nhieu lop phomai tan chay, hoan hao voi thit nuong nong hoi.",
-        "updatedAt": "2025-04-17T12:30:00Z"
-      },
-      {
+        "name": "Bacon Burger",
+        "price": 15000,
+        "rating": 4.7,
+        "distance": "170m",
+        "image": "burger1.jpg",
+        "description": "Burger với thịt xông khói giòn, phô mai và sốt BBQ." ,
+        "updatedAt": "2025-04-15T12:30:00Z"
+        
+      },{
         "id": "b4",
         "category": "burger",
-        "name": "Classic Burger",
-        "price": 12000,
+        "name": "Double Beef Burger",
+        "price": 16000,
         "rating": 4.8,
-        "distance": "150m",
+        "distance": "160m",
+        "image": "burger2.jpg",
+        "description": "Burger hai lớp bò, phô mai cheddar và rau củ tươi." ,
+        "updatedAt": "2025-04-16T12:30:00Z"
+        
+      },{
+        "id": "b5",
+        "category": "burger",
+        "name": "Chicken Burger",
+        "price": 13000,
+        "rating": 4.6,
+        "distance": "140m",
         "image": "burger1.jpg",
-        "description": "Burger bo truyen thong voi phomai, xa lach, ca chua va nuoc sot dac biet.",
+        "description": "Burger gà chiên giòn, xà lách và sốt mayonnaise." ,
         "updatedAt": "2025-04-17T12:30:00Z"
+        
+      },{
+        "id": "b6",
+        "category": "burger",
+        "name": "Fish Burger",
+        "price": 13500,
+        "rating": 4.5,
+        "distance": "155m",
+        "image": "burger2.jpg",
+        "description": "Burger cá phi lê chiên xù, rau củ và sốt tartar." ,
+        "updatedAt": "2025-04-18T12:30:00Z"
+        
+      },{
+        "id": "b7",
+        "category": "burger",
+        "name": "Veggie Burger",
+        "price": 11000,
+        "rating": 4.4,
+        "distance": "130m",
+        "image": "burger1.jpg",
+        "description": "Burger rau củ dành cho người ăn chay, sốt đặc biệt." ,
+        "updatedAt": "2025-04-19T12:30:00Z"
+        
+      },{
+        "id": "b8",
+        "category": "burger",
+        "name": "Spicy Burger",
+        "price": 14500,
+        "rating": 4.7,
+        "distance": "145m",
+        "image": "burger2.jpg",
+        "description": "Burger bò cay với ớt jalapeno và sốt cay đặc biệt." ,
+        "updatedAt": "2025-04-20T12:30:00Z"
+        
+      },{
+        "id": "b9",
+        "category": "burger",
+        "name": "Egg Burger",
+        "price": 12500,
+        "rating": 4.6,
+        "distance": "135m",
+        "image": "burger1.jpg",
+        "description": "Burger bò, trứng ốp la, phô mai và rau củ." ,
+        "updatedAt": "2025-04-21T12:30:00Z"
+        
+      },{
+        "id": "b10",
+        "category": "burger",
+        "name": "BBQ Burger",
+        "price": 15500,
+        "rating": 4.8,
+        "distance": "160m",
+        "image": "burger2.jpg",
+        "description": "Burger bò nướng sốt BBQ, hành tây chiên giòn." ,
+        "updatedAt": "2025-04-22T12:30:00Z"
+        
       },
       {
         "id": "t1",
         "category": "taco",
-        "name": "Beef Taco",
+        "name": "Beef Taco 1",
         "price": 10000,
         "rating": 4.5,
         "distance": "150m",
-        "image": "burger1.jpg",
+        "image": "taco1.jpg",
         "description": "Taco thit bo dam vi, kem rau cu tuoi va sot mex spicy.",
-        "updatedAt": "2025-04-1612:30:00Z"
+        "updatedAt": "2025-04-16T12:30:00Z"
       },
       {
         "id": "t2",
         "category": "taco",
-        "name": "Beef Taco",
+        "name": "Beef Taco 2",
         "price": 10000,
         "rating": 4.5,
         "distance": "150m",
-        "image": "burger1.jpg",
+        "image": "taco2.jpg",
         "description": "Taco thit bo dam vi, kem rau cu tuoi va sot mex spicy.",
-        "updatedAt": "2025-04-1612:30:00Z"
+        "updatedAt": "2025-04-16T12:30:00Z"
       },
       {
         "id": "t3",
         "category": "taco",
-        "name": "Beef Taco",
+        "name": "Beef Taco 3",
         "price": 10000,
         "rating": 4.5,
         "distance": "150m",
-        "image": "burger1.jpg",
+        "image": "taco1.jpg",
         "description": "Taco thit bo dam vi, kem rau cu tuoi va sot mex spicy.",
-        "updatedAt": "2025-04-1612:30:00Z"
+        "updatedAt": "2025-04-16T12:30:00Z"
       },
       {
         "id": "t4",
         "category": "taco",
-        "name": "Beef Taco",
+        "name": "Beef Taco 4",
         "price": 10000,
         "rating": 4.5,
         "distance": "150m",
-        "image": "burger1.jpg",
+        "image": "taco2.jpg",
         "description": "Taco thit bo dam vi, kem rau cu tuoi va sot mex spicy.",
-        "updatedAt": "2025-04-1612:30:00Z"
+        "updatedAt": "2025-04-16T12:30:00Z"
+      },
+      {
+        "id": "t5",
+        "category": "taco",
+        "name": "Beef Taco 5",
+        "price": 10000,
+        "rating": 4.5,
+        "distance": "150m",
+        "image": "taco1.jpg",
+        "description": "Taco thit bo dam vi, kem rau cu tuoi va sot mex spicy.",
+        "updatedAt": "2025-04-16T12:30:00Z"
+      },
+      {
+        "id": "t6",
+        "category": "taco",
+        "name": "Beef Taco 6",
+        "price": 10000,
+        "rating": 4.5,
+        "distance": "150m",
+        "image": "taco2.jpg",
+        "description": "Taco thit bo dam vi, kem rau cu tuoi va sot mex spicy.",
+        "updatedAt": "2025-04-16T12:30:00Z"
       },
       {
         "id": "d1",
@@ -268,180 +234,270 @@
       {
         "id": "p1",
         "category": "pizza",
-        "name": "Cheese Pizza",
+        "name": "Cheese Pizza 1",
         "price": 14000,
         "rating": 4.8,
         "distance": "160m",
-        "image": "burger1.jpg",
-        "description": "Pizza voi lop phomai beo ngậy, de nhan va thom ngon.",
-        "updatedAt": "2025-04-1612:30:00Z"
+        "image": "pizza1.jpg",
+        "description": "Cheese Pizza 1 là sự kết hợp hoàn hảo giữa lớp vỏ bánh mỏng giòn, phô mai mozzarella thơm béo phủ đều trên mặt bánh cùng nước sốt cà chua đặc biệt, mang lại hương vị truyền thống Ý khó quên cho mọi thực khách.",
+        "updatedAt": "2025-04-16T12:30:00Z"
       },
       {
         "id": "p2",
         "category": "pizza",
-        "name": "Cheese Pizza",
+        "name": "Cheese Pizza 2",
         "price": 14000,
         "rating": 4.8,
         "distance": "160m",
-        "image": "burger1.jpg",
-        "description": "Pizza voi lop phomai beo ngậy, de nhan va thom ngon.",
-        "updatedAt": "2025-04-1612:30:00Z"
+        "image": "pizza2.jpg",
+        "description": "Cheese Pizza 2 nổi bật với lớp phô mai kéo sợi béo ngậy, hòa quyện cùng sốt cà chua tươi và các loại gia vị Ý, tạo nên một chiếc pizza thơm ngon, hấp dẫn và đầy đặn cho bữa ăn của bạn.",
+        "updatedAt": "2025-04-16T12:30:00Z"
       },
       {
         "id": "p3",
         "category": "pizza",
-        "name": "Cheese Pizza",
+        "name": "Cheese Pizza 3",
         "price": 14000,
         "rating": 4.8,
         "distance": "160m",
-        "image": "burger1.jpg",
-        "description": "Pizza voi lop phomai beo ngậy, de nhan va thom ngon.",
-        "updatedAt": "2025-04-1612:30:00Z"
+        "image": "pizza1.jpg",
+        "description": "Cheese Pizza 3 mang đến trải nghiệm vị giác tuyệt vời với lớp phô mai vàng óng, hòa quyện cùng lớp vỏ bánh mềm mại và nước sốt cà chua đậm đà, thích hợp cho những ai yêu thích vị truyền thống.",
+        "updatedAt": "2025-04-16T12:30:00Z"
       },
       {
         "id": "p4",
         "category": "pizza",
-        "name": "Cheese Pizza",
+        "name": "Cheese Pizza 4",
         "price": 14000,
         "rating": 4.8,
         "distance": "160m",
-        "image": "burger1.jpg",
-        "description": "Pizza voi lop phomai beo ngậy, de nhan va thom ngon.",
-        "updatedAt": "2025-04-1612:30:00Z"
+        "image": "pizza2.jpg",
+        "description": "Cheese Pizza 4 là lựa chọn hoàn hảo cho những tín đồ phô mai, với lớp phô mai dày, tan chảy trên nền bánh nướng giòn rụm, kết hợp cùng sốt cà chua tươi và các loại thảo mộc Ý.",
+        "updatedAt": "2025-04-16T12:30:00Z"
       },
+      {
+        "id": "p5",
+        "category": "pizza",
+        "name": "Cheese Pizza 5",
+        "price": 14000,
+        "rating": 4.8,
+        "distance": "160m",
+        "image": "pizza1.jpg",
+        "description": "Cheese Pizza 5 sở hữu lớp vỏ bánh nướng vàng ruộm, phô mai mozzarella kéo sợi thơm lừng, hòa quyện cùng nước sốt cà chua đậm đà, mang đến cảm giác ngon miệng cho mọi bữa ăn.",
+        "updatedAt": "2025-04-16T12:30:00Z"
+      },
+      {
+        "id": "p6",
+        "category": "pizza",
+        "name": "Cheese Pizza 6",
+        "price": 14000,
+        "rating": 4.8,
+        "distance": "160m",
+        "image": "pizza2.jpg",
+        "description": "Cheese Pizza 6 là sự kết hợp tinh tế giữa lớp phô mai dẻo thơm, vỏ bánh giòn tan và nước sốt cà chua đặc biệt, tạo nên một chiếc pizza hấp dẫn, phù hợp cho mọi lứa tuổi.",
+        "updatedAt": "2025-04-16T12:30:00Z"
+      },
+
       {
         "id": "de1",
         "category": "dessert",
-        "name": "Chocolate Cake",
+        "name": "Chocolate Cake 1",
         "price": 10000,
         "rating": 4.8,
         "distance": "180m",
-        "image": "burger1.jpg",
-        "description": "Banh socola mem min, ngot ngao, hoan hao cho nguoi thich do ngot.",
-        "updatedAt": "2025-04-1612:30:00Z"
+        "image": "dessert1.jpg",
+        "description": "Chocolate Cake 1 là chiếc bánh ngọt mềm mịn, phủ lớp socola đen nguyên chất, hòa quyện cùng kem tươi béo ngậy, mang lại cảm giác ngọt ngào và sang trọng cho mọi bữa tiệc.",
+        "updatedAt": "2025-04-16T12:30:00Z"
       },
       {
         "id": "de2",
         "category": "dessert",
-        "name": "Chocolate Cake",
+        "name": "Chocolate Cake 2",
         "price": 10000,
         "rating": 4.8,
         "distance": "180m",
-        "image": "burger1.jpg",
-        "description": "Banh socola mem min, ngot ngao, hoan hao cho nguoi thich do ngot.",
-        "updatedAt": "2025-04-1612:30:00Z"
+        "image": "dessert2.jpg",
+        "description": "Chocolate Cake 2 hấp dẫn với lớp bánh bông lan mềm, xen kẽ lớp kem socola mịn màng, phủ ngoài bằng socola tan chảy, tạo nên vị ngọt dịu và thơm lừng khó cưỡng.",
+        "updatedAt": "2025-04-16T12:30:00Z"
       },
       {
         "id": "de3",
         "category": "dessert",
-        "name": "Chocolate Cake",
+        "name": "Chocolate Cake 3",
         "price": 10000,
         "rating": 4.8,
         "distance": "180m",
-        "image": "burger1.jpg",
-        "description": "Banh socola mem min, ngot ngao, hoan hao cho nguoi thich do ngot.",
-        "updatedAt": "2025-04-1612:30:00Z"
+        "image": "dessert1.jpg",
+        "description": "Chocolate Cake 3 là sự hòa quyện giữa vị đắng nhẹ của socola nguyên chất và vị ngọt thanh của kem tươi, mang đến trải nghiệm tuyệt vời cho những ai yêu thích bánh ngọt.",
+        "updatedAt": "2025-04-16T12:30:00Z"
       },
       {
         "id": "de4",
         "category": "dessert",
-        "name": "Chocolate Cake",
+        "name": "Chocolate Cake 4",
         "price": 10000,
         "rating": 4.8,
         "distance": "180m",
-        "image": "burger1.jpg",
-        "description": "Banh socola mem min, ngot ngao, hoan hao cho nguoi thich do ngot.",
-        "updatedAt": "2025-04-1612:30:00Z"
+        "image": "dessert2.jpg",
+        "description": "Chocolate Cake 4 nổi bật với lớp bánh mềm xốp, phủ kem socola dày đặc, trang trí thêm vụn socola và trái cây tươi, thích hợp cho mọi dịp đặc biệt.",
+        "updatedAt": "2025-04-16T12:30:00Z"
       },
+      {
+        "id": "de5",
+        "category": "dessert",
+        "name": "Chocolate Cake 5",
+        "price": 10000,
+        "rating": 4.8,
+        "distance": "180m",
+        "image": "dessert1.jpg",
+        "description": "Chocolate Cake 5 mang đến vị ngọt ngào tinh tế từ socola nguyên chất, kết hợp cùng lớp kem mềm mịn, tạo nên chiếc bánh hoàn hảo cho những ai yêu thích sự ngọt ngào.",
+        "updatedAt": "2025-04-16T12:30:00Z"
+      },
+      {
+        "id": "de6",
+        "category": "dessert",
+        "name": "Chocolate Cake 6",
+        "price": 10000,
+        "rating": 4.8,
+        "distance": "180m",
+        "image": "dessert2.jpg",
+        "description": "Chocolate Cake 6 là lựa chọn tuyệt vời cho những ai yêu thích vị socola đậm đà, với lớp bánh mềm, kem tươi béo ngậy và socola tan chảy phủ ngoài.",
+        "updatedAt": "2025-04-16T12:30:00Z"
+      },
+
       {
         "id": "s1",
         "category": "sushi",
-        "name": "Salmon Sushi",
+        "name": "Salmon Sushi 1",
         "price": 20000,
         "rating": 4.9,
         "distance": "150m",
-        "image": "burger1.jpg",
-        "description": "Sushi ca hoi tuoi song, dam chat Nhat Ban.",
-        "updatedAt": "2025-04-1612:30:00Z"
+        "image": "sushi1.jpg",
+        "description": "Salmon Sushi 1 là món sushi truyền thống với lát cá hồi tươi sống, cơm dẻo thơm và rong biển cuộn bên ngoài, mang đến hương vị Nhật Bản tinh tế và tươi mới.",
+        "updatedAt": "2025-04-16T12:30:00Z"
       },
       {
         "id": "s2",
         "category": "sushi",
-        "name": "Salmon Sushi",
+        "name": "Salmon Sushi 2",
         "price": 20000,
         "rating": 4.9,
         "distance": "150m",
-        "image": "burger1.jpg",
-        "description": "Sushi ca hoi tuoi song, dam chat Nhat Ban.",
-        "updatedAt": "2025-04-1612:30:00Z"
+        "image": "sushi2.jpg",
+        "description": "Salmon Sushi 2 nổi bật với cá hồi nhập khẩu, cơm sushi trộn giấm thanh nhẹ, kết hợp cùng wasabi và nước tương, tạo nên món ăn hấp dẫn cho mọi thực khách.",
+        "updatedAt": "2025-04-16T12:30:00Z"
       },
       {
         "id": "s3",
         "category": "sushi",
-        "name": "Salmon Sushi",
+        "name": "Salmon Sushi 3",
         "price": 20000,
         "rating": 4.9,
         "distance": "150m",
-        "image": "burger1.jpg",
-        "description": "Sushi ca hoi tuoi song, dam chat Nhat Ban.",
-        "updatedAt": "2025-04-1612:30:00Z"
+        "image": "sushi1.jpg",
+        "description": "Salmon Sushi 3 là sự kết hợp hoàn hảo giữa cá hồi tươi, cơm dẻo và rong biển, mang lại vị ngọt tự nhiên và cảm giác tươi mới trong từng miếng ăn.",
+        "updatedAt": "2025-04-16T12:30:00Z"
       },
       {
         "id": "s4",
         "category": "sushi",
-        "name": "Salmon Sushi",
+        "name": "Salmon Sushi 4",
         "price": 20000,
         "rating": 4.9,
         "distance": "150m",
-        "image": "burger1.jpg",
-        "description": "Sushi ca hoi tuoi song, dam chat Nhat Ban.",
-        "updatedAt": "2025-04-1612:30:00Z"
+        "image": "sushi2.jpg",
+        "description": "Salmon Sushi 4 với cá hồi tươi thái lát mỏng, cơm sushi mềm dẻo, ăn kèm gừng hồng và wasabi, mang đến trải nghiệm ẩm thực Nhật Bản đích thực.",
+        "updatedAt": "2025-04-16T12:30:00Z"
       },
+      {
+        "id": "s5",
+        "category": "sushi",
+        "name": "Salmon Sushi 5",
+        "price": 20000,
+        "rating": 4.9,
+        "distance": "150m",
+        "image": "sushi1.jpg",
+        "description": "Salmon Sushi 5 mang đến vị ngọt thanh của cá hồi tươi, kết hợp cùng cơm sushi trộn giấm và rong biển, tạo nên món ăn bổ dưỡng và hấp dẫn.",
+        "updatedAt": "2025-04-16T12:30:00Z"
+      },
+      {
+        "id": "s6",
+        "category": "sushi",
+        "name": "Salmon Sushi 6",
+        "price": 20000,
+        "rating": 4.9,
+        "distance": "150m",
+        "image": "sushi2.jpg",
+        "description": "Salmon Sushi 6 là lựa chọn tuyệt vời cho những ai yêu thích sushi, với cá hồi tươi ngon, cơm dẻo và rong biển cuộn chắc tay, mang lại cảm giác tươi mới và hấp dẫn.",
+        "updatedAt": "2025-04-16T12:30:00Z"
+      },
+
       {
         "id": "c1",
         "category": "coffee",
-        "name": "Espresso",
+        "name": "Espresso 1",
         "price": 8000,
         "rating": 4.8,
         "distance": "120m",
-        "image": "burger1.jpg",
-        "description": "Ca phe espresso manh me danh cho nguoi yeu thich vi nguyen ban.",
-        "updatedAt": "2025-04-1612:30:00Z"
+        "image": "coffee1.jpg",
+        "description": "Espresso 1 là ly cà phê đậm đặc, được chiết xuất từ những hạt cà phê rang xay nguyên chất, mang lại hương vị mạnh mẽ và hậu vị kéo dài cho người thưởng thức.",
+        "updatedAt": "2025-04-16T12:30:00Z"
       },
       {
         "id": "c2",
         "category": "coffee",
-        "name": "Espresso",
+        "name": "Espresso 2",
         "price": 8000,
         "rating": 4.8,
         "distance": "120m",
-        "image": "burger1.jpg",
-        "description": "Ca phe espresso manh me danh cho nguoi yeu thich vi nguyen ban.",
-        "updatedAt": "2025-04-1612:30:00Z"
+        "image": "coffee2.jpg",
+        "description": "Espresso 2 nổi bật với vị đậm đà, lớp crema dày mịn trên bề mặt, mang đến trải nghiệm cà phê Ý truyền thống cho những ai yêu thích sự tinh tế.",
+        "updatedAt": "2025-04-16T12:30:00Z"
       },
       {
         "id": "c3",
         "category": "coffee",
-        "name": "Espresso",
+        "name": "Espresso 3",
         "price": 8000,
         "rating": 4.8,
         "distance": "120m",
-        "image": "burger1.jpg",
-        "description": "Ca phe espresso manh me danh cho nguoi yeu thich vi nguyen ban.",
-        "updatedAt": "2025-04-1612:30:00Z"
+        "image": "coffee1.jpg",
+        "description": "Espresso 3 là sự lựa chọn hoàn hảo cho những ai yêu thích vị cà phê nguyên bản, với hương thơm nồng nàn và vị đắng nhẹ đặc trưng.",
+        "updatedAt": "2025-04-16T12:30:00Z"
       },
       {
         "id": "c4",
         "category": "coffee",
-        "name": "Espresso",
+        "name": "Espresso 4",
         "price": 8000,
         "rating": 4.8,
         "distance": "120m",
-        "image": "burger1.jpg",
-        "description": "Ca phe espresso manh me danh cho nguoi yeu thich vi nguyen ban.",
-        "updatedAt": "2025-04-1612:30:00Z"
+        "image": "coffee2.jpg",
+        "description": "Espresso 4 mang đến vị cà phê mạnh mẽ, hậu vị kéo dài, thích hợp cho những ai cần sự tỉnh táo và tập trung trong công việc.",
+        "updatedAt": "2025-04-16T12:30:00Z"
+      },
+      {
+        "id": "c5",
+        "category": "coffee",
+        "name": "Espresso 5",
+        "price": 8000,
+        "rating": 4.8,
+        "distance": "120m",
+        "image": "coffee1.jpg",
+        "description": "Espresso 5 là sự kết hợp giữa vị đắng nhẹ và hương thơm đặc trưng của cà phê rang xay, mang lại cảm giác sảng khoái cho ngày mới.",
+        "updatedAt": "2025-04-16T12:30:00Z"
+      },
+      {
+        "id": "c6",
+        "category": "coffee",
+        "name": "Espresso 6",
+        "price": 8000,
+        "rating": 4.8,
+        "distance": "120m",
+        "image": "coffee2.jpg",
+        "description": "Espresso 6 là lựa chọn tuyệt vời cho những ai yêu thích cà phê đậm đặc, với hương vị mạnh mẽ và lớp crema mịn màng trên bề mặt.",
+        "updatedAt": "2025-04-16T12:30:00Z"
       }
     ]
     
   }
-  

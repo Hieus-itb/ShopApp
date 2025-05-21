@@ -133,10 +133,8 @@ const Cart = ({ navigation }) => {
     return (
         <View style={styles.container}>
             {/* Header */}
-            <View style={styles.header}>
-                <TouchableOpacity onPress={() => navigation.goBack()} ><Ionicons name="arrow-back" size={24} /></TouchableOpacity>
+            <View style={{ alignItems: 'center', marginBottom: 10 }}>
                 <Text style={styles.headerTitle}>My Cart</Text>
-                <TouchableOpacity><Entypo name="dots-three-vertical" size={18} /></TouchableOpacity>
             </View>
 
             {/* Địa chỉ giao hàng */}
@@ -149,7 +147,7 @@ const Cart = ({ navigation }) => {
                             <Text style={styles.locationText}>
                                 {selectedAddress
                                     ? `${selectedAddress.house}, ${selectedAddress.address}, ${selectedAddress.city}`
-                                    : "Chọn địa chỉ"}
+                                    : "Chọn địa chỉ"} 
                             </Text>
                         </View>
                     </TouchableOpacity>
@@ -284,11 +282,11 @@ const Cart = ({ navigation }) => {
                 )}
                 ListEmptyComponent={() => (
                     <CenteredItemView
-                      ImageSrc={require("../img/not-found-img.png")}
-                      mainTitle="Ouch! Hungry"
-                      mainSubtitle="Seems like  you have not ordered any food yet."
+                        ImageSrc={require("../img/not-found-img.png")}
+                        mainTitle="Ouch! Hungry"
+                        mainSubtitle="Seems like  you have not ordered any food yet."
                     />
-                  )}
+                )}
                 style={{ marginTop: 10 }}
             />
 
@@ -335,7 +333,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
-        marginTop: 20,
         backgroundColor: '#fff',
     },
     header: {
