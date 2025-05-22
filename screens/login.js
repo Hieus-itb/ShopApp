@@ -18,14 +18,14 @@ export default function Login({ navigation }) {
     return (
         <ImageBackground source={backgroundImg} style={styles.container}>
             <View style={styles.inner}>
-                <Text style={styles.subtitle}>Login to your account.</Text>
-                <Text style={styles.description}>Please sign in to your account</Text>
+                <Text style={styles.subtitle}>Đăng nhập tài khoản</Text>
+                <Text style={styles.description}>Vui lòng đăng nhập để tiếp tục</Text>
 
-                <Text style={styles.label}>Email Address</Text>
+                <Text style={styles.label}>Email</Text>
                 <View style={styles.inputContainer}>
                     <TextInput
                         style={styles.input}
-                        placeholder="Enter email"
+                        placeholder="Nhập email"
                         placeholderTextColor="#999"
                         value={email}
                         onChangeText={setEmail}
@@ -33,11 +33,11 @@ export default function Login({ navigation }) {
 
                 </View>
 
-                <Text style={styles.label}>Password</Text>
+                <Text style={styles.label}>Mật khẩu</Text>
                 <View style={styles.inputContainer}>
                     <TextInput
                         style={styles.input}
-                        placeholder="Password"
+                        placeholder="Nhập mật khẩu"
                         placeholderTextColor="#999"
                         secureTextEntry={!showPassword}
                         value={password}
@@ -55,7 +55,7 @@ export default function Login({ navigation }) {
 
                 <View style={styles.rememberContainer}>
                     <TouchableOpacity>
-                        <Text style={styles.forgotPassword}>Forgot password?</Text>
+                        <Text style={styles.forgotPassword}>Quên mật khẩu?</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -64,23 +64,23 @@ export default function Login({ navigation }) {
                     onPress={async () => {
 
                         try {
-                        const user = await loginUser(email, password);
-                        await AsyncStorage.setItem('user', JSON.stringify(user));
-                        Alert.alert("Đăng nhập thành công");
-                        navigation.replace('MainApp');
-                    } catch (error) {
-                        Alert.alert("Login failed", "Invalid email or password.");
-                    }
+                            const user = await loginUser(email, password);
+                            await AsyncStorage.setItem('user', JSON.stringify(user));
+                            Alert.alert("Đăng nhập thành công");
+                            navigation.replace('MainApp');
+                        } catch (error) {
+                            Alert.alert("Đăng nhập thất bại", "Email hoặc mật khẩu không đúng.");
+                        }
 
                     }}
                 >
-                    <Text style={styles.buttonText}>Sign In</Text>
+                    <Text style={styles.buttonText}>Đăng nhập</Text>
                 </TouchableOpacity>
 
 
                 <View style={styles.dividerContainer}>
                     <View style={styles.divider} />
-                    <Text style={styles.orText}>Or sign in with</Text>
+                    <Text style={styles.orText}>Hoặc đăng nhập bằng</Text>
                     <View style={styles.divider} />
                 </View>
 
@@ -106,12 +106,12 @@ export default function Login({ navigation }) {
                 </View>
 
                 <Text style={styles.description}>
-                    Don’t have an account?{" "}
+                    Bạn chưa có tài khoản?{" "}
                     <Text
                         style={styles.linkText}
                         onPress={() => navigation.navigate("Register")}
                     >
-                        Register
+                        Đăng ký
                     </Text>
                 </Text>
             </View>

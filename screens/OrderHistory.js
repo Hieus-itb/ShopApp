@@ -50,12 +50,11 @@ const OrderHistory = ({ navigation }) => {
             <Text>Thuế: ₫{item.tax.toLocaleString()}</Text>
             <Text>Sản phẩm: {itemList}</Text>
             <Text>
-                Địa chỉ giao hàng: {item.address.street}, {item.address.city}, {item.address.state}, {item.address .zipCode}
+                Địa chỉ giao hàng: {item.address.street}, {item.address.city}, {item.address.state}, {item.address.zipCode}
             </Text>
             <Text style={item.isPaid ? styles.paid : styles.unpaid}>
                 {item.isPaid ? 'Đã thanh toán' : 'Chưa thanh toán'}
             </Text>
-            
         </View>
     );
 };
@@ -63,13 +62,12 @@ const OrderHistory = ({ navigation }) => {
 
     return (
         <SafeAreaView style={styles.safeArea}>
-            {/* Navigation Bar */}
             <View style={styles.topNavigation}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <Ionicons name="arrow-back" size={24} color="#333" />
                 </TouchableOpacity>
-                <Text style={styles.title}>Order History</Text>
-                <View style={{ width: 24 }} /> {/* Placeholder để cân đối */}
+                <Text style={styles.title}>Lịch sử đơn hàng</Text>
+                <View style={{ width: 24 }} />
             </View>
 
             {loading ? (
@@ -82,7 +80,7 @@ const OrderHistory = ({ navigation }) => {
                     contentContainerStyle={styles.container}
                     ListEmptyComponent={
                         <Text style={{ textAlign: 'center', marginTop: 40 }}>
-                            No orders yet.
+                            Chưa có đơn hàng nào.
                         </Text>
                     }
                 />

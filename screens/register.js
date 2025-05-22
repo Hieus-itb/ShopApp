@@ -14,35 +14,34 @@ export default function Register({ navigation }) {
   return (
     <ImageBackground source={backgroundImg} style={styles.container}>
       <View style={styles.inner}>
-        <Text style={styles.title}>Create your new account</Text>
+        <Text style={styles.title}>Tạo tài khoản mới</Text>
         <Text style={styles.description}>
-          Create an account to start looking for the food you like
+          Đăng ký tài khoản để bắt đầu tìm kiếm món ăn bạn yêu thích
         </Text>
 
-        <Text>Email Address</Text>
+        <Text>Email</Text>
         <TextInput
           style={styles.input}
-          placeholder="Enter email"
+          placeholder="Nhập email"
           placeholderTextColor="#999"
           value={email}
           onChangeText={setEmail}
         />
 
-
-        <Text>User Name</Text>
+        <Text>Họ và tên</Text>
         <TextInput
           style={styles.input}
-          placeholder="Enter username"
+          placeholder="Nhập họ và tên"
           placeholderTextColor="#999"
           value={username}
           onChangeText={setUsername}
         />
 
-        <Text>Password</Text>
+        <Text>Mật khẩu</Text>
         <View style={styles.passwordInput}>
           <TextInput
             style={{ flex: 1 }}
-            placeholder="Enter password"
+            placeholder="Nhập mật khẩu"
             placeholderTextColor="#999"
             secureTextEntry={!showPassword}
             value={password}
@@ -56,15 +55,14 @@ export default function Register({ navigation }) {
               resizeMode="contain"
             />
           </TouchableOpacity>
-
         </View>
 
         <View style={styles.checkboxContainer}>
           <TouchableOpacity onPress={() => setIsChecked(!isChecked)} style={styles.checkbox}>
             <View style={[styles.box, isChecked && styles.boxChecked]} />
             <Text style={styles.termsText}>
-              I Agree with <Text style={styles.link}>Terms of Service</Text> and{" "}
-              <Text style={styles.link}>Privacy Policy</Text>
+              Tôi đồng ý với <Text style={styles.link}>Điều khoản dịch vụ</Text> và{" "}
+              <Text style={styles.link}>Chính sách bảo mật</Text>
             </Text>
           </TouchableOpacity>
         </View>
@@ -106,16 +104,13 @@ export default function Register({ navigation }) {
               }
             }
           }}
-
-
         >
-          <Text style={styles.registerText}>Register</Text>
+          <Text style={styles.registerText}>Đăng ký</Text>
         </TouchableOpacity>
-
 
         <View style={styles.dividerContainer}>
           <View style={styles.divider} />
-          <Text style={styles.orText}>Or sign in with</Text>
+          <Text style={styles.orText}>Hoặc đăng nhập bằng</Text>
           <View style={styles.divider} />
         </View>
 
@@ -132,9 +127,9 @@ export default function Register({ navigation }) {
         </View>
 
         <Text style={styles.signinText}>
-          Don’t have an account?{" "}
+          Đã có tài khoản?{" "}
           <Text style={styles.link} onPress={() => navigation.navigate("Login")}>
-            Sign In
+            Đăng nhập
           </Text>
         </Text>
       </View>

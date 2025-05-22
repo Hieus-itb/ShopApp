@@ -13,12 +13,15 @@ export default function About({ route, navigation }) {
     const handleAddToCart = async () => {
         try {
             await addToCart(product, quantity);
-            setMessage(`✅ Thêm x ${quantity} ${product.name}!`);
+            setMessage(`Đã thêm x${quantity} ${product.name} vào giỏ hàng!`);
             setShowToast(true);
-            
+            setTimeout(() => {
+                setShowToast(false);
+                navigation.navigate('HomeMain'); 
+            }, 500);
         } catch (error) {
             setShowToast(true);
-            setMessage("⚠️Có lỗi xảy ra trong quá trình thêm vào giỏ hàng!");
+            setMessage("Có lỗi xảy ra trong quá trình thêm vào giỏ hàng!");
         }
     };
 
@@ -41,20 +44,20 @@ export default function About({ route, navigation }) {
                     </View>
                 </ImageBackground>
 
-                {/* Thong tin san pham */}
+                {/* Thông tin sản phẩm */}
                 <View style={styles.infoContainer}>
                     <Text style={styles.productName}>{product.name} 🍔</Text>
-                    <Text style={styles.productPrice}>${product.price.toLocaleString()}</Text>
+                    <Text style={styles.productPrice}>{product.price.toLocaleString()}₫</Text>
 
                     <View style={styles.rowInfo}>
-                        <Text>🚚 Free Delivery</Text>
-                        <Text>⏱ 20 – 30</Text>
+                        <Text>🚚 Giao hàng miễn phí</Text>
+                        <Text>⏱ 20 – 30 phút</Text>
                         <Text>⭐ {product.rating}</Text>
                     </View>
 
-                    <Text style={styles.sectionTitle}>Description</Text>
+                    <Text style={styles.sectionTitle}>Mô tả</Text>
                     <Text style={styles.description}>
-                        {product.description || 'This is a delicious product that is highly recommended by our chef.'}
+                        {product.description || 'Đây là một món ăn ngon được đầu bếp của chúng tôi khuyên dùng.'}
                     </Text>
                 </View>
             </ScrollView>
@@ -71,10 +74,10 @@ export default function About({ route, navigation }) {
                         </TouchableOpacity>
                     </View>
 
-                    <Text style={styles.totalPrice}>Total: ${(product.price * quantity).toLocaleString()}</Text>
+                    <Text style={styles.totalPrice}>Tổng: {(product.price * quantity).toLocaleString()}₫</Text>
                 </View>
                 <TouchableOpacity style={styles.addButton} onPress={handleAddToCart}>
-                    <Text style={styles.addButtonText}>Add to Cart</Text>
+                    <Text style={styles.addButtonText}>Thêm vào giỏ hàng</Text>
                 </TouchableOpacity>
             </View>
             <Toast visible={showToast} message={toastMessage} onHide={() => setShowToast(false)} />
@@ -90,7 +93,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        marginBottom: 90, // Ensure that the button does not overlap with content
+        marginBottom: 90,
     },
     header: {
         width: '100%',
@@ -160,4 +163,4 @@ const styles = StyleSheet.create({
         color: '#FE8C00',
     },
     addButtonText: { color: '#fff', fontWeight: 'bold', fontSize: 16 },
-}); 
+});

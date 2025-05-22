@@ -6,20 +6,20 @@ const slides = [
     {
         id: '0',
         image: require('../img/burger1.jpg'),
-        title: 'We serve incomparable delicacies',
-        subtitle: 'All the best restaurants with their top menu waiting for you, they can’t wait for your order!!',
+        title: 'Chúng tôi phục vụ những món ăn tuyệt vời',
+        subtitle: 'Tất cả nhà hàng tốt nhất với thực đơn hấp dẫn đang chờ bạn, họ không thể chờ đơn đặt hàng của bạn!!',
     },
     {
         id: '1',
         image: require('../img/burger2.jpg'),
-        title: 'Discover top chefs & meals',
-        subtitle: 'Delicious dishes from the best chefs at your fingertips.',
+        title: 'Khám phá đầu bếp & món ăn hàng đầu',
+        subtitle: 'Những món ngon từ các đầu bếp xuất sắc nhất ngay trong tầm tay bạn.',
     },
     {
         id: '2',
         image: require('../img/burger1.jpg'),
-        title: 'Fast delivery guaranteed',
-        subtitle: 'Your food will arrive fresh and on time, every time.',
+        title: 'Giao hàng nhanh chóng, đảm bảo',
+        subtitle: 'Đồ ăn của bạn sẽ luôn tươi ngon và đến đúng giờ, mọi lúc.',
     },
 ];
 
@@ -46,12 +46,12 @@ const Onboarding = ({ navigation }) => {
 
                 <View style={styles.bottomRow}>
                     <TouchableOpacity onPress={handleSkip}>
-                        <Text style={styles.skip}>Skip</Text>
+                        <Text style={styles.skip}>Bỏ qua</Text>
                     </TouchableOpacity>
 
                     {currentIndex < slides.length - 1 ? (
                         <TouchableOpacity onPress={handleNext}>
-                            <Text style={styles.next}>Next →</Text>
+                            <Text style={styles.next}>Tiếp tục →</Text>
                         </TouchableOpacity>
                     ) : (
                         <TouchableOpacity style={styles.arrowBtn} onPress={() => navigation.replace('Login')}>

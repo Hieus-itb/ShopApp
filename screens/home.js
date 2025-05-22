@@ -104,7 +104,7 @@ export default function Home({ navigation }) {
                         <Ionicons name="notifications-outline" size={22} color="#fff" />
                     </View>
                 </View>
-                <Text style={styles.mainTitle}>Provide the best food for you</Text>
+                <Text style={styles.mainTitle}>Mang đến cho bạn món ăn ngon nhất</Text>
             </ImageBackground>
 
             {/* Modal chọn địa chỉ */}
@@ -184,9 +184,9 @@ export default function Home({ navigation }) {
             <View style={styles.contentArea}>
                 <View>
                     <View style={styles.categoryHeader}>
-                        <Text style={styles.title}>Find by Category</Text>
+                        <Text style={styles.title}>Tìm theo danh mục</Text>
                         <TouchableOpacity onPress={() => setShowCategoryList(true)}>
-                            <Text style={styles.seeAll}>See All</Text>
+                            <Text style={styles.seeAll}>Xem tất cả</Text>
                         </TouchableOpacity>
                     </View>
                     <CategoryList

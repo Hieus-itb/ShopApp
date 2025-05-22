@@ -45,20 +45,20 @@ export default function Settings({ navigation }) {
     
       {/* PROFILE Section */}
       <View style={styles.menuSection}>
-        <Text style={styles.sectionTitle}>PROFILE</Text>
+        <Text style={styles.sectionTitle}>THÔNG TIN</Text>
         <View style={styles.menuItem}>
           <View style={styles.menuItemRow}>
-            <Text style={styles.menuItemText}>Push Notifications</Text>
+            <Text style={styles.menuItemText}>Thông báo đẩy</Text>
             <CustomSwitch initial={isInform} onToggle={handleInform} />
           </View>
         </View>
         <View style={styles.menuItem}>
           <View style={styles.menuItemRow}>
-            <Text style={styles.menuItemText}>Location</Text>
+            <Text style={styles.menuItemText}>Vị trí</Text>
             <CustomSwitch initial={isAllowed} onToggle={handleToggle} />
           </View>
         </View>
-        <MenuList title="Language" onPress={() => setModalVisible(true)} rightText={selectedLanguage} />
+        <MenuList title="Ngôn ngữ" onPress={() => setModalVisible(true)} rightText={selectedLanguage} />
       </View>
       <LanguagePicker
         isShow={isModalVisible}
@@ -67,12 +67,10 @@ export default function Settings({ navigation }) {
       />
       {/* OTHER Section */}
       <View style={styles.menuSection}>
-        <Text style={styles.sectionTitle}>OTHER</Text>
-       
-        <MenuList title="About Tickets"  />
-        <MenuList title="Privacy Policy"/>
-        <MenuList title="Term and Conditions"/>
-        
+        <Text style={styles.sectionTitle}>KHÁC</Text>
+        <MenuList title="Giới thiệu" />
+        <MenuList title="Chính sách bảo mật"/>
+        <MenuList title="Điều khoản sử dụng"/>
       </View>
       {/* Sign Out Button */}
     </ScrollView>

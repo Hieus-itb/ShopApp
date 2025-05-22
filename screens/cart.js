@@ -157,13 +157,13 @@ const Cart = ({ navigation }) => {
         <View style={styles.container}>
             {/* Header */}
             <View style={{ alignItems: 'center', marginBottom: 10 }}>
-                <Text style={styles.headerTitle}>My Cart</Text>
+                <Text style={styles.headerTitle}>Giỏ hàng của tôi</Text>
             </View>
 
             {/* Địa chỉ giao hàng */}
             <View style={styles.locationRow}>
                 <View>
-                    <Text style={styles.locationLabel}>Delivery Location</Text>
+                    <Text style={styles.locationLabel}>Địa chỉ giao hàng</Text>
                     <TouchableOpacity onPress={() => setShowAddressList(true)}>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <Ionicons name="location-outline" size={18} color="#FF7F00" style={{ marginRight: 6 }} />
@@ -176,7 +176,7 @@ const Cart = ({ navigation }) => {
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity style={styles.changeLocationBtn} onPress={() => setShowAddressList(true)}>
-                    <Text style={styles.changeLocationText}>Change Location</Text>
+                    <Text style={styles.changeLocationText}>Đổi địa chỉ</Text>
                 </TouchableOpacity>
             </View>
 
@@ -259,11 +259,11 @@ const Cart = ({ navigation }) => {
             {/* Promo Code */}
             <View style={styles.promoRow}>
                 <TextInput
-                    placeholder="Promo Code..."
+                    placeholder="Nhập mã khuyến mãi..."
                     style={styles.promoInput}
                 />
                 <TouchableOpacity style={styles.applyBtn}>
-                    <Text style={styles.applyText}>Apply</Text>
+                    <Text style={styles.applyText}>Áp dụng</Text>
                 </TouchableOpacity>
             </View>
 
@@ -283,7 +283,7 @@ const Cart = ({ navigation }) => {
 
                         <View style={styles.itemDetails}>
                             <Text style={styles.itemName}>{item.name}</Text>
-                            <Text style={styles.itemPrice}>${item.price.toLocaleString()}</Text>
+                            <Text style={styles.itemPrice}>{item.price.toLocaleString()}₫</Text>
 
                             <View style={styles.quantityRow}>
                                 <TouchableOpacity onPress={() => handleQuantityChange(item.id, -1)}>
@@ -307,8 +307,8 @@ const Cart = ({ navigation }) => {
                 ListEmptyComponent={() => (
                     <CenteredItemView
                         ImageSrc={require("../img/not-found-img.png")}
-                        mainTitle="Ouch! Hungry"
-                        mainSubtitle="Seems like  you have not ordered any food yet."
+                        mainTitle="Ôi! Giỏ hàng trống"
+                        mainSubtitle="Bạn chưa thêm sản phẩm nào vào giỏ hàng."
                     />
                 )}
                 style={{ marginTop: 10 }}
@@ -316,22 +316,22 @@ const Cart = ({ navigation }) => {
 
             {/* Summary */}
             <View style={styles.summaryContainer}>
-                <Text style={styles.summaryTitle}>Payment Summary</Text>
+                <Text style={styles.summaryTitle}>Tóm tắt thanh toán</Text>
                 <View style={styles.summaryRow}>
-                    <Text>Total Items ({totalItems})</Text>
-                    <Text>${totalPrice.toLocaleString()}</Text>
+                    <Text>Tổng số lượng ({totalItems})</Text>
+                    <Text>{totalPrice.toLocaleString()}₫</Text>
                 </View>
                 <View style={styles.summaryRow}>
-                    <Text>Delivery Fee</Text>
-                    <Text style={{ color: 'green' }}>Free</Text>
+                    <Text>Phí giao hàng</Text>
+                    <Text style={{ color: 'green' }}>Miễn phí</Text>
                 </View>
                 <View style={styles.summaryRow}>
-                    <Text>Discount</Text>
-                    <Text style={{ color: 'red' }}>-${discount.toLocaleString()}</Text>
+                    <Text>Giảm giá</Text>
+                    <Text style={{ color: 'red' }}>-{discount.toLocaleString()}₫</Text>
                 </View>
                 <View style={styles.summaryRow}>
-                    <Text style={styles.totalLabel}>Total</Text>
-                    <Text style={styles.totalPrice}>${finalPrice.toLocaleString()}</Text>
+                    <Text style={styles.totalLabel}>Tổng cộng</Text>
+                    <Text style={styles.totalPrice}>{finalPrice.toLocaleString()}₫</Text>
                 </View>
             </View>
 
@@ -344,7 +344,7 @@ const Cart = ({ navigation }) => {
                 onPress={handleOrder}
                 disabled={isOrderButtonDisabled}
             >
-                <Text style={styles.orderButtonText}>Order Now</Text>
+                <Text style={styles.orderButtonText}>Đặt hàng</Text>
             </TouchableOpacity>
         </View>
     );

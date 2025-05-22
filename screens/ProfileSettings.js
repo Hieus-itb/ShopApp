@@ -3,6 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView ,Alert} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MenuList from '../components/MenuListComponent';
+import { getOrdersByUserId } from "../API/api";
 export default function ProfileSettings({ navigation }) {
   const [user, setUser] = useState({
     avatar: "",
@@ -22,12 +23,16 @@ export default function ProfileSettings({ navigation }) {
           setUser(JSON.parse(userData));
         }
         // Lấy số lượng đơn hàng
-        const orderData = await AsyncStorage.getItem('orderHistory');
-        if (orderData) {
-          setOrderCount(JSON.parse(orderData).length);
-        } else {
-          setOrderCount(0);
+        try{
+          const orderData = await getOrdersByUserId(JSON.parse(userData).id);
+          if (orderData) {
+            setOrderCount(orderData.length);
+          } else {
+            setOrderCount(0);
+          }
+        }catch (error) {
         }
+        
       }
       loadUser();
     });
@@ -48,7 +53,7 @@ export default function ProfileSettings({ navigation }) {
       {/* Activity */}
       <View style={styles.activityContainer}>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Text style={styles.sectionTitle}>My Orders</Text>
+          <Text style={styles.sectionTitle}>Đơn hàng của tôi</Text>
           <View style={{
             backgroundColor: '#FE8C00',
             borderRadius: 12,
@@ -65,49 +70,48 @@ export default function ProfileSettings({ navigation }) {
           style={styles.orderHistoryBtn}
           onPress={() => navigation.navigate('OrderHistory')}
         >
-          <Text style={styles.orderHistoryText}>View Order History</Text>
+          <Text style={styles.orderHistoryText}>Xem lịch sử đơn hàng</Text>
         </TouchableOpacity>
       </View>
 
       {/* Menu Section */}
       <View style={styles.menuSection}>
-        <Text style={styles.sectionTitle}>Profile</Text>
+        <Text style={styles.sectionTitle}>Cá nhân</Text>
         {/* Menu List */}
         <MenuList
-          title="Personal Data"
+          title="Thông tin cá nhân"
           onPress={() => navigation.navigate('PersonalData')}
           icon="person"
         />
         <MenuList 
-          title="Settings"
+          title="Cài đặt"
           icon="settings"
           onPress={() => navigation.navigate('Settings')}
         />
-        <MenuList title="Extra Card" icon="card" onPress={() => alert("Coming soon")}/>
-        <MenuList title="Delivery Address" icon="location" onPress={() => navigation.navigate('Address Settings')} />
+        <MenuList title="Thẻ phụ" icon="card" onPress={() => alert("Tính năng sắp ra mắt")} />
+        <MenuList title="Địa chỉ giao hàng" icon="location" onPress={() => navigation.navigate('Address Settings')} />
       </View>
 
       {/* Support Section */}
       <View style={styles.menuSection}>
-        <Text style={styles.sectionTitle}>Support</Text>
+        <Text style={styles.sectionTitle}>Hỗ trợ</Text>
         {/* Menu List */}
-        <MenuList title="Help Center" icon="help-circle" />
-        <MenuList title="Request Account Deletion" icon="trash" />
-        
+        <MenuList title="Trung tâm trợ giúp" icon="help-circle" />
+        <MenuList title="Yêu cầu xóa tài khoản" icon="trash" />
       </View>
 
       {/* Sign Out Button */}
       <TouchableOpacity style={styles.signOutButton} onPress={async () => {
         Alert.alert(
-          "Đăng Xuất",
-          "Bạn chắc chắn rằng đăng xuất?",
+          "Đăng xuất",
+          "Bạn có chắc chắn muốn đăng xuất?",
           [
             {
-              text: "Cancel",
+              text: "Hủy",
               style: "cancel"
             },
             {
-              text: "OK", onPress: async () => {
+              text: "Đồng ý", onPress: async () => {
                 await AsyncStorage.removeItem('user');
                 navigation.replace('Login');
               }
@@ -116,7 +120,7 @@ export default function ProfileSettings({ navigation }) {
           { cancelable: false }
         );
       }}>
-        <Text style={styles.signOutButtonText}>Sign Out</Text>
+        <Text style={styles.signOutButtonText}>Đăng xuất</Text>
       </TouchableOpacity>
     </ScrollView>
   );

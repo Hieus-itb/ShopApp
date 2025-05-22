@@ -40,7 +40,7 @@ export default function DeliverySetting({ navigation }) {
 
     const handleAddAddress = async () => {
         if (!newAddress.street || !newAddress.city || !newAddress.state || !newAddress.zipCode) {
-            alert("Vui lòng nhập đầy đủ thông tin địa chỉ (Street, City, State, Zip Code)");
+            alert("Vui lòng nhập đầy đủ thông tin địa chỉ (Đường, Thành phố, Tỉnh/Quận, Mã bưu điện)");
             return;
         }
 
@@ -66,7 +66,6 @@ export default function DeliverySetting({ navigation }) {
              return;
         }
         try {
-      
             await deleteAddress(user.id, addressId);
             setAddresses(prev => prev.filter(address => address.id !== addressId));
             alert("Địa chỉ đã được xóa thành công!");
@@ -99,16 +98,16 @@ export default function DeliverySetting({ navigation }) {
         <View style={styles.container}>
             <Text style={styles.title}>Danh sách địa chỉ</Text>
             <FlatList
-                data={addresses} // Use addresses state
-                keyExtractor={(item) => item.id.toString()} // Use address ID as key
-                renderItem={({ item }) => ( // Destructure item directly
+                data={addresses} 
+                keyExtractor={(item) => item.id.toString()} 
+                renderItem={({ item }) => ( 
                     <View style={styles.addressItem}>
                         <View style={{ flex: 1 }}>
-                            <Text>{item.street}, {item.city}, {item.state}, {item.zipCode}</Text> {/* Display API fields */}
+                            <Text>{item.street}, {item.city}, {item.state}, {item.zipCode}</Text>
                         </View>
                         <TouchableOpacity
                             style={styles.deleteButton}
-                            onPress={() => handleDeleteAddress(item.id)} // Pass address ID to delete handler
+                            onPress={() => handleDeleteAddress(item.id)} 
                         >
                             <Text style={{ color: "#fff" }}>Xóa</Text>
                         </TouchableOpacity>
@@ -122,36 +121,31 @@ export default function DeliverySetting({ navigation }) {
                 style={styles.input}
                 value={newAddress.street}
                 onChangeText={text => setNewAddress({ ...newAddress, street: text })}
-                placeholder="Street"
+                placeholder="Đường"
             />
             <TextInput
                 style={styles.input}
                 value={newAddress.city}
                 onChangeText={text => setNewAddress({ ...newAddress, city: text })}
-                placeholder="City"
+                placeholder="Thành phố"
             />
             <TextInput
                 style={styles.input}
                 value={newAddress.state}
                 onChangeText={text => setNewAddress({ ...newAddress, state: text })}
-                placeholder="State"
+                placeholder="Tỉnh/Quận"
             />
             <TextInput
                 style={styles.input}
                 value={newAddress.zipCode}
                 onChangeText={text => setNewAddress({ ...newAddress, zipCode: text })}
-                placeholder="Zip Code"
+                placeholder="Mã bưu điện"
             />
             <TouchableOpacity style={styles.addButton} onPress={handleAddAddress}>
                 <Text style={styles.saveText}>Thêm địa chỉ</Text>
             </TouchableOpacity>
-
-           
-            {/* <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-                 <Text style={styles.saveText}>Lưu tất cả</Text>
-             </TouchableOpacity> */}
-         </View>
-     );
+        </View>
+    );
  }
 
  const styles = StyleSheet.create({

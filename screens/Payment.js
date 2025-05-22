@@ -275,23 +275,23 @@ const Payment = ({ route, navigation }) => {
                         <View style={styles.summarySection}>
                             <View style={styles.summaryRow}>
                                 <Text style={styles.summaryLabel}>Tạm tính</Text>
-                                <Text style={styles.summaryValue}>${totalPrice.toLocaleString()}</Text>
+                                <Text style={styles.summaryValue}>{totalPrice.toLocaleString()}₫</Text>
                             </View>
                             <View style={styles.summaryRow}>
                                 <Text style={styles.summaryLabel}>Phí vận chuyển</Text>
-                                <Text style={styles.summaryValue}>${Drive.toLocaleString()}</Text>
+                                <Text style={styles.summaryValue}>{Drive.toLocaleString()}₫</Text>
                             </View>
                             <View style={styles.summaryRow}>
                                 <Text style={styles.summaryLabel}>Thuế</Text>
-                                <Text style={styles.summaryValue}>${Tax.toLocaleString()}</Text>
+                                <Text style={styles.summaryValue}>{Tax.toLocaleString()}₫</Text>
                             </View>
                             <View style={styles.summaryRow}>
                                 <Text style={styles.summaryTotal}>Tổng cộng</Text>
-                                <Text style={styles.summaryTotalValue}>${(totalPrice + Drive + Tax).toLocaleString()}</Text>
+                                <Text style={styles.summaryTotalValue}>{(totalPrice + Drive + Tax).toLocaleString()}₫</Text>
                             </View>
                         </View>
 
-                        {/* Payment Method */}
+                        {/* Phương thức thanh toán */}
                         <Text style={styles.paymentTitle}>Phương thức thanh toán</Text>
                         <View style={styles.paymentMethods}>
                             {paymentMethods.map(method => (
@@ -320,7 +320,7 @@ const Payment = ({ route, navigation }) => {
                         <View style={styles.bottomBar}>
                             <View>
                                 <Text style={styles.bottomLabel}>Tổng cộng</Text>
-                                <Text style={styles.bottomTotal}>${(totalPrice + Drive + Tax).toLocaleString()}</Text>
+                                <Text style={styles.bottomTotal}>{(totalPrice + Drive + Tax).toLocaleString()}₫</Text>
                             </View>
                             <TouchableOpacity style={styles.orderBtn} onPress={handleCheckout}>
                                 <Text style={styles.orderBtnText}>Đặt hàng</Text>

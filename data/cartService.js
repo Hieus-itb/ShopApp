@@ -7,7 +7,7 @@ export async function addToCart(product, quantity = 1) {
     try {
         // Lay thong tin user dang dang nhap
         const userData = await AsyncStorage.getItem('user');
-        if (!userData) throw new Error("Chua dang nhap");
+        if (!userData) throw new Error("Chưa đăng nhập");
 
         const user = JSON.parse(userData);
         const email = user.email;
@@ -32,7 +32,7 @@ export async function addToCart(product, quantity = 1) {
         } else {
             carts[email].push({
                 ...product,
-                imageKey: product.image, // Lưu tên ảnh, không phải object require
+                imageKey: product.image, 
                 quantity
             });
         }
@@ -40,7 +40,8 @@ export async function addToCart(product, quantity = 1) {
         await FileSystem.writeAsStringAsync(cartFileUri, JSON.stringify(carts));
         return true;
     } catch (error) {
-        console.error("Loi khi them vao gio hang:", error);
+        // Xu ly loi
+        console.error("Lỗi khi thêm giỏ hàng:", error);
         throw error;
     }
 }

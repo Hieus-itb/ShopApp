@@ -90,14 +90,14 @@ export default function PersonalDataScreen({navigation }) {
                 style={styles.input}
                 value={user.username}
                 onChangeText={(text) => handleChange("username", text)}
-                placeholder="Full Name"
+                placeholder="Họ và tên"
             />
 
             <TextInput
                 style={styles.input}
                 value={user.date}
                 onChangeText={(text) => handleChange("date", text)}
-                placeholder="Date of Birth"
+                placeholder="Ngày sinh"
             />
 
             <View style={styles.pickerWrapper}>
@@ -105,10 +105,10 @@ export default function PersonalDataScreen({navigation }) {
                     selectedValue={user.gender}
                     onValueChange={(value) => handleChange("gender", value)}
                 >
-                    <Picker.Item label="Select Gender" value="" />
-                    <Picker.Item label="Male" value="Male" />
-                    <Picker.Item label="Female" value="Female" />
-                    <Picker.Item label="Other" value="Other" />
+                    <Picker.Item label="Chọn giới tính" value="" />
+                    <Picker.Item label="Nam" value="Male" />
+                    <Picker.Item label="Nữ" value="Female" />
+                    <Picker.Item label="Khác" value="Other" />
                 </Picker>
             </View>
 
@@ -116,7 +116,7 @@ export default function PersonalDataScreen({navigation }) {
                 style={styles.input}
                 value={user.phone}
                 onChangeText={(text) => handleChange("phone", text)}
-                placeholder="Phone"
+                placeholder="Số điện thoại"
                 keyboardType="phone-pad"
             />
 
@@ -130,7 +130,7 @@ export default function PersonalDataScreen({navigation }) {
             />
 
             <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-                <Text style={styles.saveText}>Save</Text>
+                <Text style={styles.saveText}>Lưu thông tin</Text>
             </TouchableOpacity>
         </View>
     );

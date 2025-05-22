@@ -81,7 +81,7 @@ export default function Search({ navigation }) {
 
   const ListFooter = () => (
     <View style={styles.section}>
-      <Text style={styles.sectionTitle}>Newest Product </Text>
+      <Text style={styles.sectionTitle}>Sản phẩm mới nhất</Text>
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
         <View style={{ flexDirection: 'row' , gap: 10}}>
           {recentProducts.map((product) => (
@@ -102,8 +102,10 @@ export default function Search({ navigation }) {
           source={require("../img/not-found-img.png")}
           style={styles.mainImage}
         />
-        <Text style={styles.mainTitle}>We couldn't find any result!</Text>
-        <Text style={styles.mainSubtitle}>Please check your search for any typos or spelling errors, or try a different search term.</Text>
+        <Text style={styles.mainTitle}>Không tìm thấy kết quả nào!</Text>
+        <Text style={styles.mainSubtitle}>
+          Vui lòng kiểm tra lại từ khóa tìm kiếm hoặc thử một từ khóa khác.
+        </Text>
       </View>
     );
   };
@@ -125,8 +127,8 @@ export default function Search({ navigation }) {
       ListEmptyComponent={() => (
         <CenteredItemView
           ImageSrc={require("../img/not-found-img.png")}
-          mainTitle="We couldn't find any result!"
-          mainSubtitle="Please check your search for any typos or spelling errors, or try a different search term."
+          mainTitle="Không tìm thấy kết quả nào!"
+          mainSubtitle="Vui lòng kiểm tra lại từ khóa tìm kiếm hoặc thử một từ khóa khác."
         />
       )}
     />
