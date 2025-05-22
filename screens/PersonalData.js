@@ -68,7 +68,7 @@ export default function PersonalDataScreen({navigation }) {
             alert("Thông tin đã được lưu");
             navigation.goBack();
         } catch (error) {
-            console.error("Lỗi khi lưu dữ liệu:", error);
+            // console.error("Lỗi khi lưu dữ liệu:", error);
             alert("Đã có lỗi xảy ra khi lưu thông tin");
         }
     };

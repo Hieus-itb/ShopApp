@@ -23,7 +23,7 @@ const OrderHistory = ({ navigation }) => {
             const ordersFromApi = await getOrdersByUserId(id);
             setOrders(ordersFromApi);
         } catch (error) {
-            console.error('Lỗi tải đơn hàng:', error.message);
+           
         } finally {
             setLoading(false);
         }
@@ -49,9 +49,13 @@ const OrderHistory = ({ navigation }) => {
             <Text style={styles.total}>Tổng cộng: ₫{item.totalPrice.toLocaleString()}</Text>
             <Text>Thuế: ₫{item.tax.toLocaleString()}</Text>
             <Text>Sản phẩm: {itemList}</Text>
+            <Text>
+                Địa chỉ giao hàng: {item.address.street}, {item.address.city}, {item.address.state}, {item.address .zipCode}
+            </Text>
             <Text style={item.isPaid ? styles.paid : styles.unpaid}>
                 {item.isPaid ? 'Đã thanh toán' : 'Chưa thanh toán'}
             </Text>
+            
         </View>
     );
 };

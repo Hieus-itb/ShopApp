@@ -1,82 +1,114 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, ActivityIndicator } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { saveUser } from "../data/userService";
+import { addAddress, getAddressesByUserId, deleteAddress } from "../API/api";
 
 export default function DeliverySetting({ navigation }) {
-    const [user, setUser] = useState({
-        avatar: "",
-        username: "",
-        date: "",
-        gender: "",
-        phone: "",
-        email: "",
-        address: [], 
-    });
-
+    const [user, setUser] = useState(null); 
+    const [addresses, setAddresses] = useState([]); 
     const [newAddress, setNewAddress] = useState({
-        address: "",
+        street: "",
         city: "",
-        house: "",
+        state: "", 
+        zipCode: "", 
     });
+    const [loading, setLoading] = useState(true); 
 
     useEffect(() => {
-        async function loadUser() {
-            const userData = await AsyncStorage.getItem('user');
-            if (userData) {
-                const parsed = JSON.parse(userData);
-                // Đảm bảo address là mảng
-                setUser({ ...parsed, address: Array.isArray(parsed.address) ? parsed.address : [] });
+        async function loadUserAndAddresses() {
+            try {
+                const userData = await AsyncStorage.getItem('user');
+                if (userData) {
+                    const parsedUser = JSON.parse(userData);
+                    setUser(parsedUser);
+                  
+                    const userAddresses = await getAddressesByUserId(parsedUser.id);
+                    setAddresses(userAddresses);
+                } else {
+                    alert("Vui lòng đăng nhập để quản lý địa chỉ.");
+                    navigation.navigate('Login'); 
+                }
+            } catch (error) {
+                console.error("Lỗi khi tải dữ liệu người dùng hoặc địa chỉ:", error);
+                alert("Đã có lỗi xảy ra khi tải dữ liệu.");
+            } finally {
+                setLoading(false);
             }
         }
-        loadUser();
-    }, []);
+        loadUserAndAddresses();
+    }, []); 
 
-    const handleAddAddress = () => {
-        if (!newAddress.address || !newAddress.city || !newAddress.house) {
-            alert("Vui lòng nhập đầy đủ thông tin địa chỉ");
+    const handleAddAddress = async () => {
+        if (!newAddress.street || !newAddress.city || !newAddress.state || !newAddress.zipCode) {
+            alert("Vui lòng nhập đầy đủ thông tin địa chỉ (Street, City, State, Zip Code)");
             return;
         }
-        setUser(prev => ({
-            ...prev,
-            address: [...prev.address, newAddress]
-        }));
-        setNewAddress({ address: "", city: "", house: "" });
-    };
 
-    const handleDeleteAddress = (index) => {
-        setUser(prev => ({
-            ...prev,
-            address: prev.address.filter((_, i) => i !== index)
-        }));
-    };
+        if (!user || !user.id) {
+             alert("Không tìm thấy thông tin người dùng.");
+             return;
+        }
 
-    const handleSave = async () => {
         try {
-            await saveUser(user);
-            await AsyncStorage.setItem('user', JSON.stringify(user));
-            alert("Thông tin đã được lưu");
-            navigation.goBack();
+            const addedAddress = await addAddress(user.id, newAddress);
+            setAddresses(prev => [...prev, addedAddress]); 
+            setNewAddress({ street: "", city: "", state: "", zipCode: "" }); 
+            alert("Địa chỉ đã được thêm thành công!");
         } catch (error) {
-            console.error("Lỗi khi lưu dữ liệu:", error);
-            alert("Đã có lỗi xảy ra khi lưu thông tin");
+            console.error("Lỗi khi thêm địa chỉ:", error);
+            alert("Đã có lỗi xảy ra khi thêm địa chỉ.");
         }
     };
+
+    const handleDeleteAddress = async (addressId) => {
+        if (!user || !user.id) {
+             alert("Không tìm thấy thông tin người dùng.");
+             return;
+        }
+        try {
+      
+            await deleteAddress(user.id, addressId);
+            setAddresses(prev => prev.filter(address => address.id !== addressId));
+            alert("Địa chỉ đã được xóa thành công!");
+        } catch (error) {
+            console.error("Lỗi khi xóa địa chỉ:", error);
+            alert("Đã có lỗi xảy ra khi xóa địa chỉ.");
+        }
+    };
+
+    
+    if (loading) {
+        return (
+            <View style={styles.container}>
+                <ActivityIndicator size="large" color="#0000ff" />
+                <Text>Đang tải...</Text>
+            </View>
+        );
+    }
+
+    if (!user) {
+         return (
+            <View style={styles.container}>
+                <Text>Không tìm thấy thông tin người dùng.</Text>
+            </View>
+        );
+    }
+
 
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Danh sách địa chỉ</Text>
             <FlatList
-                data={user.address}
-                keyExtractor={(_, idx) => idx.toString()}
-                renderItem={({ item, index }) => (
+                data={addresses} // Use addresses state
+                keyExtractor={(item) => item.id.toString()} // Use address ID as key
+                renderItem={({ item }) => ( // Destructure item directly
                     <View style={styles.addressItem}>
                         <View style={{ flex: 1 }}>
-                            <Text>{item.address}, {item.house}, {item.city}</Text>
+                            <Text>{item.street}, {item.city}, {item.state}, {item.zipCode}</Text> {/* Display API fields */}
                         </View>
                         <TouchableOpacity
                             style={styles.deleteButton}
-                            onPress={() => handleDeleteAddress(index)}
+                            onPress={() => handleDeleteAddress(item.id)} // Pass address ID to delete handler
                         >
                             <Text style={{ color: "#fff" }}>Xóa</Text>
                         </TouchableOpacity>
@@ -88,9 +120,9 @@ export default function DeliverySetting({ navigation }) {
             <Text style={styles.title}>Thêm địa chỉ mới</Text>
             <TextInput
                 style={styles.input}
-                value={newAddress.address}
-                onChangeText={text => setNewAddress({ ...newAddress, address: text })}
-                placeholder="Address"
+                value={newAddress.street}
+                onChangeText={text => setNewAddress({ ...newAddress, street: text })}
+                placeholder="Street"
             />
             <TextInput
                 style={styles.input}
@@ -100,68 +132,75 @@ export default function DeliverySetting({ navigation }) {
             />
             <TextInput
                 style={styles.input}
-                value={newAddress.house}
-                onChangeText={text => setNewAddress({ ...newAddress, house: text })}
-                placeholder="House"
+                value={newAddress.state}
+                onChangeText={text => setNewAddress({ ...newAddress, state: text })}
+                placeholder="State"
+            />
+            <TextInput
+                style={styles.input}
+                value={newAddress.zipCode}
+                onChangeText={text => setNewAddress({ ...newAddress, zipCode: text })}
+                placeholder="Zip Code"
             />
             <TouchableOpacity style={styles.addButton} onPress={handleAddAddress}>
                 <Text style={styles.saveText}>Thêm địa chỉ</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-                <Text style={styles.saveText}>Lưu tất cả</Text>
-            </TouchableOpacity>
-        </View>
-    );
-}
+           
+            {/* <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+                 <Text style={styles.saveText}>Lưu tất cả</Text>
+             </TouchableOpacity> */}
+         </View>
+     );
+ }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 20,
-        backgroundColor: "#fff"
-    },
-    title: {
-        fontSize: 18,
-        fontWeight: "bold",
-        marginVertical: 10
-    },
-    input: {
-        borderWidth: 1,
-        borderColor: "#ddd",
-        borderRadius: 10,
-        padding: 12,
-        marginVertical: 8
-    },
-    addressItem: {
-        flexDirection: "row",
-        alignItems: "center",
-        backgroundColor: "#f5f5f5",
-        padding: 10,
-        borderRadius: 8,
-        marginVertical: 5
-    },
-    deleteButton: {
-        backgroundColor: "#FF3333",
-        padding: 8,
-        borderRadius: 8,
-        marginLeft: 10
-    },
-    addButton: {
-        backgroundColor: "#0099FF",
-        padding: 15,
-        borderRadius: 10,
-        marginTop: 10
-    },
-    saveButton: {
-        backgroundColor: "#FF9900",
-        padding: 15,
-        borderRadius: 10,
-        marginTop: 20
-    },
-    saveText: {
-        color: "#fff",
-        textAlign: "center",
-        fontWeight: "bold"
-    }
-});
+ const styles = StyleSheet.create({
+     container: {
+         flex: 1,
+         padding: 20,
+         backgroundColor: "#fff"
+     },
+     title: {
+         fontSize: 18,
+         fontWeight: "bold",
+         marginVertical: 10
+     },
+     input: {
+         borderWidth: 1,
+         borderColor: "#ddd",
+         borderRadius: 10,
+         padding: 12,
+         marginVertical: 8
+     },
+     addressItem: {
+         flexDirection: "row",
+         alignItems: "center",
+         backgroundColor: "#f5f5f5",
+         padding: 10,
+         borderRadius: 8,
+         marginVertical: 5
+     },
+     deleteButton: {
+         backgroundColor: "#FF3333",
+         padding: 8,
+         borderRadius: 8,
+         marginLeft: 10
+     },
+     addButton: {
+         backgroundColor: "#0099FF",
+         padding: 15,
+         borderRadius: 10,
+         marginTop: 10
+     },
+     saveButton: {
+         backgroundColor: "#FF9900",
+         padding: 15,
+         borderRadius: 10,
+         marginTop: 20
+     },
+     saveText: {
+         color: "#fff",
+         textAlign: "center",
+         fontWeight: "bold"
+     }
+ });

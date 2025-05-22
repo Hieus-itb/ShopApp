@@ -7,6 +7,7 @@ import * as FileSystem from 'expo-file-system';
 import CenteredItemView from '../components/CenteredItemView';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { imageMap } from '../data/imageMap';
+import { getAddressesByUserId } from '../API/api'; 
 const Cart = ({ navigation }) => {
     const cartFileUri = FileSystem.documentDirectory + "cart.json";
     const [cartItems, setCartItems] = useState([]);
@@ -61,21 +62,41 @@ const Cart = ({ navigation }) => {
         }, [])
     );
 
-    // Lấy địa chỉ từ AsyncStorage
+   
+    // Lấy địa chỉ từ API
+    const handleSelectAddress = async (address) => {
+    setSelectedAddress(address);
+    try {
+        await AsyncStorage.setItem('selectedAddress', JSON.stringify(address));
+    } catch (err) {
+        console.error("Lỗi lưu địa chỉ đã chọn:", err.message);
+    }
+    };
     useFocusEffect(
-        React.useCallback(() => {
-            const fetchAddresses = async () => {
+    React.useCallback(() => {
+        const fetchAddresses = async () => {
+            try {
                 const data = await AsyncStorage.getItem('user');
                 if (data) {
                     const user = JSON.parse(data);
-                    const arr = Array.isArray(user.address) ? user.address : [];
-                    setAddresses(arr);
-                    setSelectedAddress(arr[0] || null);
+                    const addressList = await getAddressesByUserId(user.id);
+                    setAddresses(addressList);
+
+                    const selected = await AsyncStorage.getItem('selectedAddress');
+                    if (selected) {
+                        setSelectedAddress(JSON.parse(selected));
+                    } else {
+                        setSelectedAddress(addressList[0] || null);
+                    }
                 }
-            };
-            fetchAddresses();
-        }, [])
-    );
+            } catch (error) {
+                console.error("Lỗi khi lấy địa chỉ người dùng:", error.message);
+            }
+        };
+        fetchAddresses();
+    }, [])
+);
+
 
     const handleQuantityChange = (id, delta) => {
         setCartItems(prev => {
@@ -148,7 +169,7 @@ const Cart = ({ navigation }) => {
                             <Ionicons name="location-outline" size={18} color="#FF7F00" style={{ marginRight: 6 }} />
                             <Text style={styles.locationText}>
                                 {selectedAddress
-                                    ? `${selectedAddress.house}, ${selectedAddress.address}, ${selectedAddress.city}`
+                                    ? `${selectedAddress.state}, ${selectedAddress.street}, ${selectedAddress.city}`
                                     : "Chọn địa chỉ"} 
                             </Text>
                         </View>
@@ -197,8 +218,9 @@ const Cart = ({ navigation }) => {
                                             borderBottomColor: '#eee',
                                             backgroundColor: selectedAddress === item ? '#FFF7F0' : '#fff'
                                         }}
-                                        onPress={() => {
+                                        onPress={async () => {
                                             setSelectedAddress(item);
+                                            await AsyncStorage.setItem('selectedAddress', JSON.stringify(item));
                                             setShowAddressList(false);
                                         }}
                                     >
@@ -223,7 +245,7 @@ const Cart = ({ navigation }) => {
                                             )}
                                         </View>
                                         <Text style={{ color: '#222', fontWeight: selectedAddress === item ? 'bold' : 'normal' }}>
-                                            {item.house}, {item.address}, {item.city}
+                                            {item.state}, {item.street}, {item.city}
                                         </Text>
                                     </TouchableOpacity>
                                 )}

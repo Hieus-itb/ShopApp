@@ -13,7 +13,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { imageMap } from '../data/imageMap';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as FileSystem from 'expo-file-system';
-import { checkoutOrder } from '../API/api'; // Import the checkoutOrder API function
+import { checkoutOrder , getAddressesByUserId } from '../API/api'; // Import the checkoutOrder API function
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const paymentMethods = [
@@ -54,7 +54,7 @@ const Payment = ({ route, navigation }) => {
             let arr = [];
             if (data) {
                 const user = JSON.parse(data);
-                arr = Array.isArray(user.address) ? user.address : [];
+                arr = await getAddressesByUserId(user.id);
                 setAddresses(arr);
                 setUserInfo({
                     id: user.id,
@@ -73,24 +73,7 @@ const Payment = ({ route, navigation }) => {
         fetchUser();
     }, []);
 
-    // Remove saveOrderHistory as we will use the API
-    // const saveOrderHistory = async () => {
-    //     const order = {
-    //         cartItems,
-    //         totalItems,
-    //         totalPrice,
-    //         discount,
-    //         finalPrice: totalPrice + Drive + Tax,
-    //         date: new Date().toLocaleString(),
-    //         userInfo: { ...userInfo, ...(selectedAddress || {}) },
-    //         paymentMethod: selectedMethod,
-    //     };
-    //     const data = await AsyncStorage.getItem('orderHistory');
-    //     let orders = [];
-    //     if (data) orders = JSON.parse(data);
-    //     orders.push(order);
-    //     await AsyncStorage.setItem('orderHistory', JSON.stringify(orders));
-    // };
+
 
     const handleCheckout = async () => {
         if (!selectedAddress) {
@@ -108,10 +91,11 @@ const Payment = ({ route, navigation }) => {
             Status: "Đang xử lý",
             OrderDate: new Date().toLocaleString(),
             orderItems: cartItems.map(item => ({
-                productId: item.id, // Assuming item has an id
-                quantity: item.quantity, // Assuming item has a quantity
-                price: item.price, // Assuming item has a price
+                productId: item.id,
+                quantity: item.quantity, 
+                price: item.price, 
             })),
+            AddressId: selectedAddress.id, 
         };
 
         try {
@@ -222,7 +206,7 @@ const Payment = ({ route, navigation }) => {
                                 <Ionicons name="location-outline" size={18} color="#FE8C00" style={{ marginRight: 6 }} />
                                 <Text style={styles.selectedAddressText}>
                                     {selectedAddress
-                                        ? `${selectedAddress.house}, ${selectedAddress.address}, ${selectedAddress.city}`
+                                        ? `${selectedAddress.state}, ${selectedAddress.street}, ${selectedAddress.city}`
                                         : "Chọn địa chỉ"}
                                 </Text>
                             </View>
@@ -270,7 +254,7 @@ const Payment = ({ route, navigation }) => {
                                             )}
                                         </View>
                                         <Text style={{ color: '#222', fontWeight: selectedAddress === addr ? 'bold' : 'normal' }}>
-                                            {addr.house}, {addr.address}, {addr.city}
+                                            {addr.state}, {addr.street}, {addr.city}
                                         </Text>
                                     </TouchableOpacity>
                                 ))}

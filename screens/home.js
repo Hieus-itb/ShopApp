@@ -6,7 +6,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
 import CategoryList from '../components/CategoryList';
 import ProductList from '../components/ProductList';
-import { getCategories, getProductsByCategory } from '../API/api';
+import { getCategories, getProductsByCategory, getAddressesByUserId} from '../API/api';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -43,16 +43,26 @@ export default function Home({ navigation }) {
     setShowCategoryList(false);
 };
 
-    // Lấy địa chỉ từ AsyncStorage
+    // Lấy địa chỉ từ AsyncStorage va api
     useFocusEffect(
         React.useCallback(() => {
             const fetchAddresses = async () => {
-                const data = await AsyncStorage.getItem('user');
-                if (data) {
-                    const user = JSON.parse(data);
-                    const arr = Array.isArray(user.address) ? user.address : [];
-                    setAddresses(arr);
-                    setSelectedAddress(arr[0] || null);
+                try {
+                    const data = await AsyncStorage.getItem('user');
+                    if (data) {
+                        const user = JSON.parse(data);
+                        const addressList = await getAddressesByUserId(user.id);
+                        setAddresses(addressList);
+
+                        const selected = await AsyncStorage.getItem('selectedAddress');
+                        if (selected) {
+                            setSelectedAddress(JSON.parse(selected));
+                        } else {
+                            setSelectedAddress(addressList[0] || null);
+                        }
+                    }
+                } catch (error) {
+                    console.error("Lỗi khi lấy địa chỉ người dùng:", error.message);
                 }
             };
             fetchAddresses();
@@ -81,7 +91,7 @@ export default function Home({ navigation }) {
                                 <Ionicons name="location-outline" size={18} color="#fff" />
                                 <Text style={styles.cityText}>
                                     {selectedAddress
-                                        ? `${selectedAddress.house}, ${selectedAddress.address}, ${selectedAddress.city}`
+                                        ? `${selectedAddress.street}, ${selectedAddress.state}, ${selectedAddress.city}`
                                         : "Chọn địa chỉ"}
                                 </Text>
                             </View>
@@ -121,7 +131,11 @@ export default function Home({ navigation }) {
                                         borderBottomColor: '#eee',
                                         backgroundColor: selectedAddress === item ? '#FFF7F0' : '#fff'
                                     }}
-                                    onPress={() => handleSelectAddress(item)}
+                                    onPress={async () => {
+                                            setSelectedAddress(item);
+                                            await AsyncStorage.setItem('selectedAddress', JSON.stringify(item));
+                                            setShowAddressList(false);
+                                        }}
                                 >
                                     {/* Nút tròn radio */}
                                     <View style={{
@@ -144,7 +158,7 @@ export default function Home({ navigation }) {
                                         )}
                                     </View>
                                     <Text style={{ color: '#222', fontWeight: selectedAddress === item ? 'bold' : 'normal' }}>
-                                        {item.house}, {item.address}, {item.city}
+                                        {item.street}, {item.state}, {item.city}
                                     </Text>
                                 </TouchableOpacity>
                             )}

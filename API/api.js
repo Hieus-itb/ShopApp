@@ -8,12 +8,10 @@ export async function registerUser(user) {
     email: user.email,
     username: user.username,
     password: user.password,
-    address: "",
+    addresses: [],
     avatar: "",
-    city: "",
     date: new Date().toISOString(), // hoặc null nếu backend chấp nhận
     gender: "",
-    house: "",
     phone: "",
     };
   try {
@@ -134,6 +132,37 @@ export async function updateUser(user) {
     return res.data; // Or handle the 204 No Content response
   } catch (err) {
     console.error("Lỗi cập nhật người dùng:", err.response?.data || err.message);
+    throw err;
+  }
+}
+
+// ADDRESSES
+export async function addAddress(userId, addressData) {
+  try {
+    const res = await axios.post(`${API_BASE_URL}/Users/${userId}/Addresses`, addressData);
+    return res.data;
+  } catch (err) {
+    console.error("Lỗi thêm địa chỉ:", err.response?.data || err.message);
+    throw err;
+  }
+}
+
+export async function getAddressesByUserId(userId) {
+  try {
+    const res = await axios.get(`${API_BASE_URL}/Users/${userId}/Addresses`);
+    return res.data;
+  } catch (err) {
+    console.error("Lỗi lấy danh sách địa chỉ:", err.response?.data || err.message);
+    throw err;
+  }
+}
+
+export async function deleteAddress(userId, addressId) {
+  try {
+    const res = await axios.delete(`${API_BASE_URL}/Users/${userId}/Addresses/${addressId}`);
+    return res.data; // Should be empty or success indicator based on API
+  } catch (err) {
+    console.error("Lỗi xóa địa chỉ:", err.response?.data || err.message);
     throw err;
   }
 }
