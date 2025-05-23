@@ -155,7 +155,6 @@ const Cart = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            {/* Header */}
             <View style={{ alignItems: 'center', marginBottom: 10 }}>
                 <Text style={styles.headerTitle}>Giỏ hàng của tôi</Text>
             </View>
@@ -180,7 +179,6 @@ const Cart = ({ navigation }) => {
                 </TouchableOpacity>
             </View>
 
-            {/* Modal chọn địa chỉ */}
             <Modal transparent visible={showAddressList} animationType="slide">
                 <View style={{
                     flex: 1,
@@ -224,7 +222,6 @@ const Cart = ({ navigation }) => {
                                             setShowAddressList(false);
                                         }}
                                     >
-                                        {/* Nút tròn radio */}
                                         <View style={{
                                             width: 20,
                                             height: 20,
@@ -256,7 +253,6 @@ const Cart = ({ navigation }) => {
                 </View>
             </Modal>
 
-            {/* Promo Code */}
             <View style={styles.promoRow}>
                 <TextInput
                     placeholder="Nhập mã khuyến mãi..."
@@ -298,7 +294,6 @@ const Cart = ({ navigation }) => {
                             </View>
                         </View>
 
-                        {/* Nut xoa */}
                         <TouchableOpacity onPress={() => handleRemoveItem(item.id)}>
                             <Ionicons name="trash-outline" size={22} color="red" />
                         </TouchableOpacity>
@@ -314,7 +309,6 @@ const Cart = ({ navigation }) => {
                 style={{ marginTop: 10 }}
             />
 
-            {/* Summary */}
             <View style={styles.summaryContainer}>
                 <Text style={styles.summaryTitle}>Tóm tắt thanh toán</Text>
                 <View style={styles.summaryRow}>
@@ -335,7 +329,6 @@ const Cart = ({ navigation }) => {
                 </View>
             </View>
 
-            {/* Order Button */}
             <TouchableOpacity
                 style={[
                     styles.orderButton,

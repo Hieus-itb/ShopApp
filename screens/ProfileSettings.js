@@ -39,18 +39,15 @@ export default function ProfileSettings({ navigation }) {
   }, [navigation]);
   return (
     <ScrollView style={styles.container}>
-      {/* Photo */}
       <View style={styles.photoContainer}>
         <Image   source={user.avatar ? { uri: user.avatar } : require("../img/apple.png")} style={styles.profilePhoto} />
       </View>
 
-      {/* Name + Email */}
       <View style={styles.nameEmailContainer}>
         <Text style={styles.name}>{user.username}</Text>
         <Text style={styles.email}>{user.email}</Text>
       </View>
 
-      {/* Activity */}
       <View style={styles.activityContainer}>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
           <Text style={styles.sectionTitle}>Đơn hàng của tôi</Text>
@@ -74,10 +71,8 @@ export default function ProfileSettings({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      {/* Menu Section */}
       <View style={styles.menuSection}>
         <Text style={styles.sectionTitle}>Cá nhân</Text>
-        {/* Menu List */}
         <MenuList
           title="Thông tin cá nhân"
           onPress={() => navigation.navigate('PersonalData')}
@@ -92,15 +87,12 @@ export default function ProfileSettings({ navigation }) {
         <MenuList title="Địa chỉ giao hàng" icon="location" onPress={() => navigation.navigate('Address Settings')} />
       </View>
 
-      {/* Support Section */}
       <View style={styles.menuSection}>
         <Text style={styles.sectionTitle}>Hỗ trợ</Text>
-        {/* Menu List */}
         <MenuList title="Trung tâm trợ giúp" icon="help-circle" />
         <MenuList title="Yêu cầu xóa tài khoản" icon="trash" />
       </View>
 
-      {/* Sign Out Button */}
       <TouchableOpacity style={styles.signOutButton} onPress={async () => {
         Alert.alert(
           "Đăng xuất",
@@ -113,6 +105,7 @@ export default function ProfileSettings({ navigation }) {
             {
               text: "Đồng ý", onPress: async () => {
                 await AsyncStorage.removeItem('user');
+                await AsyncStorage.removeItem('selectedAddress');
                 navigation.replace('Login');
               }
             }

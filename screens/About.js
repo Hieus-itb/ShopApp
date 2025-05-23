@@ -28,7 +28,6 @@ export default function About({ route, navigation }) {
     return (
         <View style={styles.wrapper}> 
             <ScrollView style={styles.container}>
-                {/* Header anh */}
                 <ImageBackground
                     source={imageMap[product.image] || imageMap["default"]}
                     style={styles.header}

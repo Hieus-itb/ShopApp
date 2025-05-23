@@ -30,7 +30,7 @@ const paymentMethods = [
         icon: <Image source={require('../img/paypal.png')} style={{ width: 24, height: 24 }} />,
     },
     {
-        key: 'apple',
+        key: 'COD',
         label: 'Thanh toán khi nhận hàng',
         desc: 'Thanh toán tiền mặt khi nhận hàng',
         icon: <Image source={require('../img/buy.png')} style={{ width: 24, height: 24 }} />,
@@ -45,7 +45,7 @@ const Payment = ({ route, navigation }) => {
     const [selectedAddress, setSelectedAddress] = useState(null);
     const [addresses, setAddresses] = useState([]);
     const [showDropdown, setShowDropdown] = useState(false);
-    const Drive = 0; // Phí vận chuyển
+    const Drive = 0; 
     const Tax = Math.round(totalPrice * 0.1); // Thuế 10%
 
     useEffect(() => {
@@ -62,7 +62,6 @@ const Payment = ({ route, navigation }) => {
                     phone: user.phone
                 });
             }
-            // Lấy địa chỉ đã chọn
             const selected = await AsyncStorage.getItem('selectedAddress');
             if (selected) {
                 setSelectedAddress(JSON.parse(selected));
@@ -81,9 +80,8 @@ const Payment = ({ route, navigation }) => {
             return;
         }
 
-        // Construct the checkout request payload
         const checkoutRequest = {
-            userId: userInfo.id, // Assuming userInfo contains the user ID
+            userId: userInfo.id, 
             totalPrice: totalPrice,
             tax: Tax,
             PaymentMethod: selectedMethod,
@@ -99,10 +97,9 @@ const Payment = ({ route, navigation }) => {
         };
 
         try {
-            // Call the checkout API
+
             const result = await checkoutOrder(checkoutRequest);
 
-            // Handle successful checkout
             Alert.alert(
                 "Thành công",
                 "Đặt hàng thành công!",
@@ -110,9 +107,7 @@ const Payment = ({ route, navigation }) => {
                     {
                         text: "OK",
                         onPress: () => {
-                            // Optionally clear the local cart after successful checkout
-                            // This depends on your application's state management
-                            // For now, we navigate back to CartDetails
+                          
                             navigation.replace('CartDetails');
                         }
                     }
@@ -120,27 +115,7 @@ const Payment = ({ route, navigation }) => {
                 { cancelable: false }
             );
 
-            // Remove local cart clearing logic as it should be handled by the backend or a separate process
-            // try {
-            //     const userData = await AsyncStorage.getItem('user');
-            //     if (userData) {
-            //         const user = JSON.parse(userData);
-            //         const email = user.email;
-            //         const cartFileUri = FileSystem.documentDirectory + "cart.json";
-            //         const fileInfo = await FileSystem.getInfoAsync(cartFileUri);
-            //         if (fileInfo.exists) {
-            //             const content = await FileSystem.readAsStringAsync(cartFileUri);
-            //             let carts = JSON.parse(content);
-            //             let userCart = carts[email] || [];
-            //             const paidIds = cartItems.map(item => item.id);
-            //             userCart = userCart.filter(item => !paidIds.includes(item.id));
-            //             carts[email] = userCart;
-            //             await FileSystem.writeAsStringAsync(cartFileUri, JSON.stringify(carts));
-            //         }
-            //     }
-            // } catch (e) {
-            //     console.error("Lỗi khi xóa sản phẩm đã thanh toán khỏi giỏ hàng:", e);
-            // }
+            
 
         } catch (error) {
             // Handle API errors
@@ -157,19 +132,16 @@ const Payment = ({ route, navigation }) => {
 
     const renderItem = ({ item }) => (
         <View style={styles.productRow}>
-            {/* Ảnh sản phẩm */}
             <Image
                 source={imageMap[item.image] || require('../img/image34.png')}
                 style={{ width: 48, height: 48, borderRadius: 8, marginRight: 12 }}
             />
-            {/* Thông tin sản phẩm */}
             <View style={{ flex: 1 }}>
                 <Text style={styles.productName}>{item.name}</Text>
                 <Text style={{ color: '#888', fontSize: 13 }}>
                     Đơn giá: ${item.price.toLocaleString()} | SL: {item.quantity || 1}
                 </Text>
             </View>
-            {/* Tổng giá */}
             <Text style={styles.productPrice}>
                 ${(item.price * (item.quantity || 1)).toLocaleString()}
             </Text>
@@ -178,7 +150,6 @@ const Payment = ({ route, navigation }) => {
 
     return (
         <SafeAreaView style={[styles.safeArea, { paddingTop: insets.top }]}>
-            {/* Header */}
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <Ionicons name="arrow-back" size={24} color="#222" />
@@ -233,7 +204,6 @@ const Payment = ({ route, navigation }) => {
                                         }}
                                         onPress={() => handleSelectAddress(addr)}
                                     >
-                                        {/* Nút tròn radio */}
                                         <View style={{
                                             width: 20,
                                             height: 20,
@@ -271,7 +241,6 @@ const Payment = ({ route, navigation }) => {
                 renderItem={renderItem}
                 ListFooterComponent={
                     <>
-                        {/* Tổng kết */}
                         <View style={styles.summarySection}>
                             <View style={styles.summaryRow}>
                                 <Text style={styles.summaryLabel}>Tạm tính</Text>
@@ -316,7 +285,6 @@ const Payment = ({ route, navigation }) => {
                             ))}
                         </View>
 
-                        {/* Tổng cộng cuối + Nút đặt hàng */}
                         <View style={styles.bottomBar}>
                             <View>
                                 <Text style={styles.bottomLabel}>Tổng cộng</Text>

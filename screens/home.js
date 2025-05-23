@@ -19,7 +19,7 @@ export default function Home({ navigation }) {
     const [selectedAddress, setSelectedAddress] = useState(null);
     const [showAddressList, setShowAddressList] = useState(false);
     const [showCategoryList, setShowCategoryList] = useState(false);
-    const PAGE_SIZE = 6;
+    const PAGE_SIZE = 6; 
     const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
     useEffect(() => {
@@ -107,7 +107,6 @@ export default function Home({ navigation }) {
                 <Text style={styles.mainTitle}>Mang đến cho bạn món ăn ngon nhất</Text>
             </ImageBackground>
 
-            {/* Modal chọn địa chỉ */}
             <Modal transparent visible={showAddressList} animationType="slide">
                 <View style={styles.modalContainer}>
                     <TouchableOpacity style={styles.closeButton} onPress={() => setShowAddressList(false)}>
@@ -137,7 +136,6 @@ export default function Home({ navigation }) {
                                             setShowAddressList(false);
                                         }}
                                 >
-                                    {/* Nút tròn radio */}
                                     <View style={{
                                         width: 20,
                                         height: 20,
@@ -245,7 +243,7 @@ const styles = StyleSheet.create({
     locationItem: {
         paddingVertical: 10,
         borderBottomWidth: 1,
-        borderBottomColor: '#ddd',
+        borderBottomColor: '#ddd', 
     },
     closeButton: { position: 'absolute', top: 10, right: 10 },
     locationList: { marginTop: 40 },
